@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='An exploratory analysis of asthma incidents in the United States from 2010 to 2020'>
+<title>Asthma Incidents Analysis</title>
+
+<link rel='canonical' href='https://example.com/p/asthma-incidents-analysis/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Asthma Incidents Analysis'>
+<meta property='og:description' content='An exploratory analysis of asthma incidents in the United States from 2010 to 2020'>
+<meta property='og:url' content='https://example.com/p/asthma-incidents-analysis/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-01-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-01-03T00:00:00&#43;00:00'/><meta property='og:image' content='https://example.com/p/asthma-incidents-analysis/images/featured.jpeg' />
+<meta name="twitter:title" content="Asthma Incidents Analysis">
+<meta name="twitter:description" content="An exploratory analysis of asthma incidents in the United States from 2010 to 2020"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/p/asthma-incidents-analysis/images/featured.jpeg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hello, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-packages">Load Packages</a></li>
+    <li><a href="#import-dataset">Import Dataset</a></li>
+    <li><a href="#asthma-fatalities-by-gender-in-new-jersey-data-visualization">Asthma Fatalities by Gender in New Jersey Data Visualization</a>
+      <ol>
+        <li><a href="#clean-up-data">Clean Up Data</a></li>
+        <li><a href="#create-a-graph">Create a Graph</a></li>
+        <li><a href="#calculate-mortality-rate-per-100000-people-column">Calculate Mortality Rate per 100,000 People Column</a></li>
+        <li><a href="#create-a-graph-of-asthma-mortality-rate-per-100000-people-and-group-by-gender">Create a Graph of Asthma Mortality Rate per 100,000 People and Group By Gender</a></li>
+      </ol>
+    </li>
+    <li><a href="#nationwide-analysis-of-gender-differences-in-asthma-mortality-rate">Nationwide Analysis of Gender Differences In Asthma Mortality Rate</a>
+      <ol>
+        <li><a href="#clean-up-data-1">Clean Up Data</a></li>
+        <li><a href="#create-a-histogram-of-fatal-asthma-incidents-for-each-gender">Create a Histogram of Fatal Asthma Incidents for Each Gender</a></li>
+        <li><a href="#statistical-testing">Statistical Testing</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/asthma-incidents-analysis/">
+                <img src="/p/asthma-incidents-analysis/images/featured_hud7e36f7e20e71be184458283bdae4646_55974_800x0_resize_q75_box.jpeg"
+                        srcset="/p/asthma-incidents-analysis/images/featured_hud7e36f7e20e71be184458283bdae4646_55974_800x0_resize_q75_box.jpeg 800w, /p/asthma-incidents-analysis/images/featured_hud7e36f7e20e71be184458283bdae4646_55974_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="534" 
+                        loading="lazy"
+                        alt="Featured image of post Asthma Incidents Analysis" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/asthma-incidents-analysis/">Asthma Incidents Analysis</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            An exploratory analysis of asthma incidents in the United States from 2010 to 2020
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 03, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>I found this <a class="link" href="https://www.kaggle.com/datasets/adampq/reported-asthma-incidents-by-state-2010-2020"  target="_blank" rel="noopener"
+    >interesting dataset</a> on Kaggle and wanted to do an exploratory analysis as I also have had asthma since I was a kid and wanted to see if I could find any interesting patterns within the data.</p>
+<h2 id="load-packages">Load Packages</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="import-dataset">Import Dataset</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">asthma</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&#34;/Users/michellegulotta/Desktop/my_first_project/asthma/CDIAsthmaByStateTransposed2010-2020.csv&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">asthma</span> <span class="o">&lt;-</span> <span class="n">asthma</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">janitor</span><span class="o">::</span><span class="nf">clean_names</span><span class="p">(</span><span class="n">.,</span> <span class="s">&#34;snake&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Taking a look at the first few rows of the data to see what kind of information this dataset is providing</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">head</span><span class="p">(</span><span class="n">asthma</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                                          geo_loc year      state  pop_est
+</span></span><span class="line"><span class="cl">## 1   POINT (-86.63186076199969 32.84057112200048) 2010    Alabama  4785514
+</span></span><span class="line"><span class="cl">## 2  POINT (-147.72205903599973 64.84507995700051) 2010     Alaska   713982
+</span></span><span class="line"><span class="cl">## 3 POINT (-111.76381127699972 34.865970280000454) 2010    Arizona  6407342
+</span></span><span class="line"><span class="cl">## 4   POINT (-92.27449074299966 34.74865012400045) 2010   Arkansas  2921998
+</span></span><span class="line"><span class="cl">## 5  POINT (-120.99999953799971 37.63864012300047) 2010 California 37319550
+</span></span><span class="line"><span class="cl">## 6 POINT (-106.13361092099967 38.843840757000464) 2010   Colorado  5047539
+</span></span><span class="line"><span class="cl">##   f_fatal m_fatal o_fatal   f_er  m_er   o_er f_hosp m_hosp o_hosp
+</span></span><span class="line"><span class="cl">## 1      44      17      61     NA    NA     NA     NA     NA     NA
+</span></span><span class="line"><span class="cl">## 2      NA      NA      NA     NA    NA     NA     NA     NA     NA
+</span></span><span class="line"><span class="cl">## 3      31      27      58  22280 18335  40650   4717   3352   8073
+</span></span><span class="line"><span class="cl">## 4      29       8      37     NA    NA     NA   1876    962   2841
+</span></span><span class="line"><span class="cl">## 5     251     152     403 116571 96999 217637  19399  12958  34583
+</span></span><span class="line"><span class="cl">## 6      33      15      48     NA    NA     NA   2385   1942   4336
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="asthma-fatalities-by-gender-in-new-jersey-data-visualization">Asthma Fatalities by Gender in New Jersey Data Visualization</h2>
+<h3 id="clean-up-data">Clean Up Data</h3>
+<p>Since its my home state, I decided to narrow the data that I wanted to look at down a bit to just New Jersey. I also only was interested in looking at fatalities for this particular graph as it is the most severe type of asthma incident recorded in this data.</p>
+<p>The first thing that I needed to do was to pivot the data so that gender was its own observation, I originally missed out on this step when I was trying to make the graph and had a hard time coming up with the ggplot code as I was just repeating adding a different shape to my graph for each column. After a bit of trial and error I realized there was probably a way to do it where I wouldn’t have to add the columns individually as their own geoms.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">nj_asthma_fatalities</span> <span class="o">&lt;-</span> <span class="n">asthma</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="n">state</span> <span class="o">==</span> <span class="s">&#34;New Jersey&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="nf">ends_with</span><span class="p">(</span><span class="s">&#34;_fatal&#34;</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">pivot_longer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cols</span> <span class="o">=</span> <span class="nf">ends_with</span><span class="p">(</span><span class="s">&#34;_fatal&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">names_to</span> <span class="o">=</span> <span class="s">&#34;gender&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">values_to</span> <span class="o">=</span> <span class="s">&#34;fatalities&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">names_pattern</span> <span class="o">=</span> <span class="s">&#34;(.*)_fatal&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gender</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                    <span class="nf">c</span><span class="p">(</span><span class="s">&#34;f&#34;</span><span class="p">,</span> <span class="s">&#34;m&#34;</span><span class="p">,</span> <span class="s">&#34;o&#34;</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                    <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Female&#34;</span><span class="p">,</span> <span class="s">&#34;Male&#34;</span><span class="p">,</span> <span class="s">&#34;Overall&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">print</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 33 × 3
+</span></span><span class="line"><span class="cl">##     year gender  fatalities
+</span></span><span class="line"><span class="cl">##    &lt;int&gt; &lt;fct&gt;        &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">##  1  2010 Female          49
+</span></span><span class="line"><span class="cl">##  2  2010 Male            31
+</span></span><span class="line"><span class="cl">##  3  2010 Overall         80
+</span></span><span class="line"><span class="cl">##  4  2011 Female          62
+</span></span><span class="line"><span class="cl">##  5  2011 Male            32
+</span></span><span class="line"><span class="cl">##  6  2011 Overall         94
+</span></span><span class="line"><span class="cl">##  7  2012 Female          63
+</span></span><span class="line"><span class="cl">##  8  2012 Male            40
+</span></span><span class="line"><span class="cl">##  9  2012 Overall        103
+</span></span><span class="line"><span class="cl">## 10  2013 Female          73
+</span></span><span class="line"><span class="cl">## # ℹ 23 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="create-a-graph">Create a Graph</h3>
+<p>Now to take my newly pivoted data and create a graph using the ggplot2 package:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">nj_asthma_fatalities</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_smooth</span><span class="p">(</span><span class="n">mapping</span> <span class="o">=</span> <span class="nf">aes</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">year</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">fatalities</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">group</span> <span class="o">=</span> <span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">color</span> <span class="o">=</span> <span class="n">gender</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">se</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;pink&#34;</span><span class="p">,</span> <span class="s">&#34;blue&#34;</span><span class="p">,</span> <span class="s">&#34;black&#34;</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_x_continuous</span><span class="p">(</span><span class="n">n.breaks</span> <span class="o">=</span> <span class="m">10</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Asthma Fatalities in New Jersey by Gender from 2010 to 2020&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Years&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Number of Fatalities&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_bw</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://example.com/p/asthma-incidents-analysis/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<p>This graph shows an interesting trend that at least in the state of New Jersey over the 2010s decade asthma fatality incidents increased and then decreased, just to increase once again around 2017. Also, another trend that caught my eye was that that females made up the majority of overall fatalities that were recorded.</p>
+<p>As these are not proportional to the population, they do not tell us the whole story. I’m interested in seeing if the mortality rates show the same pattern as anyone living in New Jersey can tell you that the population has increased over this past decade just from the traffic alone, does the population change account for the increase in asthma fatality incidents?</p>
+<h3 id="calculate-mortality-rate-per-100000-people-column">Calculate Mortality Rate per 100,000 People Column</h3>
+<p>I calculated the cause specific mortality rate per 100,000 people in the whole population of the state.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">nj_asthma_mortality_rate</span> <span class="o">&lt;-</span> <span class="n">asthma</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="n">state</span> <span class="o">==</span> <span class="s">&#34;New Jersey&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">pop_est</span><span class="p">,</span> <span class="nf">ends_with</span><span class="p">(</span><span class="s">&#34;_fatal&#34;</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">pivot_longer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cols</span> <span class="o">=</span> <span class="nf">ends_with</span><span class="p">(</span><span class="s">&#34;_fatal&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">names_to</span> <span class="o">=</span> <span class="s">&#34;gender&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">values_to</span> <span class="o">=</span> <span class="s">&#34;fatalities&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">names_pattern</span> <span class="o">=</span> <span class="s">&#34;(.*)_fatal&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gender</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                    <span class="nf">c</span><span class="p">(</span><span class="s">&#34;f&#34;</span><span class="p">,</span> <span class="s">&#34;m&#34;</span><span class="p">,</span> <span class="s">&#34;o&#34;</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                    <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Female&#34;</span><span class="p">,</span> <span class="s">&#34;Male&#34;</span><span class="p">,</span> <span class="s">&#34;Overall&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mortality_rate</span> <span class="o">=</span> <span class="nf">round</span><span class="p">(((</span><span class="n">fatalities</span> <span class="o">/</span> <span class="n">pop_est</span><span class="p">)</span> <span class="o">*</span> <span class="m">100000</span><span class="p">),</span> <span class="m">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">print</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 33 × 5
+</span></span><span class="line"><span class="cl">##     year pop_est gender  fatalities mortality_rate
+</span></span><span class="line"><span class="cl">##    &lt;int&gt;   &lt;int&gt; &lt;fct&gt;        &lt;dbl&gt;          &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">##  1  2010 8799451 Female          49           0.56
+</span></span><span class="line"><span class="cl">##  2  2010 8799451 Male            31           0.35
+</span></span><span class="line"><span class="cl">##  3  2010 8799451 Overall         80           0.91
+</span></span><span class="line"><span class="cl">##  4  2011 8828552 Female          62           0.7 
+</span></span><span class="line"><span class="cl">##  5  2011 8828552 Male            32           0.36
+</span></span><span class="line"><span class="cl">##  6  2011 8828552 Overall         94           1.06
+</span></span><span class="line"><span class="cl">##  7  2012 8845671 Female          63           0.71
+</span></span><span class="line"><span class="cl">##  8  2012 8845671 Male            40           0.45
+</span></span><span class="line"><span class="cl">##  9  2012 8845671 Overall        103           1.16
+</span></span><span class="line"><span class="cl">## 10  2013 8857821 Female          73           0.82
+</span></span><span class="line"><span class="cl">## # ℹ 23 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="create-a-graph-of-asthma-mortality-rate-per-100000-people-and-group-by-gender">Create a Graph of Asthma Mortality Rate per 100,000 People and Group By Gender</h3>
+<p>Then I used ggplot2 to graph this new column to compare the mortality rate per 100,000 people over the decade of 2010 to 2020 to see if the same trend emerges:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">nj_asthma_mortality_rate</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_smooth</span><span class="p">(</span><span class="n">mapping</span> <span class="o">=</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">year</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                            <span class="n">y</span> <span class="o">=</span> <span class="n">mortality_rate</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                            <span class="n">group</span> <span class="o">=</span> <span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                            <span class="n">color</span> <span class="o">=</span> <span class="n">gender</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">se</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;pink&#34;</span><span class="p">,</span> <span class="s">&#34;blue&#34;</span><span class="p">,</span> <span class="s">&#34;black&#34;</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_x_continuous</span><span class="p">(</span><span class="n">n.breaks</span> <span class="o">=</span> <span class="m">10</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Asthma Mortality Rate in New Jersey by Gender from 2010 to 2020&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Years&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Number of Fatalities&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_bw</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://example.com/p/asthma-incidents-analysis/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<p>Interesting, the graphs look pretty much the same to me so the population increase is not the reason for the increase in asthma fatality incidents as the mortality rate from asthma follows the same pattern as the fatality incidents over time, as well as the gender disparity.</p>
+<h2 id="nationwide-analysis-of-gender-differences-in-asthma-mortality-rate">Nationwide Analysis of Gender Differences In Asthma Mortality Rate</h2>
+<h3 id="clean-up-data-1">Clean Up Data</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">asthma_mortality</span> <span class="o">&lt;-</span> <span class="n">asthma</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">pop_est</span><span class="p">,</span> <span class="n">f_fatal</span><span class="p">,</span> <span class="n">m_fatal</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">pivot_longer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cols</span> <span class="o">=</span> <span class="nf">ends_with</span><span class="p">(</span><span class="s">&#34;_fatal&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">names_to</span> <span class="o">=</span> <span class="s">&#34;gender&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">values_to</span> <span class="o">=</span> <span class="s">&#34;fatalities&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">names_pattern</span> <span class="o">=</span> <span class="s">&#34;(.*)_fatal&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gender</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                    <span class="nf">c</span><span class="p">(</span><span class="s">&#34;f&#34;</span><span class="p">,</span> <span class="s">&#34;m&#34;</span><span class="p">,</span> <span class="s">&#34;o&#34;</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                    <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Female&#34;</span><span class="p">,</span> <span class="s">&#34;Male&#34;</span><span class="p">,</span> <span class="s">&#34;Overall&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mortality_rate</span> <span class="o">=</span> <span class="nf">round</span><span class="p">(((</span><span class="n">fatalities</span> <span class="o">/</span> <span class="n">pop_est</span><span class="p">)</span> <span class="o">*</span> <span class="m">100000</span><span class="p">),</span> <span class="m">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span> <span class="o">%&gt;%</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="n">gender</span> <span class="o">!=</span> <span class="s">&#34;Overall&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">print</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 1,122 × 6
+</span></span><span class="line"><span class="cl">##     year state       pop_est gender fatalities mortality_rate
+</span></span><span class="line"><span class="cl">##    &lt;int&gt; &lt;chr&gt;         &lt;int&gt; &lt;fct&gt;       &lt;dbl&gt;          &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">##  1  2010 Alabama     4785514 Female         44           0.92
+</span></span><span class="line"><span class="cl">##  2  2010 Alabama     4785514 Male           17           0.36
+</span></span><span class="line"><span class="cl">##  3  2010 Alaska       713982 Female         NA          NA   
+</span></span><span class="line"><span class="cl">##  4  2010 Alaska       713982 Male           NA          NA   
+</span></span><span class="line"><span class="cl">##  5  2010 Arizona     6407342 Female         31           0.48
+</span></span><span class="line"><span class="cl">##  6  2010 Arizona     6407342 Male           27           0.42
+</span></span><span class="line"><span class="cl">##  7  2010 Arkansas    2921998 Female         29           0.99
+</span></span><span class="line"><span class="cl">##  8  2010 Arkansas    2921998 Male            8           0.27
+</span></span><span class="line"><span class="cl">##  9  2010 California 37319550 Female        251           0.67
+</span></span><span class="line"><span class="cl">## 10  2010 California 37319550 Male          152           0.41
+</span></span><span class="line"><span class="cl">## # ℹ 1,112 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I noticed there were a decent amount of missing values just by glancing at this lets see how many exactly</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">sum</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">asthma_mortality</span><span class="o">$</span><span class="n">mortality_rate</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 264
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Hm, 264/1122 that is not that bad, also it does look like they&rsquo;re states with limited populations, so that might be the reason is that there just weren&rsquo;t any fatal asthma incidents in that particular year.</p>
+<p>I&rsquo;m going to remove the missing values for our next step in this analysis</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">asthma_mortality_no_miss</span> <span class="o">&lt;-</span> <span class="n">asthma_mortality</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">drop_na</span><span class="p">(</span><span class="n">mortality_rate</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">print</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 858 × 6
+</span></span><span class="line"><span class="cl">##     year state       pop_est gender fatalities mortality_rate
+</span></span><span class="line"><span class="cl">##    &lt;int&gt; &lt;chr&gt;         &lt;int&gt; &lt;fct&gt;       &lt;dbl&gt;          &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">##  1  2010 Alabama     4785514 Female         44           0.92
+</span></span><span class="line"><span class="cl">##  2  2010 Alabama     4785514 Male           17           0.36
+</span></span><span class="line"><span class="cl">##  3  2010 Arizona     6407342 Female         31           0.48
+</span></span><span class="line"><span class="cl">##  4  2010 Arizona     6407342 Male           27           0.42
+</span></span><span class="line"><span class="cl">##  5  2010 Arkansas    2921998 Female         29           0.99
+</span></span><span class="line"><span class="cl">##  6  2010 Arkansas    2921998 Male            8           0.27
+</span></span><span class="line"><span class="cl">##  7  2010 California 37319550 Female        251           0.67
+</span></span><span class="line"><span class="cl">##  8  2010 California 37319550 Male          152           0.41
+</span></span><span class="line"><span class="cl">##  9  2010 Colorado    5047539 Female         33           0.65
+</span></span><span class="line"><span class="cl">## 10  2010 Colorado    5047539 Male           15           0.3 
+</span></span><span class="line"><span class="cl">## # ℹ 848 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="create-a-histogram-of-fatal-asthma-incidents-for-each-gender">Create a Histogram of Fatal Asthma Incidents for Each Gender</h3>
+<p>I then decided to create a histogram to look at how these asthma fatalities are distributed.</p>
+<p>I&rsquo;m going to use ggplot2 to make a histogram comparing the distribution of mortality rates between the two populations</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">asthma_mortality_no_miss</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">mortality_rate</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">gender</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_histogram</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;black&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&#34;pink&#34;</span><span class="p">,</span> <span class="s">&#34;blue&#34;</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Asthma Mortality Rate by Gender in the USA from 2010 to 2020&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Mortality Rate&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span><span class="o">=</span> <span class="s">&#34;Number of Observations&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="c1">## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://example.com/p/asthma-incidents-analysis/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<p>It looks like there are some outliers, let me take a look at the data sorted by mortality rate descending</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">asthma_mortality_no_miss</span><span class="nf">[order</span><span class="p">(</span><span class="n">asthma_mortality_no_miss</span><span class="o">$</span><span class="n">mortality_rate</span><span class="p">,</span> <span class="n">decreasing</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span><span class="n">]</span> 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 858 × 6
+</span></span><span class="line"><span class="cl">##     year state        pop_est gender fatalities mortality_rate
+</span></span><span class="line"><span class="cl">##    &lt;int&gt; &lt;chr&gt;          &lt;int&gt; &lt;fct&gt;       &lt;dbl&gt;          &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">##  1  2020 New Mexico    211839 Female         26          12.3 
+</span></span><span class="line"><span class="cl">##  2  2020 Pennsylvania 1299444 Female         97           7.46
+</span></span><span class="line"><span class="cl">##  3  2020 Illinois     1278658 Male           89           6.96
+</span></span><span class="line"><span class="cl">##  4  2020 Illinois     1278658 Female         88           6.88
+</span></span><span class="line"><span class="cl">##  5  2020 New Mexico    211839 Male           13           6.14
+</span></span><span class="line"><span class="cl">##  6  2020 Pennsylvania 1299444 Male           69           5.31
+</span></span><span class="line"><span class="cl">##  7  2014 Mississippi  2991892 Female         39           1.3 
+</span></span><span class="line"><span class="cl">##  8  2016 Mississippi  2990595 Female         38           1.27
+</span></span><span class="line"><span class="cl">##  9  2014 Oregon       3965447 Female         50           1.26
+</span></span><span class="line"><span class="cl">## 10  2014 Iowa         3110643 Female         38           1.22
+</span></span><span class="line"><span class="cl">## # ℹ 848 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Wow, it looks like in 2020 there was a huge increase due to the pandemic most likely. I&rsquo;m going to take a look at the data from 2010-2019 to get a closer look at the distribution.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">asthma_mortality_drop_2020</span> <span class="o">&lt;-</span> <span class="n">asthma_mortality_no_miss</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="n">year</span> <span class="o">!=</span> <span class="m">2020</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">print</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 780 × 6
+</span></span><span class="line"><span class="cl">##     year state       pop_est gender fatalities mortality_rate
+</span></span><span class="line"><span class="cl">##    &lt;int&gt; &lt;chr&gt;         &lt;int&gt; &lt;fct&gt;       &lt;dbl&gt;          &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">##  1  2010 Alabama     4785514 Female         44           0.92
+</span></span><span class="line"><span class="cl">##  2  2010 Alabama     4785514 Male           17           0.36
+</span></span><span class="line"><span class="cl">##  3  2010 Arizona     6407342 Female         31           0.48
+</span></span><span class="line"><span class="cl">##  4  2010 Arizona     6407342 Male           27           0.42
+</span></span><span class="line"><span class="cl">##  5  2010 Arkansas    2921998 Female         29           0.99
+</span></span><span class="line"><span class="cl">##  6  2010 Arkansas    2921998 Male            8           0.27
+</span></span><span class="line"><span class="cl">##  7  2010 California 37319550 Female        251           0.67
+</span></span><span class="line"><span class="cl">##  8  2010 California 37319550 Male          152           0.41
+</span></span><span class="line"><span class="cl">##  9  2010 Colorado    5047539 Female         33           0.65
+</span></span><span class="line"><span class="cl">## 10  2010 Colorado    5047539 Male           15           0.3 
+</span></span><span class="line"><span class="cl">## # ℹ 770 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And repeat the histogram process with the 2010 to 2019 data</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">asthma_mortality_drop_2020</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">mortality_rate</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">gender</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_histogram</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;black&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&#34;pink&#34;</span><span class="p">,</span> <span class="s">&#34;blue&#34;</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Asthma Mortality Rate by Gender in the USA from 2010 to 2019&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Mortality Rate&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span><span class="o">=</span> <span class="s">&#34;Number of Observations&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="c1">## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://example.com/p/asthma-incidents-analysis/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<p>I want to compare the means of these populations to see if there is a statistically significant difference in fatal asthma incidence between the two genders throughout the whole USA.</p>
+<h3 id="statistical-testing">Statistical Testing</h3>
+<p>From the histogram, these don&rsquo;t really seem to fit a normal distribution, but rather a skewed distribution, but let&rsquo;s run the Shapiro-Wilk test to be sure instead of just eyeballing it and assuming.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">options</span><span class="p">(</span><span class="n">scipen</span> <span class="o">=</span> <span class="m">999</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">shapiro.test</span><span class="p">(</span><span class="n">asthma_mortality_no_miss</span><span class="o">$</span><span class="n">mortality_rate</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Shapiro-Wilk normality test
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  asthma_mortality_no_miss$mortality_rate
+</span></span><span class="line"><span class="cl">## W = 0.27179, p-value &lt; 0.00000000000000022
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Okay, since the p value is not greater than 0.05, I can&rsquo;t use a t-test as that assumes normal distribution.</p>
+<p>I&rsquo;m going to go for a non-parametric test since we&rsquo;re not assuming any particular distribution here to test my hypothesis that when it comes to asthma fatalities females have a higher mortality rate than males.
+Since I have two unpaired samples and I want to test how their values compare, I&rsquo;m going to use the Mann-Whitney test.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">wilcox.test</span><span class="p">(</span><span class="n">asthma_mortality_no_miss</span><span class="o">$</span><span class="n">mortality_rate</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Wilcoxon signed rank test with continuity correction
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  asthma_mortality_no_miss$mortality_rate
+</span></span><span class="line"><span class="cl">## V = 368511, p-value &lt; 0.00000000000000022
+</span></span><span class="line"><span class="cl">## alternative hypothesis: true location is not equal to 0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With these results we can reject the null hypothesis, and say within this data there is a statistically significant difference between the two populations.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Before this analysis I had no idea of the gender differences that arise in asthma incidents, upon looking into this further after completing this analysis I came across a <a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5629917/"  target="_blank" rel="noopener"
+    >paper</a> that discusses the gender differences in asthma prevalence and severity on a biological level.</p>
+<p><a class="link" href="https://allergyasthmanetwork.org/news/the-asthma-gender-gap/"  target="_blank" rel="noopener"
+    >According to the Asthma and Allergy Network</a>, In people under 18, it is more common for boys to have asthma than girls, but this prevalence switches when analyzing adult populations. The fact that women have a higher risk of death from asthma when compared to men is also confirmed by this source.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
