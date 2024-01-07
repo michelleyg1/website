@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A data visualization of the condition of New Jersey blueberries in the 2021 growing season'>
+<title>Jersey Blueberries</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/jersey-blueberries/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Jersey Blueberries'>
+<meta property='og:description' content='A data visualization of the condition of New Jersey blueberries in the 2021 growing season'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/jersey-blueberries/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-01-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-01-07T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/jersey-blueberries/images/blueberry.jpeg' />
+<meta name="twitter:title" content="Jersey Blueberries">
+<meta name="twitter:description" content="A data visualization of the condition of New Jersey blueberries in the 2021 growing season"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/jersey-blueberries/images/blueberry.jpeg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-packages">Load Packages</a></li>
+    <li><a href="#import-dataset">Import Dataset</a></li>
+    <li><a href="#cleaning-data">Cleaning Data</a>
+      <ol>
+        <li><a href="#clean-up-condition-and-week-number-column">Clean up Condition and Week Number Column</a></li>
+      </ol>
+    </li>
+    <li><a href="#data-visualization">Data Visualization</a>
+      <ol>
+        <li><a href="#factor-to-change-order-of-legend">Factor to Change Order of Legend</a></li>
+        <li><a href="#make-plot">Make Plot</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/jersey-blueberries/">
+                <img src="/p/jersey-blueberries/images/blueberry_hu3d03a01dcc18bc5be0e67db3d8d209a6_1579336_800x0_resize_q75_box.jpeg"
+                        srcset="/p/jersey-blueberries/images/blueberry_hu3d03a01dcc18bc5be0e67db3d8d209a6_1579336_800x0_resize_q75_box.jpeg 800w, /p/jersey-blueberries/images/blueberry_hu3d03a01dcc18bc5be0e67db3d8d209a6_1579336_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="1423" 
+                        loading="lazy"
+                        alt="Featured image of post Jersey Blueberries" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/agriculture/" >
+                Agriculture
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/jersey-blueberries/">Jersey Blueberries</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            A data visualization of the condition of New Jersey blueberries in the 2021 growing season
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 07, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>I found this dataset by filtering through the various settings that they have on the National Agriculture Statistics Service <a class="link" href="https://quickstats.nass.usda.gov/"  target="_blank" rel="noopener"
+    >quick stats tool</a> to see a survey of the condition of blueberries by year and week in the state of New Jersey.</p>
+<p>A lot of people think that New Jersey is only the city and the shore, but its not called the Garden State for nothing! For its small size, New Jersey punches above its weight class in producing and exporting various agricultural products.</p>
+<p>One crop that New Jersey is known for is its blueberries.</p>
+<h2 id="load-packages">Load Packages</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="import-dataset">Import Dataset</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">blueberries</span> <span class="o">&lt;-</span> <span class="nf">read_csv</span><span class="p">(</span><span class="s">&#34;/Users/michellegulotta/Desktop/my_first_project/blueberries/blueberry.csv&#34;</span><span class="p">)</span> 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Rows: 225 Columns: 21
+</span></span><span class="line"><span class="cl">## ── Column specification ────────────────────────────────────────────────────────
+</span></span><span class="line"><span class="cl">## Delimiter: &#34;,&#34;
+</span></span><span class="line"><span class="cl">## chr  (9): Program, Period, Geo Level, State, watershed_code, Commodity, Data...
+</span></span><span class="line"><span class="cl">## dbl  (3): Year, State ANSI, Value
+</span></span><span class="line"><span class="cl">## lgl  (8): Ag District, Ag District Code, County, County ANSI, Zip Code, Regi...
+</span></span><span class="line"><span class="cl">## date (1): Week Ending
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## ℹ Use `spec()` to retrieve the full column specification for this data.
+</span></span><span class="line"><span class="cl">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">blueberries</span> <span class="o">&lt;-</span> <span class="n">blueberries</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">janitor</span><span class="o">::</span><span class="nf">clean_names</span><span class="p">(</span><span class="n">.,</span> <span class="s">&#34;snake&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">week_ending</span><span class="p">,</span> <span class="n">data_item</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">rename</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">condition</span> <span class="o">=</span> <span class="n">data_item</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">percent</span> <span class="o">=</span> <span class="n">value</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">week_number</span> <span class="o">=</span> <span class="n">period</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 225 × 5
+</span></span><span class="line"><span class="cl">##     year week_number week_ending condition                               percent
+</span></span><span class="line"><span class="cl">##    &lt;dbl&gt; &lt;chr&gt;       &lt;date&gt;      &lt;chr&gt;                                     &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">##  1  2023 WEEK #26    2023-07-02  BLUEBERRIES, TAME - CONDITION, MEASURE…       0
+</span></span><span class="line"><span class="cl">##  2  2023 WEEK #26    2023-07-02  BLUEBERRIES, TAME - CONDITION, MEASURE…       0
+</span></span><span class="line"><span class="cl">##  3  2023 WEEK #26    2023-07-02  BLUEBERRIES, TAME - CONDITION, MEASURE…     100
+</span></span><span class="line"><span class="cl">##  4  2023 WEEK #26    2023-07-02  BLUEBERRIES, TAME - CONDITION, MEASURE…       0
+</span></span><span class="line"><span class="cl">##  5  2023 WEEK #26    2023-07-02  BLUEBERRIES, TAME - CONDITION, MEASURE…       0
+</span></span><span class="line"><span class="cl">##  6  2023 WEEK #27    2023-07-09  BLUEBERRIES, TAME - CONDITION, MEASURE…      18
+</span></span><span class="line"><span class="cl">##  7  2023 WEEK #27    2023-07-09  BLUEBERRIES, TAME - CONDITION, MEASURE…      19
+</span></span><span class="line"><span class="cl">##  8  2023 WEEK #27    2023-07-09  BLUEBERRIES, TAME - CONDITION, MEASURE…      44
+</span></span><span class="line"><span class="cl">##  9  2023 WEEK #27    2023-07-09  BLUEBERRIES, TAME - CONDITION, MEASURE…      19
+</span></span><span class="line"><span class="cl">## 10  2023 WEEK #27    2023-07-09  BLUEBERRIES, TAME - CONDITION, MEASURE…       0
+</span></span><span class="line"><span class="cl">## # ℹ 215 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="cleaning-data">Cleaning Data</h2>
+<h3 id="clean-up-condition-and-week-number-column">Clean up Condition and Week Number Column</h3>
+<p>I wanted to clean up the condition column as I noticed it was pretty redundant, and all we really needed was the condition. This would also make it eaiser as this is going to be the legend on our graph. Another thing that I wanted to do was to make the week number column more simple, as the name of the variable already tells us that this is the week number, so all we really need in the observation is the number.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">blueberries</span><span class="o">$</span><span class="n">condition</span> <span class="o">&lt;-</span> <span class="nf">str_replace_all</span><span class="p">(</span><span class="n">blueberries</span><span class="o">$</span><span class="n">condition</span><span class="p">,</span> <span class="s">&#34;BLUEBERRIES, TAME - CONDITION, MEASURED IN PCT&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">blueberries</span><span class="o">$</span><span class="n">week_number</span> <span class="o">&lt;-</span> <span class="nf">str_replace_all</span><span class="p">(</span><span class="n">blueberries</span><span class="o">$</span><span class="n">week_number</span><span class="p">,</span> <span class="s">&#34;WEEK #&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Checking to make sure that the different conditions look good</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">unique</span><span class="p">(</span><span class="n">blueberries</span><span class="o">$</span><span class="n">condition</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34; EXCELLENT&#34; &#34; FAIR&#34;      &#34; GOOD&#34;      &#34; POOR&#34;      &#34; VERY POOR&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It looks like there&rsquo;s some random leading and trailing white space, so I&rsquo;m going to clean that up using the trimws() function, as well as the str_to_title() function to make it more readable and look nicer on our graph</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">blueberries</span><span class="o">$</span><span class="n">condition</span> <span class="o">&lt;-</span> <span class="nf">trimws</span><span class="p">(</span><span class="n">blueberries</span><span class="o">$</span><span class="n">condition</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">blueberries</span><span class="o">$</span><span class="n">condition</span> <span class="o">&lt;-</span> <span class="nf">str_to_title</span><span class="p">(</span><span class="n">blueberries</span><span class="o">$</span><span class="n">condition</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Checking the conditions again</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">unique</span><span class="p">(</span><span class="n">blueberries</span><span class="o">$</span><span class="n">condition</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;Excellent&#34; &#34;Fair&#34;      &#34;Good&#34;      &#34;Poor&#34;      &#34;Very Poor&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Looks good! Time to make a data visualization</p>
+<h2 id="data-visualization">Data Visualization</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">blueberries_2021</span> <span class="o">&lt;-</span> <span class="n">blueberries</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="n">year</span> <span class="o">==</span> <span class="m">2021</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">condition_f</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">print</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 55 × 6
+</span></span><span class="line"><span class="cl">##     year week_number week_ending condition percent condition_f
+</span></span><span class="line"><span class="cl">##    &lt;dbl&gt; &lt;chr&gt;       &lt;date&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;fct&gt;      
+</span></span><span class="line"><span class="cl">##  1  2021 25          2021-06-27  Excellent      25 Excellent  
+</span></span><span class="line"><span class="cl">##  2  2021 25          2021-06-27  Fair           25 Fair       
+</span></span><span class="line"><span class="cl">##  3  2021 25          2021-06-27  Good           50 Good       
+</span></span><span class="line"><span class="cl">##  4  2021 25          2021-06-27  Poor            0 Poor       
+</span></span><span class="line"><span class="cl">##  5  2021 25          2021-06-27  Very Poor       0 Very Poor  
+</span></span><span class="line"><span class="cl">##  6  2021 26          2021-07-04  Excellent      84 Excellent  
+</span></span><span class="line"><span class="cl">##  7  2021 26          2021-07-04  Fair            8 Fair       
+</span></span><span class="line"><span class="cl">##  8  2021 26          2021-07-04  Good            8 Good       
+</span></span><span class="line"><span class="cl">##  9  2021 26          2021-07-04  Poor            0 Poor       
+</span></span><span class="line"><span class="cl">## 10  2021 26          2021-07-04  Very Poor       0 Very Poor  
+</span></span><span class="line"><span class="cl">## # ℹ 45 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="factor-to-change-order-of-legend">Factor to Change Order of Legend</h3>
+<p>One of the problems that I came across while trying to make this graph was that the legend would appear in alphabetical order rather than in the order that made sense from excellent to very poor. After some trying and researching solutions, I realized that I could use the factor() function to change the order of the levels.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">blueberries_2021</span><span class="o">$</span><span class="n">condition_f</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">blueberries_2021</span><span class="o">$</span><span class="n">condition_f</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                       <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Excellent&#34;</span><span class="p">,</span> <span class="s">&#34;Good&#34;</span><span class="p">,</span> <span class="s">&#34;Fair&#34;</span><span class="p">,</span> <span class="s">&#34;Poor&#34;</span><span class="p">,</span> <span class="s">&#34;Very Poor&#34;</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="make-plot">Make Plot</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">blueberries_2021</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">week_ending</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                             <span class="n">y</span> <span class="o">=</span> <span class="n">percent</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="n">fill</span> <span class="o">=</span> <span class="n">condition_f</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_area</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="s">&#34;identity&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#785EF0&#34;</span><span class="p">,</span> <span class="s">&#34;#009E73&#34;</span><span class="p">,</span> <span class="s">&#34;#FFB000&#34;</span><span class="p">,</span> <span class="s">&#34;#FE6100&#34;</span><span class="p">,</span> <span class="s">&#34;#DC267F&#34;</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Condition of Blueberries Measured in Percent in New Jersey in 2021&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Week&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Percent&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">fill</span> <span class="o">=</span> <span class="s">&#34;Condition&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: USDA National Agrigultural Statistics Service&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_light</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/jersey-blueberries/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<h2 id="conclusion">Conclusion</h2>
+<p>Now it&rsquo;s the beginning of January but this has me looking forward to the beginning of July!</p>
+<p>Working on this specific visualization helped me work on my data cleaning skills. I also learned more about how factors work and how R automatically puts a character vector in alphabetical order, and that in order to get it to appear in the order you want on a legend, you have to change the order of the factor variable. I didn&rsquo;t think about that before I started but it definitely makes sense, R doesn&rsquo;t just know how humans rank the quality of blueberries.</p>
+<p>I also learned about geom_area(), I first tried to use geom_line() and was able to make that pretty easily, but when I tried to change it to geom_area() there was a lot that I had to change in order to get the effect that I wanted on my graph.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/asthma-incidents-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/asthma-incidents-analysis/images/featured.c514d916917173a48a42e0114b469961_hud7e36f7e20e71be184458283bdae4646_55974_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Asthma Incidents Analysis"
+                        data-key="asthma-incidents-analysis" 
+                        data-hash="md5-xRTZFpFxc6SKQuARS0aZYQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Asthma Incidents Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
