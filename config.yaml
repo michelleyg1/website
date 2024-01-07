@@ -48,7 +48,7 @@ params:
 
     sidebar:
         emoji: 
-        subtitle: Hello, I'm Michelle and welcome to my website!
+        subtitle: Hi, I'm Michelle and welcome to my website!
         avatar:
             enabled: true
             local: true

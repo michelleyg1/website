@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Tags on Michelle Gulotta</title>
-        <link>https://example.com/tags/</link>
+        <link>https://michelleyg1.github.io/tags/</link>
         <description>Recent content in Tags on Michelle Gulotta</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
-        <copyright>Michelle Gulotta</copyright><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" />
+        <copyright>Michelle Gulotta</copyright><atom:link href="https://michelleyg1.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     </channel>
 </rss>
