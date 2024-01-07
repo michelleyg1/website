@@ -9,11 +9,7 @@ links:
   image: ts-logo-128.jpg
   title: LinkedIn
   website: https://www.linkedin.com/in/michellegulotta/
-menu:
-  main:
-    params:
-      icon: link
-    weight: -50
+
 title: Links
 license: no
 ---
