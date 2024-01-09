@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A data visualization of the condition of New Jersey blueberries in the 2021 growing season'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A data visualization of condition of blueberries harvested in the 2021 growing season in New Jersey'>
 <title>Jersey Blueberries</title>
 
 <link rel='canonical' href='https://michelleyg1.github.io/p/jersey-blueberries/'>
 
 <link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Jersey Blueberries'>
-<meta property='og:description' content='A data visualization of the condition of New Jersey blueberries in the 2021 growing season'>
+<meta property='og:description' content='A data visualization of condition of blueberries harvested in the 2021 growing season in New Jersey'>
 <meta property='og:url' content='https://michelleyg1.github.io/p/jersey-blueberries/'>
 <meta property='og:site_name' content='Michelle Gulotta'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-01-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-01-07T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/jersey-blueberries/images/blueberry.jpeg' />
 <meta name="twitter:title" content="Jersey Blueberries">
-<meta name="twitter:description" content="A data visualization of the condition of New Jersey blueberries in the 2021 growing season"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="A data visualization of condition of blueberries harvested in the 2021 growing season in New Jersey"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://michelleyg1.github.io/p/jersey-blueberries/images/blueberry.jpeg' />
     </head>
     <body class="
@@ -180,7 +180,7 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#load-packages">Load Packages</a></li>
+    <li><a href="#load-package">Load Package</a></li>
     <li><a href="#import-dataset">Import Dataset</a></li>
     <li><a href="#cleaning-data">Cleaning Data</a>
       <ol>
@@ -242,7 +242,7 @@
     
         
         <h3 class="article-subtitle">
-            A data visualization of the condition of New Jersey blueberries in the 2021 growing season
+            A data visualization of condition of blueberries harvested in the 2021 growing season in New Jersey
         </h3>
         
     </div>
@@ -280,18 +280,68 @@
     
     
     <p>I found this dataset by filtering through the various settings that they have on the National Agriculture Statistics Service <a class="link" href="https://quickstats.nass.usda.gov/"  target="_blank" rel="noopener"
-    >quick stats tool</a> to see a survey of the condition of blueberries by year and week in the state of New Jersey.</p>
+    >quick stats tool</a> to see the condition of blueberries by year and week in the state of New Jersey.</p>
 <p>A lot of people think that New Jersey is only the city and the shore, but its not called the Garden State for nothing! For its small size, New Jersey punches above its weight class in producing and exporting various agricultural products.</p>
 <p>One crop that New Jersey is known for is its blueberries.</p>
-<h2 id="load-packages">Load Packages</h2>
+<h2 id="load-package">Load Package</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)})</span>
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="err">##</span> <span class="err">──</span> <span class="nx">Attaching</span> <span class="nx">core</span> <span class="nx">tidyverse</span> <span class="nx">packages</span> <span class="err">────────────────────────</span> <span class="nx">tidyverse</span> <span class="mf">2.0.0</span> <span class="err">──</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">dplyr</span>     <span class="mf">1.1.4</span>     <span class="err">✔</span> <span class="nx">readr</span>     <span class="mf">2.1.4</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">forcats</span>   <span class="mf">1.0.0</span>     <span class="err">✔</span> <span class="nx">stringr</span>   <span class="mf">1.5.1</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">ggplot2</span>   <span class="mf">3.4.4</span>     <span class="err">✔</span> <span class="nx">tibble</span>    <span class="mf">3.2.1</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">lubridate</span> <span class="mf">1.9.3</span>     <span class="err">✔</span> <span class="nx">tidyr</span>     <span class="mf">1.3.0</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">purrr</span>     <span class="mf">1.0.2</span>     
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">──</span> <span class="nx">Conflicts</span> <span class="err">──────────────────────────────────────────</span> <span class="nf">tidyverse_conflicts</span><span class="p">()</span> <span class="err">──</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✖</span> <span class="nx">dplyr</span><span class="p">::</span><span class="nf">filter</span><span class="p">()</span> <span class="nx">masks</span> <span class="nx">stats</span><span class="p">::</span><span class="nf">filter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✖</span> <span class="nx">dplyr</span><span class="p">::</span><span class="nf">lag</span><span class="p">()</span>    <span class="nx">masks</span> <span class="nx">stats</span><span class="p">::</span><span class="nf">lag</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">ℹ</span> <span class="nx">Use</span> <span class="nx">the</span> <span class="nx">conflicted</span> <span class="kn">package</span> <span class="p">(&lt;</span><span class="nx">http</span><span class="p">:</span><span class="c1">//conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Attaching package: &#39;janitor&#39;
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## The following objects are masked from &#39;package:stats&#39;:
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##     chisq.test, fisher.test
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="import-dataset">Import Dataset</h2>

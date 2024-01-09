@@ -14,18 +14,68 @@
         
         <guid>https://michelleyg1.github.io/p/jersey-blueberries/</guid>
         <description>&lt;img src="https://michelleyg1.github.io/p/jersey-blueberries/images/blueberry.jpeg" alt="Featured image of post Jersey Blueberries" /&gt;&lt;p&gt;I found this dataset by filtering through the various settings that they have on the National Agriculture Statistics Service &lt;a class=&#34;link&#34; href=&#34;https://quickstats.nass.usda.gov/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;quick stats tool&lt;/a&gt; to see a survey of the condition of blueberries by year and week in the state of New Jersey.&lt;/p&gt;
+    &gt;quick stats tool&lt;/a&gt; to see the condition of blueberries by year and week in the state of New Jersey.&lt;/p&gt;
 &lt;p&gt;A lot of people think that New Jersey is only the city and the shore, but its not called the Garden State for nothing! For its small size, New Jersey punches above its weight class in producing and exporting various agricultural products.&lt;/p&gt;
 &lt;p&gt;One crop that New Jersey is known for is its blueberries.&lt;/p&gt;
-&lt;h2 id=&#34;load-packages&#34;&gt;Load Packages&lt;/h2&gt;
+&lt;h2 id=&#34;load-package&#34;&gt;Load Package&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;suppressPackageStartupMessages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;library&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tidyverse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;library&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;janitor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)})&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;library&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tidyverse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Attaching&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;core&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tidyverse&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;packages&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;────────────────────────&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tidyverse&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;2.0.0&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dplyr&lt;/span&gt;     &lt;span class=&#34;mf&#34;&gt;1.1.4&lt;/span&gt;     &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;readr&lt;/span&gt;     &lt;span class=&#34;mf&#34;&gt;2.1.4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;forcats&lt;/span&gt;   &lt;span class=&#34;mf&#34;&gt;1.0.0&lt;/span&gt;     &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;stringr&lt;/span&gt;   &lt;span class=&#34;mf&#34;&gt;1.5.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ggplot2&lt;/span&gt;   &lt;span class=&#34;mf&#34;&gt;3.4.4&lt;/span&gt;     &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tibble&lt;/span&gt;    &lt;span class=&#34;mf&#34;&gt;3.2.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;lubridate&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1.9.3&lt;/span&gt;     &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tidyr&lt;/span&gt;     &lt;span class=&#34;mf&#34;&gt;1.3.0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;purrr&lt;/span&gt;     &lt;span class=&#34;mf&#34;&gt;1.0.2&lt;/span&gt;     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Conflicts&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──────────────────────────────────────────&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;tidyverse_conflicts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✖&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dplyr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;filter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;masks&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;stats&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;filter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✖&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dplyr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;lag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;    &lt;span class=&#34;nx&#34;&gt;masks&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;stats&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;lag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;ℹ&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Use&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;the&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;conflicted&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//conflicted.r-lib.org/&amp;gt;) to force all conflicts to become errors
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;library&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;janitor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Attaching package: &amp;#39;janitor&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## The following objects are masked from &amp;#39;package:stats&amp;#39;:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     chisq.test, fisher.test
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id=&#34;import-dataset&#34;&gt;Import Dataset&lt;/h2&gt;

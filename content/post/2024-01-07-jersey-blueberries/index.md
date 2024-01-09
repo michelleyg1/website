@@ -5,7 +5,7 @@ date: '2024-01-07'
 slug: jersey-blueberries
 categories: ["R", "Agriculture"]
 tags: []
-description: A data visualization of the condition of New Jersey blueberries in the 2021 growing season
+description: A data visualization of condition of blueberries harvested in the 2021 growing season in New Jersey
 image: "images/blueberry.jpeg"
 math: ~
 license: Michelle Gulotta
@@ -13,17 +13,43 @@ hidden: no
 comments: no
 ---
 
-I found this dataset by filtering through the various settings that they have on the National Agriculture Statistics Service [quick stats tool](https://quickstats.nass.usda.gov/) to see a survey of the condition of blueberries by year and week in the state of New Jersey. 
+I found this dataset by filtering through the various settings that they have on the National Agriculture Statistics Service [quick stats tool](https://quickstats.nass.usda.gov/) to see the condition of blueberries by year and week in the state of New Jersey. 
 
 A lot of people think that New Jersey is only the city and the shore, but its not called the Garden State for nothing! For its small size, New Jersey punches above its weight class in producing and exporting various agricultural products.
 
 One crop that New Jersey is known for is its blueberries.
 
-## Load Packages
+
+## Load Package
 
 ```r
-suppressPackageStartupMessages({library(tidyverse)
-library(janitor)})
+library(tidyverse)
+```
+
+```
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+
+```r
+library(janitor)
+```
+
+```
+## 
+## Attaching package: 'janitor'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test
 ```
 
 ## Import Dataset
@@ -76,7 +102,6 @@ blueberries <- blueberries %>%
 ## Cleaning Data
 ### Clean up Condition and Week Number Column
 I wanted to clean up the condition column as I noticed it was pretty redundant, and all we really needed was the condition. This would also make it eaiser as this is going to be the legend on our graph. Another thing that I wanted to do was to make the week number column more simple, as the name of the variable already tells us that this is the week number, so all we really need in the observation is the number.
-
 
 
 ```r
@@ -170,7 +195,8 @@ ggplot(blueberries_2021, aes(x = week_ending,
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 
-## Conclusion 
+## Conclusion
+
 Now it's the beginning of January but this has me looking forward to the beginning of July! 
 
 Working on this specific visualization helped me work on my data cleaning skills. I also learned more about how factors work and how R automatically puts a character vector in alphabetical order, and that in order to get it to appear in the order you want on a legend, you have to change the order of the factor variable. I didn't think about that before I started but it definitely makes sense, R doesn't just know how humans rank the quality of blueberries. 
