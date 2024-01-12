@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='An analysis of Total Cholesterol and Race/Hispanic Origin based off of the CDC&#39;s NHANES Data from 2017 to Pre Pandemic 2020'>
+<title>Total Cholesterol CDC NHANES Analysis</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Total Cholesterol CDC NHANES Analysis'>
+<meta property='og:description' content='An analysis of Total Cholesterol and Race/Hispanic Origin based off of the CDC&#39;s NHANES Data from 2017 to Pre Pandemic 2020'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-01-12T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-01-12T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/images/purple.jpeg' />
+<meta name="twitter:title" content="Total Cholesterol CDC NHANES Analysis">
+<meta name="twitter:description" content="An analysis of Total Cholesterol and Race/Hispanic Origin based off of the CDC&#39;s NHANES Data from 2017 to Pre Pandemic 2020"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/images/purple.jpeg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-packages">Load Packages</a></li>
+    <li><a href="#grab-datasets-that-i-need">Grab Datasets that I Need</a></li>
+    <li><a href="#retain-useful-variables">Retain Useful Variables</a></li>
+    <li><a href="#merge-the-data-using-seqn-to-match-values">Merge the Data Using SEQN to Match Values</a></li>
+    <li><a href="#initial-investigaton-of-the-data">Initial Investigaton of the Data</a></li>
+    <li><a href="#apply-eligibility-criteria">Apply Eligibility Criteria</a></li>
+    <li><a href="#recode-and-make-categories">Recode and Make Categories</a></li>
+    <li><a href="#table-of-total-cholesterol-categories">Table of Total Cholesterol Categories</a></li>
+    <li><a href="#check-out-the-distribution-of-total-cholesterol">Check Out the Distribution of Total Cholesterol</a></li>
+    <li><a href="#statistical-analysis">Statistical Analysis</a>
+      <ol>
+        <li><a href="#visualize-data-with-a-boxplot">Visualize Data with a Boxplot</a></li>
+        <li><a href="#one-way-anova">One Way ANOVA</a></li>
+        <li><a href="#tukeys-hsd-test">Tukey&rsquo;s HSD Test</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/total-cholesterol-cdc-nhanes-analysis/">
+                <img src="/p/total-cholesterol-cdc-nhanes-analysis/images/purple_hu3d03a01dcc18bc5be0e67db3d8d209a6_1915810_800x0_resize_q75_box.jpeg"
+                        srcset="/p/total-cholesterol-cdc-nhanes-analysis/images/purple_hu3d03a01dcc18bc5be0e67db3d8d209a6_1915810_800x0_resize_q75_box.jpeg 800w, /p/total-cholesterol-cdc-nhanes-analysis/images/purple_hu3d03a01dcc18bc5be0e67db3d8d209a6_1915810_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="532" 
+                        loading="lazy"
+                        alt="Featured image of post Total Cholesterol CDC NHANES Analysis" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/total-cholesterol-cdc-nhanes-analysis/">Total Cholesterol CDC NHANES Analysis</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            An analysis of Total Cholesterol and Race/Hispanic Origin based off of the CDC&#39;s NHANES Data from 2017 to Pre Pandemic 2020
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 12, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>For this analysis I decided to use the CDC NHANES data (2017 - pre pandemic 2020). I found <a class="link" href="https://ehsanx.github.io/SPPH504007SurveyData/docs/importing-nhanes-to-r.html#nhanes-dataset"  target="_blank" rel="noopener"
+    >this guide</a> on importing and cleaning NHANES data using the nhanesA package, and found it very useful in this project.</p>
+<p>NHANES is a very large survey conducted by the CDC that is a crucial resource for public health data analysis, and is all availabe for free public use. As this was my first time using this dataset, I decided to keep it simple, but I will definitely be coming back to it as there is just so much information collected that can be used for all types of public health analysis.</p>
+<h2 id="load-packages">Load Packages</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">nhanesA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tableone</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">arsenal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">agricolae</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="grab-datasets-that-i-need">Grab Datasets that I Need</h2>
+<p>Here I used the nhanesA package to get the datasets (or Data Files as they are called on the NHANES site), the two that I needed for this analysis were the demographics dataset</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">demo</span> <span class="o">&lt;-</span> <span class="nf">nhanes</span><span class="p">(</span><span class="s">&#34;P_DEMO&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">demo_translate</span> <span class="o">&lt;-</span> <span class="nf">nhanesTranslate</span><span class="p">(</span><span class="s">&#34;P_DEMO&#34;</span><span class="p">,</span> <span class="nf">names</span><span class="p">(</span><span class="n">demo</span><span class="p">),</span> <span class="n">data</span> <span class="o">=</span> <span class="n">demo</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Translated columns: RIDSTATR RIAGENDR RIDRETH1 RIDRETH3 RIDEXMON DMDBORN4 DMDYRUSZ DMDEDUC2 DMDMARTZ RIDEXPRG SIALANG SIAPROXY SIAINTRP FIALANG FIAPROXY FIAINTRP MIALANG MIAPROXY MIAINTRP AIALANGA
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and the total cholesterol one</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">exam</span> <span class="o">&lt;-</span> <span class="nf">nhanes</span><span class="p">(</span><span class="s">&#34;P_TCHOL&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">exam_translate</span> <span class="o">&lt;-</span> <span class="nf">nhanesTranslate</span><span class="p">(</span><span class="s">&#34;P_TCHOL&#34;</span><span class="p">,</span> <span class="nf">names</span><span class="p">(</span><span class="n">exam</span><span class="p">),</span> <span class="n">data</span> <span class="o">=</span> <span class="n">exam</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Warning in nhanesTranslate(&#34;P_TCHOL&#34;, names(exam), data = exam): No columns
+</span></span><span class="line"><span class="cl">## were translated
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="retain-useful-variables">Retain Useful Variables</h2>
+<p>Here I am only retaining the variables that I want to bring into my final dataset.</p>
+<p>From the demographics file, I decided on SEQN which is the sequence number that will help us merge the two datasets, RIDEXPRG which indicates if the respondent is pregnant, RIAGENDR which stores the participants gender, RIDAGEYR which stores the participant&rsquo;s age in years, and lastly RIDRETH3 which categorizes the participant&rsquo;s race.</p>
+<p>From the exam file I only extracted the sequence number, and lab value for total cholesterol.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">demo_select</span> <span class="o">&lt;-</span> <span class="n">demo_translate</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">SEQN</span><span class="p">,</span> <span class="n">RIDEXPRG</span><span class="p">,</span> <span class="n">RIAGENDR</span><span class="p">,</span> <span class="n">RIDAGEYR</span><span class="p">,</span> <span class="n">RIDRETH3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">exam_select</span> <span class="o">&lt;-</span> <span class="n">exam_translate</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">SEQN</span><span class="p">,</span> <span class="n">LBXTC</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="merge-the-data-using-seqn-to-match-values">Merge the Data Using SEQN to Match Values</h2>
+<p>The structure of the NHANES database makes it easy to match which lab values belong to which patient in including the SEQN column on the seperate datasets. I also went ahead and dropped the SEQN column when I was done merging as I only needed it for that task.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">merged_data</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span><span class="n">demo_select</span><span class="p">,</span> <span class="n">exam_select</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;SEQN&#34;</span><span class="p">),</span> <span class="n">all</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">merged_data</span><span class="o">$</span><span class="n">SEQN</span> <span class="o">&lt;-</span> <span class="kc">NULL</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="initial-investigaton-of-the-data">Initial Investigaton of the Data</h2>
+<p>Here I want to see the different categories and how much we have of each so that I can apply the eligibility criteria and recode the values properly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">initial_table</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                               <span class="n">includeNA</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">print</span><span class="p">(</span><span class="n">initial_table</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">showAllLevels</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                       
+</span></span><span class="line"><span class="cl">##                        level                                                             
+</span></span><span class="line"><span class="cl">##   n                                                                                      
+</span></span><span class="line"><span class="cl">##   RIDEXPRG (%)         Yes, positive lab pregnancy test or self-reported pregnant at exam
+</span></span><span class="line"><span class="cl">##                        The participant was not pregnant at exam                          
+</span></span><span class="line"><span class="cl">##                        Cannot ascertain if the participant is pregnant at exam           
+</span></span><span class="line"><span class="cl">##                        &lt;NA&gt;                                                              
+</span></span><span class="line"><span class="cl">##   RIAGENDR (%)         Male                                                              
+</span></span><span class="line"><span class="cl">##                        Female                                                            
+</span></span><span class="line"><span class="cl">##   RIDAGEYR (mean (SD))                                                                   
+</span></span><span class="line"><span class="cl">##   RIDRETH3 (%)         Mexican American                                                  
+</span></span><span class="line"><span class="cl">##                        Other Hispanic                                                    
+</span></span><span class="line"><span class="cl">##                        Non-Hispanic White                                                
+</span></span><span class="line"><span class="cl">##                        Non-Hispanic Black                                                
+</span></span><span class="line"><span class="cl">##                        Non-Hispanic Asian                                                
+</span></span><span class="line"><span class="cl">##                        Other Race - Including Multi-Racial                               
+</span></span><span class="line"><span class="cl">##   LBXTC (mean (SD))                                                                      
+</span></span><span class="line"><span class="cl">##                       
+</span></span><span class="line"><span class="cl">##                        Overall       
+</span></span><span class="line"><span class="cl">##   n                     15560        
+</span></span><span class="line"><span class="cl">##   RIDEXPRG (%)             87 ( 0.6) 
+</span></span><span class="line"><span class="cl">##                          1604 (10.3) 
+</span></span><span class="line"><span class="cl">##                           183 ( 1.2) 
+</span></span><span class="line"><span class="cl">##                         13686 (88.0) 
+</span></span><span class="line"><span class="cl">##   RIAGENDR (%)           7721 (49.6) 
+</span></span><span class="line"><span class="cl">##                          7839 (50.4) 
+</span></span><span class="line"><span class="cl">##   RIDAGEYR (mean (SD))  33.74 (25.32)
+</span></span><span class="line"><span class="cl">##   RIDRETH3 (%)           1990 (12.8) 
+</span></span><span class="line"><span class="cl">##                          1544 ( 9.9) 
+</span></span><span class="line"><span class="cl">##                          5271 (33.9) 
+</span></span><span class="line"><span class="cl">##                          4098 (26.3) 
+</span></span><span class="line"><span class="cl">##                          1638 (10.5) 
+</span></span><span class="line"><span class="cl">##                          1019 ( 6.5) 
+</span></span><span class="line"><span class="cl">##   LBXTC (mean (SD))    177.46 (40.36)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="apply-eligibility-criteria">Apply Eligibility Criteria</h2>
+<p>I decided for the eligibility criteria to exclude pregnant women, as well as those under the age of 20, I did that using dplyr&rsquo;s filter() function, I also filtered out the columns where there was no total cholesterol lab value as that is not useful to my analysis.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">analytic_data</span> <span class="o">&lt;-</span> <span class="n">merged_data</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">LBXTC</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">RIDAGEYR</span> <span class="o">&gt;=</span> <span class="m">20</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="n">RIDEXPRG</span> <span class="o">!=</span> <span class="s">&#34;Yes, positive lab pregnancy test or self-reported pregnant at exam&#34;</span> <span class="o">|</span> <span class="nf">is.na</span><span class="p">(</span><span class="n">RIDEXPRG</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="recode-and-make-categories">Recode and Make Categories</h2>
+<p>In this section, I created several new variables using dplyr&rsquo;s mutate() function. I created the age_cat variable that groups the participants by age, the total_cholesterol_cat variable that groups the lab values by their normal, borderline and high ranges, and I also simplified the race data into more concise and broad categories.</p>
+<p>I also renamed the remaining variables to match the naming conventions in the other newly created variables, also to give some more sense to them as NHANES is great but the variables all look like keyboard smashes to me. Their <a class="link" href="https://wwwn.cdc.gov/nchs/nhanes/search/default.aspx"  target="_blank" rel="noopener"
+    >variable search tool</a> helps with that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">category_data</span> <span class="o">&lt;-</span> <span class="n">analytic_data</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">age_cat</span> <span class="o">=</span> <span class="nf">cut</span><span class="p">(</span><span class="n">analytic_data</span><span class="o">$</span><span class="n">RIDAGEYR</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="nf">c</span><span class="p">(</span><span class="m">20</span><span class="p">,</span> <span class="m">40</span><span class="p">,</span> <span class="m">60</span><span class="p">,</span> <span class="kc">Inf</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">right</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">total_cholesterol_cat</span> <span class="o">=</span> <span class="nf">cut</span><span class="p">(</span><span class="n">analytic_data</span><span class="o">$</span><span class="n">LBXTC</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">200</span><span class="p">,</span> <span class="m">240</span><span class="p">,</span> <span class="kc">Inf</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Normal&#34;</span><span class="p">,</span> <span class="s">&#34;Borderline&#34;</span><span class="p">,</span> <span class="s">&#34;High&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">right</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">race</span> <span class="o">=</span> <span class="n">car</span><span class="o">::</span><span class="nf">recode</span><span class="p">(</span><span class="n">analytic_data</span><span class="o">$</span><span class="n">RIDRETH3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="s">&#34;c(&#39;Mexican American&#39;,
+</span></span></span><span class="line"><span class="cl"><span class="s">                       &#39;Other Hispanic&#39;) = &#39;Hispanic&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="s">                       &#39;Non-Hispanic White&#39; = &#39;White&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="s">                       &#39;Non-Hispanic Black&#39; = &#39;Black&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="s">                       &#39;Non-Hispanic Asian&#39; = &#39;Asian&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="s">                       &#39;Other Race - Including Multi-Racial&#39; = &#39;Other&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="s">                       else = NA&#34;</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">rename</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pregnancy_status</span> <span class="o">=</span> <span class="n">RIDEXPRG</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gender</span> <span class="o">=</span> <span class="n">RIAGENDR</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">age</span> <span class="o">=</span> <span class="n">RIDAGEYR</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">total_cholesterol</span> <span class="o">=</span> <span class="n">LBXTC</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">RIDRETH3</span><span class="p">,</span> <span class="o">-</span><span class="n">pregnancy_status</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cholesterol</span> <span class="o">&lt;-</span> <span class="nf">as_tibble</span><span class="p">(</span><span class="n">category_data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">cholesterol</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 7,845 × 6
+</span></span><span class="line"><span class="cl">##    gender   age total_cholesterol age_cat  total_cholesterol_cat race    
+</span></span><span class="line"><span class="cl">##    &lt;fct&gt;  &lt;dbl&gt;             &lt;dbl&gt; &lt;fct&gt;    &lt;fct&gt;                 &lt;fct&gt;   
+</span></span><span class="line"><span class="cl">##  1 Female    29               195 [20,40)  Normal                Asian   
+</span></span><span class="line"><span class="cl">##  2 Male      49               147 [40,60)  Normal                White   
+</span></span><span class="line"><span class="cl">##  3 Male      36               164 [20,40)  Normal                White   
+</span></span><span class="line"><span class="cl">##  4 Male      68               105 [60,Inf) Normal                Other   
+</span></span><span class="line"><span class="cl">##  5 Male      76               233 [60,Inf) Borderline            White   
+</span></span><span class="line"><span class="cl">##  6 Female    44               212 [40,60)  Borderline            Hispanic
+</span></span><span class="line"><span class="cl">##  7 Female    68               165 [60,Inf) Normal                Black   
+</span></span><span class="line"><span class="cl">##  8 Female    42               229 [40,60)  Borderline            Asian   
+</span></span><span class="line"><span class="cl">##  9 Male      58               172 [40,60)  Normal                Hispanic
+</span></span><span class="line"><span class="cl">## 10 Male      44               189 [40,60)  Normal                White   
+</span></span><span class="line"><span class="cl">## # ℹ 7,835 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="table-of-total-cholesterol-categories">Table of Total Cholesterol Categories</h2>
+<p>Here I used the arsenal package to make a table displaying how the different total cholesterol categories look within our study sample.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">labels</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">age_cat</span> <span class="o">=</span> <span class="s">&#34;Age Range&#34;</span><span class="p">,</span> <span class="n">gender</span> <span class="o">=</span> <span class="s">&#34;Gender&#34;</span><span class="p">,</span> <span class="n">race</span> <span class="o">=</span> <span class="s">&#34;Race&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">tab</span> <span class="o">&lt;-</span> <span class="n">arsenal</span><span class="o">::</span><span class="nf">tableby</span><span class="p">(</span><span class="n">total_cholesterol_cat</span> <span class="o">~</span> <span class="n">age_cat</span> <span class="o">+</span> <span class="n">gender</span> <span class="o">+</span> <span class="n">race</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">cholesterol</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="n">labelTranslations</span> <span class="o">=</span> <span class="n">labels</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## |            | Normal (N=5236) | Borderline (N=1873) | High (N=736) | Total (N=7845) |
+</span></span><span class="line"><span class="cl">## |:-----------|:---------------:|:-------------------:|:------------:|:--------------:|
+</span></span><span class="line"><span class="cl">## |Age Range   |                 |                     |              |                |
+</span></span><span class="line"><span class="cl">## |-  [20,40)  |  1789 (34.2%)   |     412 (22.0%)     | 117 (15.9%)  |  2318 (29.5%)  |
+</span></span><span class="line"><span class="cl">## |-  [40,60)  |  1499 (28.6%)   |     789 (42.1%)     | 338 (45.9%)  |  2626 (33.5%)  |
+</span></span><span class="line"><span class="cl">## |-  [60,Inf) |  1948 (37.2%)   |     672 (35.9%)     | 281 (38.2%)  |  2901 (37.0%)  |
+</span></span><span class="line"><span class="cl">## |Gender      |                 |                     |              |                |
+</span></span><span class="line"><span class="cl">## |-  Male     |  2659 (50.8%)   |     850 (45.4%)     | 323 (43.9%)  |  3832 (48.8%)  |
+</span></span><span class="line"><span class="cl">## |-  Female   |  2577 (49.2%)   |    1023 (54.6%)     | 413 (56.1%)  |  4013 (51.2%)  |
+</span></span><span class="line"><span class="cl">## |Race        |                 |                     |              |                |
+</span></span><span class="line"><span class="cl">## |-  Asian    |   559 (10.7%)   |     271 (14.5%)     | 108 (14.7%)  |  938 (12.0%)   |
+</span></span><span class="line"><span class="cl">## |-  Black    |  1430 (27.3%)   |     400 (21.4%)     | 162 (22.0%)  |  1992 (25.4%)  |
+</span></span><span class="line"><span class="cl">## |-  Hispanic |  1169 (22.3%)   |     432 (23.1%)     | 164 (22.3%)  |  1765 (22.5%)  |
+</span></span><span class="line"><span class="cl">## |-  Other    |   245 (4.7%)    |      96 (5.1%)      |  36 (4.9%)   |   377 (4.8%)   |
+</span></span><span class="line"><span class="cl">## |-  White    |  1833 (35.0%)   |     674 (36.0%)     | 266 (36.1%)  |  2773 (35.3%)  |
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="check-out-the-distribution-of-total-cholesterol">Check Out the Distribution of Total Cholesterol</h2>
+<p>Next before I look and see if there are any statistically significant differences between the groups of my choice, I have to look and see the distribution of our data to see what kind of assumptions we can make when running the stats.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">cholesterol</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">total_cholesterol</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="m">15</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&#34;black&#34;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s">&#34;#bbbbff&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Total Cholesterol (mg/dL)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Count&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Total Cholesterol (mg/dL) Distribution&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: CDC NHANES 2017 - Pre Pandemic 2020&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<p>This follows a generally normal distribution, but I&rsquo;m going to take a closer look as I do see outliers towards the end of our bell curve.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">qqnorm</span><span class="p">(</span><span class="n">cholesterol</span><span class="o">$</span><span class="n">total_cholesterol</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">qqline</span><span class="p">(</span><span class="n">cholesterol</span><span class="o">$</span><span class="n">total_cholesterol</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&#34;#bbbbff&#34;</span><span class="p">,</span> <span class="n">lwd</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+It does seem to deviate from the normal distribution slightly at the beginning and end of the data, but the sample size is very large, so I'm going to stick with an ANOVA.
+<h2 id="statistical-analysis">Statistical Analysis</h2>
+<h3 id="visualize-data-with-a-boxplot">Visualize Data with a Boxplot</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">cholesterol</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">race</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">total_cholesterol</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">race</span><span class="p">))</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_boxplot</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#E6FFFD&#34;</span><span class="p">,</span> <span class="s">&#34;#AEE2FF&#34;</span><span class="p">,</span> <span class="s">&#34;#ACBCFF&#34;</span><span class="p">,</span> <span class="s">&#34;#B799FF&#34;</span><span class="p">,</span> <span class="s">&#34;#AA77FF&#34;</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Race/Hispanic Origin&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Total Cholesterol (mg/dL)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Total Cholesterol (mg/dL) by Race/Hispanic Origin of Participant&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: CDC NHANES 2017 - Pre Pandemic 2020&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s">&#34;none&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<p>It does look like there are some differences among the different means from what I can see on the box plot, but I&rsquo;m going to run our ANOVA to see if these differences are statistically significant.</p>
+<h3 id="one-way-anova">One Way ANOVA</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cholesterol_model</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">total_cholesterol</span> <span class="o">~</span> <span class="n">race</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">cholesterol</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">anova</span><span class="p">(</span><span class="n">cholesterol_model</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Analysis of Variance Table
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Response: total_cholesterol
+</span></span><span class="line"><span class="cl">##             Df   Sum Sq Mean Sq F value    Pr(&gt;F)    
+</span></span><span class="line"><span class="cl">## race         4    89298 22324.6  13.516 5.561e-11 ***
+</span></span><span class="line"><span class="cl">## Residuals 7840 12949382  1651.7                      
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With our p-value being very small we can see there is at least one group whose mean is statistically significantly different from the others. Lets see which groups are causing that difference.</p>
+<h3 id="tukeys-hsd-test">Tukey&rsquo;s HSD Test</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cholesterol_aov</span> <span class="o">&lt;-</span> <span class="nf">aov</span><span class="p">(</span><span class="n">cholesterol_model</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">HSD.test</span><span class="p">(</span><span class="n">cholesterol_aov</span><span class="p">,</span> <span class="s">&#34;race&#34;</span><span class="p">,</span> <span class="n">console</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Study: cholesterol_aov ~ &#34;race&#34;
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## HSD Test for total_cholesterol 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Mean Square Error:  1651.707 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## race,  means
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##          total_cholesterol      std    r        se Min Max Q25 Q50 Q75
+</span></span><span class="line"><span class="cl">## Asian             192.3465 40.51686  938 1.3269821  79 384 164 190 217
+</span></span><span class="line"><span class="cl">## Black             180.9347 40.58260 1992 0.9105878  78 428 152 178 206
+</span></span><span class="line"><span class="cl">## Hispanic          186.9637 39.77251 1765 0.9673734  77 381 159 184 211
+</span></span><span class="line"><span class="cl">## Other             185.4881 39.64343  377 2.0931281  76 335 159 183 208
+</span></span><span class="line"><span class="cl">## White             185.3440 41.39873 2773 0.7717765  71 446 155 182 211
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Alpha: 0.05 ; DF Error: 7840 
+</span></span><span class="line"><span class="cl">## Critical Value of Studentized Range: 3.858554 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Groups according to probability of means differences and alpha level( 0.05 )
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Treatments with the same letter are not significantly different.
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##          total_cholesterol groups
+</span></span><span class="line"><span class="cl">## Asian             192.3465      a
+</span></span><span class="line"><span class="cl">## Hispanic          186.9637      b
+</span></span><span class="line"><span class="cl">## Other             185.4881     bc
+</span></span><span class="line"><span class="cl">## White             185.3440     bc
+</span></span><span class="line"><span class="cl">## Black             180.9347      c
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So there are several statistically differences between Asian and all other groups as well as between Hispanic and Black participants. This is an interesting difference, that can definitely inform health decisions by patients and recommendations by healthcare providers.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I was always hesitant to use the CDC&rsquo;s NHANES dataset as it is so big and there are so many different variables but I&rsquo;m glad that I found the nhanesA package as that made it so easy to do this analysis, and I&rsquo;ll definitely be using it again to avoid having to dig for datasets and also having to download gigantic ones to my poor old computer lol.</p>
+<p>I also learned some other things during this analysis, in terms of R skills I learned about the arsenal package that builds tables to display the various categories that were pre-existing in the data, as well as the categories that I created using the cut() function based on the typical ranges used in medicine for total cholesterol.</p>
+<p>In terms of statistics, I still have some confusion about the central limit theorem and normal distributions and if you can actually use parametric tests on non normal distributions, as there seems to be a lot of heated debate over this on the various statistics forums that I visited in hope of getting an answer to this question. Now I&rsquo;m mainly trying to practice my R skills, and have pretty rudimentary statistics knowledge so I just went with a parametric ANOVA test. In researching for this post I also learned about the Kruskal Wallis test, along with the paired Wilcoxon test. Kind of funny to me coming from a more medical/biology background being used to Latin or Greek based medical terminology that 90% of everything in statistics is named after dudes.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/asthma-incidents-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/asthma-incidents-analysis/images/featured.c514d916917173a48a42e0114b469961_hud7e36f7e20e71be184458283bdae4646_55974_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Asthma Incidents Analysis"
+                        data-key="asthma-incidents-analysis" 
+                        data-hash="md5-xRTZFpFxc6SKQuARS0aZYQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Asthma Incidents Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jersey-blueberries/">
+        
+        
+            <div class="article-image">
+                <img src="/p/jersey-blueberries/images/blueberry.23fe19bf8e7d5c2a219b5c2b6026fbd2_hu3d03a01dcc18bc5be0e67db3d8d209a6_1579336_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Jersey Blueberries"
+                        data-key="jersey-blueberries" 
+                        data-hash="md5-I/4Zv459XCohm1wrYCb70g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jersey Blueberries</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

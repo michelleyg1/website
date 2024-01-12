@@ -1,0 +1,200 @@
+---
+title: Total Cholesterol CDC NHANES Analysis
+author: R package build
+date: '2024-01-12'
+slug: total-cholesterol-cdc-nhanes-analysis
+categories: ["R", "Public Health"]
+tags: []
+description: An analysis of Total Cholesterol and Race/Hispanic Origin based off of the CDC's NHANES Data from 2017 to Pre Pandemic 2020
+image: "images/purple.jpeg"
+math: ~
+license: ~
+hidden: no
+comments: no
+---
+
+For this analysis I decided to use the CDC NHANES data (2017 - pre pandemic 2020). I found [this guide](https://ehsanx.github.io/SPPH504007SurveyData/docs/importing-nhanes-to-r.html#nhanes-dataset) on importing and cleaning NHANES data using the nhanesA package, and found it very useful in this project. 
+
+NHANES is a very large survey conducted by the CDC that is a crucial resource for public health data analysis, and is all availabe for free public use. As this was my first time using this dataset, I decided to keep it simple, but I will definitely be coming back to it as there is just so much information collected that can be used for all types of public health analysis.
+
+## Load Packages
+```{r}
+suppressPackageStartupMessages({
+library(tidyverse)
+library(nhanesA)
+library(tableone)
+library(arsenal)
+library(agricolae)
+})
+```
+
+## Grab Datasets that I Need
+
+Here I used the nhanesA package to get the datasets (or Data Files as they are called on the NHANES site), the two that I needed for this analysis were the demographics dataset
+```{r}
+demo <- nhanes("P_DEMO")
+demo_translate <- nhanesTranslate("P_DEMO", names(demo), data = demo)
+```
+
+and the total cholesterol one
+```{r}
+exam <- nhanes("P_TCHOL")
+exam_translate <- nhanesTranslate("P_TCHOL", names(exam), data = exam)
+```
+
+## Retain Useful Variables
+
+Here I am only retaining the variables that I want to bring into my final dataset.
+
+From the demographics file, I decided on SEQN which is the sequence number that will help us merge the two datasets, RIDEXPRG which indicates if the respondent is pregnant, RIAGENDR which stores the participants gender, RIDAGEYR which stores the participant's age in years, and lastly RIDRETH3 which categorizes the participant's race.
+
+From the exam file I only extracted the sequence number, and lab value for total cholesterol.
+```{r}
+demo_select <- demo_translate %>% 
+  select(SEQN, RIDEXPRG, RIAGENDR, RIDAGEYR, RIDRETH3)
+
+exam_select <- exam_translate %>% 
+  select(SEQN, LBXTC)
+```
+
+## Merge the Data Using SEQN to Match Values
+
+The structure of the NHANES database makes it easy to match which lab values belong to which patient in including the SEQN column on the seperate datasets. I also went ahead and dropped the SEQN column when I was done merging as I only needed it for that task.
+
+```{r}
+merged_data <- merge(demo_select, exam_select,
+                     by = c("SEQN"), all = TRUE)
+merged_data$SEQN <- NULL
+```
+
+## Initial Investigaton of the Data
+
+Here I want to see the different categories and how much we have of each so that I can apply the eligibility criteria and recode the values properly.
+```{r}
+initial_table <- CreateTableOne(data = merged_data,
+                               includeNA = TRUE)
+print(initial_table,
+      showAllLevels = TRUE)
+```
+
+## Apply Eligibility Criteria
+
+I decided for the eligibility criteria to exclude pregnant women, as well as those under the age of 20, I did that using dplyr's filter() function, I also filtered out the columns where there was no total cholesterol lab value as that is not useful to my analysis.
+
+```{r}
+analytic_data <- merged_data %>% 
+  filter(!is.na(LBXTC),
+         RIDAGEYR >= 20,
+         RIDEXPRG != "Yes, positive lab pregnancy test or self-reported pregnant at exam" | is.na(RIDEXPRG))
+```
+
+## Recode and Make Categories
+
+In this section, I created several new variables using dplyr's mutate() function. I created the age_cat variable that groups the participants by age, the total_cholesterol_cat variable that groups the lab values by their normal, borderline and high ranges, and I also simplified the race data into more concise and broad categories.
+
+I also renamed the remaining variables to match the naming conventions in the other newly created variables, also to give some more sense to them as NHANES is great but the variables all look like keyboard smashes to me. Their [variable search tool](https://wwwn.cdc.gov/nchs/nhanes/search/default.aspx) helps with that.
+```{r}
+category_data <- analytic_data %>% 
+  mutate(
+    age_cat = cut(analytic_data$RIDAGEYR,
+                  c(20, 40, 60, Inf),
+                  right = FALSE),
+    total_cholesterol_cat = cut(analytic_data$LBXTC,
+                                c(0, 200, 240, Inf),
+                                labels = c("Normal", "Borderline", "High"),
+                                right = FALSE),
+    race = car::recode(analytic_data$RIDRETH3,
+                       "c('Mexican American',
+                       'Other Hispanic') = 'Hispanic';
+                       'Non-Hispanic White' = 'White';
+                       'Non-Hispanic Black' = 'Black';
+                       'Non-Hispanic Asian' = 'Asian';
+                       'Other Race - Including Multi-Racial' = 'Other';
+                       else = NA") 
+  ) %>% 
+  rename(
+    pregnancy_status = RIDEXPRG,
+    gender = RIAGENDR,
+    age = RIDAGEYR,
+    total_cholesterol = LBXTC
+  ) %>% 
+  select(-RIDRETH3, -pregnancy_status)
+```
+
+```{r}
+cholesterol <- as_tibble(category_data)
+cholesterol
+```
+
+## Table of Total Cholesterol Categories
+
+Here I used the arsenal package to make a table displaying how the different total cholesterol categories look within our study sample.
+```{r}
+labels <- list(age_cat = "Age Range", gender = "Gender", race = "Race")
+tab <- arsenal::tableby(total_cholesterol_cat ~ age_cat + gender + race, data = cholesterol, test = FALSE)
+summary(tab, labelTranslations = labels, text=TRUE)
+```
+
+## Check Out the Distribution of Total Cholesterol
+
+Next before I look and see if there are any statistically significant differences between the groups of my choice, I have to look and see the distribution of our data to see what kind of assumptions we can make when running the stats.
+```{r}
+ggplot(cholesterol, aes(x = total_cholesterol)) +
+  geom_histogram(binwidth = 15, color = "black", fill = "#bbbbff") +
+  labs(x = "Total Cholesterol (mg/dL)",
+       y = "Count",
+       title = "Total Cholesterol (mg/dL) Distribution",
+       caption = "Source: CDC NHANES 2017 - Pre Pandemic 2020") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+This follows a generally normal distribution, but I'm going to take a closer look as I do see outliers towards the end of our bell curve.
+```{r}
+qqnorm(cholesterol$total_cholesterol)
+qqline(cholesterol$total_cholesterol, col = "#bbbbff", lwd = 3)
+```
+It does seem to deviate from the normal distribution slightly at the beginning and end of the data, but the sample size is very large, so I'm going to stick with an ANOVA.
+
+## Statistical Analysis
+
+### Visualize Data with a Boxplot
+```{r}
+ggplot(cholesterol, aes(x = race, y = total_cholesterol, fill = race)) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("#E6FFFD", "#AEE2FF", "#ACBCFF", "#B799FF", "#AA77FF")) +
+  labs(
+    x = "Race/Hispanic Origin",
+    y = "Total Cholesterol (mg/dL)",
+    title = "Total Cholesterol (mg/dL) by Race/Hispanic Origin of Participant",
+    caption = "Source: CDC NHANES 2017 - Pre Pandemic 2020"
+  ) +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5))
+```
+
+It does look like there are some differences among the different means from what I can see on the box plot, but I'm going to run our ANOVA to see if these differences are statistically significant. 
+
+### One Way ANOVA
+```{r}
+cholesterol_model <- lm(total_cholesterol ~ race, data = cholesterol)
+anova(cholesterol_model)
+```
+
+With our p-value being very small we can see there is at least one group whose mean is statistically significantly different from the others. Lets see which groups are causing that difference.
+
+### Tukey's HSD Test
+
+```{r}
+cholesterol_aov <- aov(cholesterol_model)
+HSD.test(cholesterol_aov, "race", console = TRUE)
+```
+
+So there are several statistically differences between Asian and all other groups as well as between Hispanic and Black participants. This is an interesting difference, that can definitely inform health decisions by patients and recommendations by healthcare providers.
+
+## Conclusion
+I was always hesitant to use the CDC's NHANES dataset as it is so big and there are so many different variables but I'm glad that I found the nhanesA package as that made it so easy to do this analysis, and I'll definitely be using it again to avoid having to dig for datasets and also having to download gigantic ones to my poor old computer lol. 
+
+I also learned some other things during this analysis, in terms of R skills I learned about the arsenal package that builds tables to display the various categories that were pre-existing in the data, as well as the categories that I created using the cut() function based on the typical ranges used in medicine for total cholesterol. 
+
+In terms of statistics, I still have some confusion about the central limit theorem and normal distributions and if you can actually use parametric tests on non normal distributions, as there seems to be a lot of heated debate over this on the various statistics forums that I visited in hope of getting an answer to this question. Now I'm mainly trying to practice my R skills, and have pretty rudimentary statistics knowledge so I just went with a parametric ANOVA test. In researching for this post I also learned about the Kruskal Wallis test, along with the paired Wilcoxon test. Kind of funny to me coming from a more medical/biology background being used to Latin or Greek based medical terminology that 90% of everything in statistics is named after dudes.
