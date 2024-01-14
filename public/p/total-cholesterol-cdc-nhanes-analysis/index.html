@@ -207,12 +207,18 @@
     <li><a href="#apply-eligibility-criteria">Apply Eligibility Criteria</a></li>
     <li><a href="#recode-and-make-categories">Recode and Make Categories</a></li>
     <li><a href="#table-of-total-cholesterol-categories">Table of Total Cholesterol Categories</a></li>
-    <li><a href="#check-out-the-distribution-of-total-cholesterol">Check Out the Distribution of Total Cholesterol</a></li>
-    <li><a href="#statistical-analysis">Statistical Analysis</a>
+    <li><a href="#checking-assumptions">Checking Assumptions</a>
+      <ol>
+        <li><a href="#assumption-of-normal-distribution">Assumption of Normal Distribution</a></li>
+        <li><a href="#assumption-of-constant-variance">Assumption of Constant Variance</a></li>
+        <li><a href="#assumption-of-similar-skewness-for-each-category">Assumption of Similar Skewness for Each Category</a></li>
+      </ol>
+    </li>
+    <li><a href="#statistical-testing">Statistical Testing</a>
       <ol>
         <li><a href="#visualize-data-with-a-boxplot">Visualize Data with a Boxplot</a></li>
-        <li><a href="#one-way-anova">One Way ANOVA</a></li>
-        <li><a href="#tukeys-hsd-test">Tukey&rsquo;s HSD Test</a></li>
+        <li><a href="#kruskal-wallis-test">Kruskal Wallis Test</a></li>
+        <li><a href="#pairwise-comparison-test">Pairwise Comparison Test</a></li>
       </ol>
     </li>
     <li><a href="#conclusion">Conclusion</a></li>
@@ -303,7 +309,7 @@
     
     <p>For this analysis I decided to use the CDC NHANES data (2017 - pre pandemic 2020). I found <a class="link" href="https://ehsanx.github.io/SPPH504007SurveyData/docs/importing-nhanes-to-r.html#nhanes-dataset"  target="_blank" rel="noopener"
     >this guide</a> on importing and cleaning NHANES data using the nhanesA package, and found it very useful in this project.</p>
-<p>NHANES is a very large survey conducted by the CDC that is a crucial resource for public health data analysis, and is all availabe for free public use. As this was my first time using this dataset, I decided to keep it simple, but I will definitely be coming back to it as there is just so much information collected that can be used for all types of public health analysis.</p>
+<p>NHANES is a very large survey conducted by the CDC that is a crucial resource for public health data analysis, and is all available for free public use. As this was my first time using this dataset, I decided to keep it simple, but I will definitely be coming back to it as there is just so much information collected that can be used for all types of public health analysis.</p>
 <h2 id="load-packages">Load Packages</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -664,7 +670,8 @@
 </span></span><span class="line"><span class="cl">## |-  White    |  1833 (35.0%)   |     674 (36.0%)     | 266 (36.1%)  |  2773 (35.3%)  |
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="check-out-the-distribution-of-total-cholesterol">Check Out the Distribution of Total Cholesterol</h2>
+</div><h2 id="checking-assumptions">Checking Assumptions</h2>
+<h3 id="assumption-of-normal-distribution">Assumption of Normal Distribution</h3>
 <p>Next before I look and see if there are any statistically significant differences between the groups of my choice, I have to look and see the distribution of our data to see what kind of assumptions we can make when running the stats.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -694,13 +701,51 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">qqnorm</span><span class="p">(</span><span class="n">cholesterol</span><span class="o">$</span><span class="n">total_cholesterol</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nf">qqline</span><span class="p">(</span><span class="n">cholesterol</span><span class="o">$</span><span class="n">total_cholesterol</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&#34;#bbbbff&#34;</span><span class="p">,</span> <span class="n">lwd</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cholesterol_model</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">total_cholesterol</span> <span class="o">~</span> <span class="n">race</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">cholesterol</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">cholesterol_model</span><span class="p">,</span> <span class="n">which</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><img src="https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
-It does seem to deviate from the normal distribution slightly at the beginning and end of the data, but the sample size is very large, so I'm going to stick with an ANOVA.
-<h2 id="statistical-analysis">Statistical Analysis</h2>
+It seems like there is a systematic deviation from the expected relationship if the data were to be normally distributed. The data is not normally distributed.
+<h3 id="assumption-of-constant-variance">Assumption of Constant Variance</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">cholesterol_model</span><span class="p">,</span> <span class="n">which</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+There is constant variance throughout the data, however since our assumption of normal distribution was violated I am going to check one more assumption that would be needed to run a non parametric test assessing the differences between the central tendency of our chosen groups. 
+<h3 id="assumption-of-similar-skewness-for-each-category">Assumption of Similar Skewness for Each Category</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">cholesterol</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">total_cholesterol</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">race</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span> <span class="o">=</span> <span class="m">15</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&#34;black&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Total Cholesterol (mg/dL)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Count&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Total Cholesterol (mg/dL) Distribution by Race/Hispanic Origin&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: CDC NHANES 2017 - Pre Pandemic 2020&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">race</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#E6FFFD&#34;</span><span class="p">,</span> <span class="s">&#34;#AEE2FF&#34;</span><span class="p">,</span> <span class="s">&#34;#ACBCFF&#34;</span><span class="p">,</span> <span class="s">&#34;#B799FF&#34;</span><span class="p">,</span> <span class="s">&#34;#AA77FF&#34;</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+Looks like each category of Race/Hispanic origin does have a similar skewness.
+<h2 id="statistical-testing">Statistical Testing</h2>
 <h3 id="visualize-data-with-a-boxplot">Visualize Data with a Boxplot</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -730,17 +775,17 @@ It does seem to deviate from the normal distribution slightly at the beginning a
 </span></span><span class="line"><span class="cl">        <span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><img src="https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
-<p>It does look like there are some differences among the different means from what I can see on the box plot, but I&rsquo;m going to run our ANOVA to see if these differences are statistically significant.</p>
-<h3 id="one-way-anova">One Way ANOVA</h3>
+</div><img src="https://michelleyg1.github.io/p/total-cholesterol-cdc-nhanes-analysis/index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<h3 id="kruskal-wallis-test">Kruskal Wallis Test</h3>
+<p>Since I checked various assumptions, and the assumption of normality was violated, I decided to go with a non parametric Kruskal Wallis Test to test my hypothesis that there is a different mean total cholesterol value between the 5 different racial/hispanic origin categories.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cholesterol_model</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">total_cholesterol</span> <span class="o">~</span> <span class="n">race</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">cholesterol</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nf">anova</span><span class="p">(</span><span class="n">cholesterol_model</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">options</span><span class="p">(</span><span class="n">scipen</span> <span class="o">=</span> <span class="m">999</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">kruskal.test</span><span class="p">(</span><span class="n">total_cholesterol</span> <span class="o">~</span> <span class="n">race</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">cholesterol</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -751,30 +796,26 @@ It does seem to deviate from the normal distribution slightly at the beginning a
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Analysis of Variance Table
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Kruskal-Wallis rank sum test
 </span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">## Response: total_cholesterol
-</span></span><span class="line"><span class="cl">##             Df   Sum Sq Mean Sq F value    Pr(&gt;F)    
-</span></span><span class="line"><span class="cl">## race         4    89298 22324.6  13.516 5.561e-11 ***
-</span></span><span class="line"><span class="cl">## Residuals 7840 12949382  1651.7                      
-</span></span><span class="line"><span class="cl">## ---
-</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## data:  total_cholesterol by race
+</span></span><span class="line"><span class="cl">## Kruskal-Wallis chi-squared = 60.582, df = 4, p-value =
+</span></span><span class="line"><span class="cl">## 0.000000000002188
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>With our p-value being very small we can see there is at least one group whose mean is statistically significantly different from the others. Lets see which groups are causing that difference.</p>
-<h3 id="tukeys-hsd-test">Tukey&rsquo;s HSD Test</h3>
+</div><p>The p value is very very small, meaning there is one or more categories that have a mean total cholesterol that differs from the other. To check which groups are causing there to be a statisticially signifigant difference, I&rsquo;ll run a pairwise comparison.</p>
+<h3 id="pairwise-comparison-test">Pairwise Comparison Test</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cholesterol_aov</span> <span class="o">&lt;-</span> <span class="nf">aov</span><span class="p">(</span><span class="n">cholesterol_model</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nf">HSD.test</span><span class="p">(</span><span class="n">cholesterol_aov</span><span class="p">,</span> <span class="s">&#34;race&#34;</span><span class="p">,</span> <span class="n">console</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">pairwise.wilcox.test</span><span class="p">(</span><span class="n">cholesterol</span><span class="o">$</span><span class="n">total_cholesterol</span><span class="p">,</span> <span class="n">cholesterol</span><span class="o">$</span><span class="n">race</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">p.adjust.method</span> <span class="o">=</span> <span class="s">&#34;BH&#34;</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -791,61 +832,27 @@ It does seem to deviate from the normal distribution slightly at the beginning a
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">## Study: cholesterol_aov ~ &#34;race&#34;
+</span></span><span class="line"><span class="cl">## 	Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
 </span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">## HSD Test for total_cholesterol 
+</span></span><span class="line"><span class="cl">## data:  cholesterol$total_cholesterol and cholesterol$race 
 </span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">## Mean Square Error:  1651.707 
+</span></span><span class="line"><span class="cl">##          Asian           Black           Hispanic Other  
+</span></span><span class="line"><span class="cl">## Black    0.0000000000011 -               -        -      
+</span></span><span class="line"><span class="cl">## Hispanic 0.00096         0.0000031636325 -        -      
+</span></span><span class="line"><span class="cl">## Other    0.01722         0.01722         0.77812  -      
+</span></span><span class="line"><span class="cl">## White    0.0000031636325 0.00069         0.12485  0.61744
 </span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">## race,  means
-</span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">##          total_cholesterol      std    r        se Min Max Q25 Q50 Q75
-</span></span><span class="line"><span class="cl">## Asian             192.3465 40.51686  938 1.3269821  79 384 164 190 217
-</span></span><span class="line"><span class="cl">## Black             180.9347 40.58260 1992 0.9105878  78 428 152 178 206
-</span></span><span class="line"><span class="cl">## Hispanic          186.9637 39.77251 1765 0.9673734  77 381 159 184 211
-</span></span><span class="line"><span class="cl">## Other             185.4881 39.64343  377 2.0931281  76 335 159 183 208
-</span></span><span class="line"><span class="cl">## White             185.3440 41.39873 2773 0.7717765  71 446 155 182 211
-</span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">## Alpha: 0.05 ; DF Error: 7840 
-</span></span><span class="line"><span class="cl">## Critical Value of Studentized Range: 3.858554 
-</span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">## Groups according to probability of means differences and alpha level( 0.05 )
-</span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">## Treatments with the same letter are not significantly different.
-</span></span><span class="line"><span class="cl">## 
-</span></span><span class="line"><span class="cl">##          total_cholesterol groups
-</span></span><span class="line"><span class="cl">## Asian             192.3465      a
-</span></span><span class="line"><span class="cl">## Hispanic          186.9637      b
-</span></span><span class="line"><span class="cl">## Other             185.4881     bc
-</span></span><span class="line"><span class="cl">## White             185.3440     bc
-</span></span><span class="line"><span class="cl">## Black             180.9347      c
+</span></span><span class="line"><span class="cl">## P value adjustment method: BH
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>So there are several statistically differences between Asian and all other groups as well as between Hispanic and Black participants. This is an interesting difference, that can definitely inform health decisions by patients and recommendations by healthcare providers.</p>
+</div><p>Looks like there are multiple groups in which a statistically significant difference can be observed, in fact it is present in all except Other and Hispanic, White and Hispanic, and Other and White.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>I was always hesitant to use the CDC&rsquo;s NHANES dataset as it is so big and there are so many different variables but I&rsquo;m glad that I found the nhanesA package as that made it so easy to do this analysis, and I&rsquo;ll definitely be using it again to avoid having to dig for datasets and also having to download gigantic ones to my poor old computer lol.</p>
 <p>I also learned some other things during this analysis, in terms of R skills I learned about the arsenal package that builds tables to display the various categories that were pre-existing in the data, as well as the categories that I created using the cut() function based on the typical ranges used in medicine for total cholesterol.</p>
-<p>In terms of statistics, I still have some confusion about the central limit theorem and normal distributions and if you can actually use parametric tests on non normal distributions, as there seems to be a lot of heated debate over this on the various statistics forums that I visited in hope of getting an answer to this question. Now I&rsquo;m mainly trying to practice my R skills, and have pretty rudimentary statistics knowledge so I just went with a parametric ANOVA test. In researching for this post I also learned about the Kruskal Wallis test, along with the paired Wilcoxon test. Kind of funny to me coming from a more medical/biology background being used to Latin or Greek based medical terminology that 90% of everything in statistics is named after dudes.</p>
+<p>In terms of statistics, I still have some confusion about the central limit theorem and normal distributions and if you can actually use parametric tests on non normal distributions, as there seems to be a lot of heated debate over this on the various statistics forums that I visited in hope of getting an answer to this question. I decided to play it safe and use a non parametric test, but I do want to learn more about how and when you can violate assumptions if you should at all.</p>
 
 </section>
 

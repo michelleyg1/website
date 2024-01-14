@@ -15,7 +15,7 @@ comments: no
 
 For this analysis I decided to use the CDC NHANES data (2017 - pre pandemic 2020). I found [this guide](https://ehsanx.github.io/SPPH504007SurveyData/docs/importing-nhanes-to-r.html#nhanes-dataset) on importing and cleaning NHANES data using the nhanesA package, and found it very useful in this project. 
 
-NHANES is a very large survey conducted by the CDC that is a crucial resource for public health data analysis, and is all availabe for free public use. As this was my first time using this dataset, I decided to keep it simple, but I will definitely be coming back to it as there is just so much information collected that can be used for all types of public health analysis.
+NHANES is a very large survey conducted by the CDC that is a crucial resource for public health data analysis, and is all available for free public use. As this was my first time using this dataset, I decided to keep it simple, but I will definitely be coming back to it as there is just so much information collected that can be used for all types of public health analysis.
 
 ## Load Packages
 ```{r}
@@ -135,8 +135,8 @@ tab <- arsenal::tableby(total_cholesterol_cat ~ age_cat + gender + race, data = 
 summary(tab, labelTranslations = labels, text=TRUE)
 ```
 
-## Check Out the Distribution of Total Cholesterol
-
+## Checking Assumptions
+### Assumption of Normal Distribution
 Next before I look and see if there are any statistically significant differences between the groups of my choice, I have to look and see the distribution of our data to see what kind of assumptions we can make when running the stats.
 ```{r}
 ggplot(cholesterol, aes(x = total_cholesterol)) +
@@ -148,15 +148,34 @@ ggplot(cholesterol, aes(x = total_cholesterol)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-
 This follows a generally normal distribution, but I'm going to take a closer look as I do see outliers towards the end of our bell curve.
 ```{r}
-qqnorm(cholesterol$total_cholesterol)
-qqline(cholesterol$total_cholesterol, col = "#bbbbff", lwd = 3)
+cholesterol_model <- lm(total_cholesterol ~ race, data = cholesterol)
+plot(cholesterol_model, which = 2)
 ```
-It does seem to deviate from the normal distribution slightly at the beginning and end of the data, but the sample size is very large, so I'm going to stick with an ANOVA.
+It seems like there is a systematic deviation from the expected relationship if the data were to be normally distributed. The data is not normally distributed.
 
-## Statistical Analysis
+### Assumption of Constant Variance
+```{r}
+plot(cholesterol_model, which = 3)
+```
+There is constant variance throughout the data, however since our assumption of normal distribution was violated I am going to check one more assumption that would be needed to run a non parametric test assessing the differences between the central tendency of our chosen groups. 
+
+### Assumption of Similar Skewness for Each Category
+```{r}
+ggplot(cholesterol, aes(x = total_cholesterol, fill = race)) +
+  geom_histogram(binwidth = 15, color = "black") +
+  labs(x = "Total Cholesterol (mg/dL)",
+       y = "Count",
+       title = "Total Cholesterol (mg/dL) Distribution by Race/Hispanic Origin",
+       caption = "Source: CDC NHANES 2017 - Pre Pandemic 2020") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  facet_wrap(~race) +
+  scale_fill_manual(values = c("#E6FFFD", "#AEE2FF", "#ACBCFF", "#B799FF", "#AA77FF"))
+```
+Looks like each category of Race/Hispanic origin does have a similar skewness.
+
+## Statistical Testing
 
 ### Visualize Data with a Boxplot
 ```{r}
@@ -173,28 +192,24 @@ ggplot(cholesterol, aes(x = race, y = total_cholesterol, fill = race)) +
         plot.title = element_text(hjust = 0.5))
 ```
 
-It does look like there are some differences among the different means from what I can see on the box plot, but I'm going to run our ANOVA to see if these differences are statistically significant. 
-
-### One Way ANOVA
+### Kruskal Wallis Test
+Since I checked various assumptions, and the assumption of normality was violated, I decided to go with a non parametric Kruskal Wallis Test to test my hypothesis that there is a different mean total cholesterol value between the 5 different racial/hispanic origin categories.
 ```{r}
-cholesterol_model <- lm(total_cholesterol ~ race, data = cholesterol)
-anova(cholesterol_model)
+options(scipen = 999)
+kruskal.test(total_cholesterol ~ race, data = cholesterol)
 ```
+The p value is very very small, meaning there is one or more categories that have a mean total cholesterol that differs from the other. To check which groups are causing there to be a statisticially signifigant difference, I'll run a pairwise comparison.
 
-With our p-value being very small we can see there is at least one group whose mean is statistically significantly different from the others. Lets see which groups are causing that difference.
-
-### Tukey's HSD Test
-
+### Pairwise Comparison Test
 ```{r}
-cholesterol_aov <- aov(cholesterol_model)
-HSD.test(cholesterol_aov, "race", console = TRUE)
+pairwise.wilcox.test(cholesterol$total_cholesterol, cholesterol$race,
+                 p.adjust.method = "BH")
 ```
-
-So there are several statistically differences between Asian and all other groups as well as between Hispanic and Black participants. This is an interesting difference, that can definitely inform health decisions by patients and recommendations by healthcare providers.
+Looks like there are multiple groups in which a statistically significant difference can be observed, in fact it is present in all except Other and Hispanic, White and Hispanic, and Other and White.
 
 ## Conclusion
 I was always hesitant to use the CDC's NHANES dataset as it is so big and there are so many different variables but I'm glad that I found the nhanesA package as that made it so easy to do this analysis, and I'll definitely be using it again to avoid having to dig for datasets and also having to download gigantic ones to my poor old computer lol. 
 
 I also learned some other things during this analysis, in terms of R skills I learned about the arsenal package that builds tables to display the various categories that were pre-existing in the data, as well as the categories that I created using the cut() function based on the typical ranges used in medicine for total cholesterol. 
 
-In terms of statistics, I still have some confusion about the central limit theorem and normal distributions and if you can actually use parametric tests on non normal distributions, as there seems to be a lot of heated debate over this on the various statistics forums that I visited in hope of getting an answer to this question. Now I'm mainly trying to practice my R skills, and have pretty rudimentary statistics knowledge so I just went with a parametric ANOVA test. In researching for this post I also learned about the Kruskal Wallis test, along with the paired Wilcoxon test. Kind of funny to me coming from a more medical/biology background being used to Latin or Greek based medical terminology that 90% of everything in statistics is named after dudes.
+In terms of statistics, I still have some confusion about the central limit theorem and normal distributions and if you can actually use parametric tests on non normal distributions, as there seems to be a lot of heated debate over this on the various statistics forums that I visited in hope of getting an answer to this question. I decided to play it safe and use a non parametric test, but I do want to learn more about how and when you can violate assumptions if you should at all.
