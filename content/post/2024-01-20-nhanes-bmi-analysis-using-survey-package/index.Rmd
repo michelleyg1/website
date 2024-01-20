@@ -1,0 +1,196 @@
+---
+title: NHANES BMI Analysis Using Survey Package
+author: R package build
+date: '2024-01-20'
+slug: nhanes-bmi-analysis-using-survey-package
+categories: ["R", "Public Health"]
+tags: []
+description: An analysis of BMI using the CDC NHANES Data in conjunction with the Survey package to account for complex survey design
+image: "images/green.jpeg"
+math: ~
+license: Michelle Gulotta
+hidden: no
+comments: no
+---
+
+One thing that I've learned since I've been looking into working with large complex survey data like the CDC's NHANES is about survey weights and how to use them in your analysis. In this analysis I tried to use the survey package in R to use the survey design to analyze the data, as there are certain demographics that were oversampled and undersampled as a part of the survey design.
+
+## Load Packages
+```{r}
+suppressPackageStartupMessages({
+library(tidyverse)
+library(nhanesA)
+library(janitor)
+library(survey)
+library(gtsummary)
+})
+```
+
+## Load Data
+```{r}
+demo <- nhanes("P_DEMO")
+demo <- nhanesTranslate("P_DEMO", names(demo), data = demo)
+exam <- nhanes("P_BMX")
+exam <- nhanesTranslate("P_BMX", names(exam), data = exam)
+```
+## Retain Useful Variables
+```{r}
+demo_select <- demo %>% 
+  select(SEQN, RIAGENDR, RIDAGEYR, RIDRETH3, SDMVPSU, SDMVSTRA, WTMECPRP)
+
+exam_select <- exam %>% 
+  select(SEQN, BMXBMI)
+```
+
+## Merge Data
+```{r}
+merged_data <- merge(demo_select, exam_select,
+                     by = c("SEQN"), all = TRUE)
+merged_data$SEQN <- NULL
+```
+
+## Clean Dataset to Make Analysis Easier
+
+First I wanted to see which race categories there are so that I can capture all of them when I recode them into more simple categories.
+```{r}
+merged_data %>% tabyl(RIDRETH3)
+```
+
+Now, I'm going to rename some variables, and use case_when() to make the race_cat and bmi_cat columns, as well as factoring these columns so that they can be used in my analysis and are not just recognized as character strings by R.
+
+I also added at the end to output a tibble of the raw NHANES data without the weights to print out how my clean data looks and make sure that I didn't miss any columns in the renaming process.
+```{r}
+nhanes <- merged_data %>% 
+  rename(
+    gender = RIAGENDR,
+    age = RIDAGEYR,
+    bmi = BMXBMI,
+    psu = SDMVPSU,
+    strata = SDMVSTRA,
+    weight = WTMECPRP) %>% 
+  mutate(
+    race_cat = case_when(RIDRETH3 == "Mexican American" | RIDRETH3 == "Other Hispanic" ~ "Hispanic",
+                         RIDRETH3 == "Non-Hispanic White" ~ "White",
+                         RIDRETH3 == "Non-Hispanic Black" ~ "Black",
+                         RIDRETH3 == "Non-Hispanic Asian" ~ "Asian",
+                         RIDRETH3 == "Other Race - Including Multi-Racial" ~ "Other"),
+    bmi_cat = case_when(bmi < 18.5 ~ "Underweight",
+                        bmi < 25 ~ "Normal",
+                        bmi < 30 ~ "Overweight",
+                        bmi >= 30 ~ "Obese")
+  ) %>% 
+  filter(!is.na(bmi)) %>% 
+  mutate_if(., is.character, as.factor) %>% 
+  select(-RIDRETH3)
+
+# Unweighted 
+nhanes_tibble <- as_tibble(nhanes) %>% 
+  filter(age >= 18) %>%
+  select(-psu, -strata, -weight) %>% 
+  print()
+```
+
+### Refactor Order of BMI Categories
+R shows factored variables autmatically in alphabetical order, but this did not make much sense for my chart as BMI categories make more sense from underweight to obese, so I used the factor() function to remedy this before I make my table.
+```{r}
+nhanes$bmi_cat <- factor(nhanes$bmi_cat, 
+                         levels = c("Underweight", "Normal", "Overweight", "Obese"))
+```
+
+## Survey Design
+I learned that in order to properly analyze large survey data, and to make it representative of the population at large, you have to create a survey design object and use that in your analysis.
+```{r}
+nhanes_design <- svydesign(id = ~psu,
+                           strata = ~strata,
+                           weights = ~weight,
+                           nest = TRUE,
+                           data = nhanes)
+```
+
+### Apply Eligibility Criteria
+It is also important that the data is subset in this manner when working with survey data.
+```{r}
+nhanes_adult <- subset(nhanes_design, age >= 18)
+```
+
+## Summary Statistics
+### BMI Categories by Race/Hispanic Origin, Gender, and Average Age Weighted
+```{r}
+tbl_svysummary(nhanes_adult,
+               by = bmi_cat,
+               include = c(gender, age, race_cat),
+               label = list(gender ~ "Gender",
+                            age ~ "Age",
+                            race_cat ~ "Race/Hispanic Origin"),
+               statistic = list(age ~ "{mean} ({sd})")
+               )
+```
+
+### BMI Categories by Race/Hispanic Origin, Gender, and Average Age Unweighted
+```{r}
+tbl_summary(nhanes_tibble,
+               by = bmi_cat,
+               include = c(gender, age, race_cat),
+               label = list(gender ~ "Gender",
+                            age ~ "Age",
+                            race_cat ~ "Race/Hispanic Origin"),
+               statistic = list(age ~ "{mean} ({sd})")
+               )
+```
+
+## Gender vs BMI T-Test
+### Normality Assumption
+```{r}
+svyqqmath(~bmi, design = nhanes_adult)
+```
+
+This deviates from the normal distribution, so I applied a log transformation to the BMI variable to remedy this deviation from the normal distribution at the tail end of the data.
+```{r}
+svyqqmath(~log10(bmi), design = nhanes_adult)
+```
+That looks a lot better, now time to visualize the data and run the analysis.
+
+### Boxplot Visualization
+```{r}
+svyboxplot(log10(bmi) ~ gender, 
+           design = nhanes_adult,
+           xlab = "Gender",
+           main = "Weighted Boxplot of Mean Log Transformed BMI by Gender",
+           ylab = "Log Transformed BMI")
+```
+
+### T-Test
+```{r}
+svyttest(log10(bmi) ~ gender, nhanes_adult)
+```
+
+## Race/Hispanic Origin vs. BMI ANOVA
+```{r}
+svyboxplot(log10(bmi) ~ race_cat, 
+           design = nhanes_adult,
+           xlab = "Race/Hispanic Origin",
+           ylab = "Log Transformed BMI",
+           main = "Weighted Boxplot of Mean Log Transformed BMI by 
+           Race/Hispanic Origin")
+```
+In visually inspecting the boxplot, it looks like there is a difference between the various race/hispanic origin groups and BMI, but lets see.
+
+### Fit Model
+```{r}
+race.bmi.glm <- svyglm(log10(bmi) ~ race_cat, nhanes_adult)
+```
+
+### ANOVA
+A barrier that I ran into was that the survey package in R does not seen to have an ANOVA function, and when you run the survey GLM through the regular ANOVA function it does not work as I thought it would. I did some researching around and I found that this is a way to assess this for complex surveys using a Wald test.
+```{r}
+options(scipen = 999)
+regTermTest(race.bmi.glm, ~race_cat)
+```
+
+So it looks like there is a statistically significant difference between the various Race/Hispanic Origin categories and BMI, as hypothesized by the boxplot.
+
+## Conclusion
+While the NHANES dataset is still very useful, I did have to dig a lot deeper and do more research to find out how I can properly use this data. 
+
+As I am also working through another book on statistics, I found out that there is not just parametric statistics if your data is normal, and non parmetric statistics if it isn't, but that you're allowed to transform your data to help fit better into the normal distribution so that you can use parametric statistics like T-Tests with more confidence.
+
