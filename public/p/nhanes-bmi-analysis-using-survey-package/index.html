@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='An analysis of BMI using the CDC NHANES Data in conjunction with the Survey package to account for complex survey design'>
+<title>NHANES BMI Analysis Using Survey Package</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/nhanes-bmi-analysis-using-survey-package/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='NHANES BMI Analysis Using Survey Package'>
+<meta property='og:description' content='An analysis of BMI using the CDC NHANES Data in conjunction with the Survey package to account for complex survey design'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/nhanes-bmi-analysis-using-survey-package/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-01-20T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-01-20T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/nhanes-bmi-analysis-using-survey-package/images/green.jpeg' />
+<meta name="twitter:title" content="NHANES BMI Analysis Using Survey Package">
+<meta name="twitter:description" content="An analysis of BMI using the CDC NHANES Data in conjunction with the Survey package to account for complex survey design"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/nhanes-bmi-analysis-using-survey-package/images/green.jpeg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-packages">Load Packages</a></li>
+    <li><a href="#load-data">Load Data</a></li>
+    <li><a href="#retain-useful-variables">Retain Useful Variables</a></li>
+    <li><a href="#merge-data">Merge Data</a></li>
+    <li><a href="#clean-dataset-to-make-analysis-easier">Clean Dataset to Make Analysis Easier</a>
+      <ol>
+        <li><a href="#refactor-order-of-bmi-categories">Refactor Order of BMI Categories</a></li>
+      </ol>
+    </li>
+    <li><a href="#survey-design">Survey Design</a>
+      <ol>
+        <li><a href="#apply-eligibility-criteria">Apply Eligibility Criteria</a></li>
+      </ol>
+    </li>
+    <li><a href="#summary-statistics">Summary Statistics</a>
+      <ol>
+        <li><a href="#bmi-categories-by-racehispanic-origin-gender-and-average-age-weighted">BMI Categories by Race/Hispanic Origin, Gender, and Average Age Weighted</a></li>
+        <li><a href="#bmi-categories-by-racehispanic-origin-gender-and-average-age-unweighted">BMI Categories by Race/Hispanic Origin, Gender, and Average Age Unweighted</a></li>
+      </ol>
+    </li>
+    <li><a href="#gender-vs-bmi-t-test">Gender vs BMI T-Test</a>
+      <ol>
+        <li><a href="#normality-assumption">Normality Assumption</a></li>
+        <li><a href="#boxplot-visualization">Boxplot Visualization</a></li>
+        <li><a href="#t-test">T-Test</a></li>
+      </ol>
+    </li>
+    <li><a href="#racehispanic-origin-vsbmi-anova">Race/Hispanic Origin vs. BMI ANOVA</a>
+      <ol>
+        <li><a href="#fit-model">Fit Model</a></li>
+        <li><a href="#anova">ANOVA</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/nhanes-bmi-analysis-using-survey-package/">
+                <img src="/p/nhanes-bmi-analysis-using-survey-package/images/green_hu5459c0360c2b0cb7a147d2df0eb350ca_2075947_800x0_resize_q75_box.jpeg"
+                        srcset="/p/nhanes-bmi-analysis-using-survey-package/images/green_hu5459c0360c2b0cb7a147d2df0eb350ca_2075947_800x0_resize_q75_box.jpeg 800w, /p/nhanes-bmi-analysis-using-survey-package/images/green_hu5459c0360c2b0cb7a147d2df0eb350ca_2075947_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="469" 
+                        loading="lazy"
+                        alt="Featured image of post NHANES BMI Analysis Using Survey Package" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/nhanes-bmi-analysis-using-survey-package/">NHANES BMI Analysis Using Survey Package</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            An analysis of BMI using the CDC NHANES Data in conjunction with the Survey package to account for complex survey design
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 20, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>One thing that I’ve learned since I’ve been looking into working with large complex survey data like the CDC’s NHANES is about survey weights and how to use them in your analysis. In this analysis I tried to use the survey package in R to use the survey design to analyze the data, as there are certain demographics that were oversampled and undersampled as a part of the survey design.</p>
+<h2 id="load-packages">Load Packages</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">nhanesA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">survey</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">gtsummary</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="load-data">Load Data</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">demo</span> <span class="o">&lt;-</span> <span class="nf">nhanes</span><span class="p">(</span><span class="s">&#34;P_DEMO&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">demo</span> <span class="o">&lt;-</span> <span class="nf">nhanesTranslate</span><span class="p">(</span><span class="s">&#34;P_DEMO&#34;</span><span class="p">,</span> <span class="nf">names</span><span class="p">(</span><span class="n">demo</span><span class="p">),</span> <span class="n">data</span> <span class="o">=</span> <span class="n">demo</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>## Translated columns: RIDSTATR RIAGENDR RIDRETH1 RIDRETH3 RIDEXMON DMDBORN4 DMDYRUSZ DMDEDUC2 DMDMARTZ RIDEXPRG SIALANG SIAPROXY SIAINTRP FIALANG FIAPROXY FIAINTRP MIALANG MIAPROXY MIAINTRP AIALANGA
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">exam</span> <span class="o">&lt;-</span> <span class="nf">nhanes</span><span class="p">(</span><span class="s">&#34;P_BMX&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">exam</span> <span class="o">&lt;-</span> <span class="nf">nhanesTranslate</span><span class="p">(</span><span class="s">&#34;P_BMX&#34;</span><span class="p">,</span> <span class="nf">names</span><span class="p">(</span><span class="n">exam</span><span class="p">),</span> <span class="n">data</span> <span class="o">=</span> <span class="n">exam</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>## Translated columns: BMDSTATS BMIWT BMIHT BMDBMIC
+</code></pre>
+<h2 id="retain-useful-variables">Retain Useful Variables</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">demo_select</span> <span class="o">&lt;-</span> <span class="n">demo</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">SEQN</span><span class="p">,</span> <span class="n">RIAGENDR</span><span class="p">,</span> <span class="n">RIDAGEYR</span><span class="p">,</span> <span class="n">RIDRETH3</span><span class="p">,</span> <span class="n">SDMVPSU</span><span class="p">,</span> <span class="n">SDMVSTRA</span><span class="p">,</span> <span class="n">WTMECPRP</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">exam_select</span> <span class="o">&lt;-</span> <span class="n">exam</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">SEQN</span><span class="p">,</span> <span class="n">BMXBMI</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="merge-data">Merge Data</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">merged_data</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span><span class="n">demo_select</span><span class="p">,</span> <span class="n">exam_select</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;SEQN&#34;</span><span class="p">),</span> <span class="n">all</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">merged_data</span><span class="o">$</span><span class="n">SEQN</span> <span class="o">&lt;-</span> <span class="kc">NULL</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="clean-dataset-to-make-analysis-easier">Clean Dataset to Make Analysis Easier</h2>
+<p>First I wanted to see which race categories there are so that I can capture all of them when I recode them into more simple categories.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">merged_data</span> <span class="o">%&gt;%</span> <span class="nf">tabyl</span><span class="p">(</span><span class="n">RIDRETH3</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>##                             RIDRETH3    n    percent
+##                     Mexican American 1990 0.12789203
+##                       Other Hispanic 1544 0.09922879
+##                   Non-Hispanic White 5271 0.33875321
+##                   Non-Hispanic Black 4098 0.26336761
+##                   Non-Hispanic Asian 1638 0.10526992
+##  Other Race - Including Multi-Racial 1019 0.06548843
+</code></pre>
+<p>Now, I’m going to rename some variables, and use case_when() to make the race_cat and bmi_cat columns, as well as factoring these columns so that they can be used in my analysis and are not just recognized as character strings by R.</p>
+<p>I also added at the end to output a tibble of the raw NHANES data without the weights to print out how my clean data looks and make sure that I didn’t miss any columns in the renaming process.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">nhanes</span> <span class="o">&lt;-</span> <span class="n">merged_data</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">rename</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gender</span> <span class="o">=</span> <span class="n">RIAGENDR</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">age</span> <span class="o">=</span> <span class="n">RIDAGEYR</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bmi</span> <span class="o">=</span> <span class="n">BMXBMI</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">psu</span> <span class="o">=</span> <span class="n">SDMVPSU</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">strata</span> <span class="o">=</span> <span class="n">SDMVSTRA</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">weight</span> <span class="o">=</span> <span class="n">WTMECPRP</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">race_cat</span> <span class="o">=</span> <span class="nf">case_when</span><span class="p">(</span><span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Mexican American&#34;</span> <span class="o">|</span> <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Other Hispanic&#34;</span> <span class="o">~</span> <span class="s">&#34;Hispanic&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic White&#34;</span> <span class="o">~</span> <span class="s">&#34;White&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic Black&#34;</span> <span class="o">~</span> <span class="s">&#34;Black&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic Asian&#34;</span> <span class="o">~</span> <span class="s">&#34;Asian&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Other Race - Including Multi-Racial&#34;</span> <span class="o">~</span> <span class="s">&#34;Other&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bmi_cat</span> <span class="o">=</span> <span class="nf">case_when</span><span class="p">(</span><span class="n">bmi</span> <span class="o">&lt;</span> <span class="m">18.5</span> <span class="o">~</span> <span class="s">&#34;Underweight&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">bmi</span> <span class="o">&lt;</span> <span class="m">25</span> <span class="o">~</span> <span class="s">&#34;Normal&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">bmi</span> <span class="o">&lt;</span> <span class="m">30</span> <span class="o">~</span> <span class="s">&#34;Overweight&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">bmi</span> <span class="o">&gt;=</span> <span class="m">30</span> <span class="o">~</span> <span class="s">&#34;Obese&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">bmi</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate_if</span><span class="p">(</span><span class="n">.,</span> <span class="n">is.character</span><span class="p">,</span> <span class="n">as.factor</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">RIDRETH3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Unweighted </span>
+</span></span><span class="line"><span class="cl"><span class="n">nhanes_tibble</span> <span class="o">&lt;-</span> <span class="nf">as_tibble</span><span class="p">(</span><span class="n">nhanes</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="m">18</span><span class="p">)</span> <span class="o">%&gt;%</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">psu</span><span class="p">,</span> <span class="o">-</span><span class="n">strata</span><span class="p">,</span> <span class="o">-</span><span class="n">weight</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">print</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>## # A tibble: 8,790 × 5
+##    gender   age   bmi race_cat bmi_cat   
+##    &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;    &lt;fct&gt;     
+##  1 Female    29  37.8 Asian    Obese     
+##  2 Male      49  29.7 White    Overweight
+##  3 Male      36  21.9 White    Normal    
+##  4 Male      68  30.2 Other    Obese     
+##  5 Male      76  26.6 White    Overweight
+##  6 Female    44  39.1 Hispanic Obese     
+##  7 Female    33  28.9 Asian    Overweight
+##  8 Female    68  28.1 Black    Overweight
+##  9 Female    42  31.3 Asian    Obese     
+## 10 Male      58  30.5 Hispanic Obese     
+## # ℹ 8,780 more rows
+</code></pre>
+<h3 id="refactor-order-of-bmi-categories">Refactor Order of BMI Categories</h3>
+<p>R shows factored variables autmatically in alphabetical order, but this did not make much sense for my chart as BMI categories make more sense from underweight to obese, so I used the factor() function to remedy this before I make my table.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">nhanes</span><span class="o">$</span><span class="n">bmi_cat</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">nhanes</span><span class="o">$</span><span class="n">bmi_cat</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                         <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Underweight&#34;</span><span class="p">,</span> <span class="s">&#34;Normal&#34;</span><span class="p">,</span> <span class="s">&#34;Overweight&#34;</span><span class="p">,</span> <span class="s">&#34;Obese&#34;</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="survey-design">Survey Design</h2>
+<p>I learned that in order to properly analyze large survey data, and to make it representative of the population at large, you have to create a survey design object and use that in your analysis.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">nhanes_design</span> <span class="o">&lt;-</span> <span class="nf">svydesign</span><span class="p">(</span><span class="n">id</span> <span class="o">=</span> <span class="o">~</span><span class="n">psu</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                           <span class="n">strata</span> <span class="o">=</span> <span class="o">~</span><span class="n">strata</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                           <span class="n">weights</span> <span class="o">=</span> <span class="o">~</span><span class="n">weight</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                           <span class="n">nest</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                           <span class="n">data</span> <span class="o">=</span> <span class="n">nhanes</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="apply-eligibility-criteria">Apply Eligibility Criteria</h3>
+<p>It is also important that the data is subset in this manner when working with survey data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">nhanes_adult</span> <span class="o">&lt;-</span> <span class="nf">subset</span><span class="p">(</span><span class="n">nhanes_design</span><span class="p">,</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="m">18</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary-statistics">Summary Statistics</h2>
+<h3 id="bmi-categories-by-racehispanic-origin-gender-and-average-age-weighted">BMI Categories by Race/Hispanic Origin, Gender, and Average Age Weighted</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">tbl_svysummary</span><span class="p">(</span><span class="n">nhanes_adult</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">by</span> <span class="o">=</span> <span class="n">bmi_cat</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">include</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">gender</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">race_cat</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">               <span class="n">label</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">gender</span> <span class="o">~</span> <span class="s">&#34;Gender&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">age</span> <span class="o">~</span> <span class="s">&#34;Age&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">race_cat</span> <span class="o">~</span> <span class="s">&#34;Race/Hispanic Origin&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">               <span class="n">statistic</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">age</span> <span class="o">~</span> <span class="s">&#34;{mean} ({sd})&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">               <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div id="vbpxxhnths" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vbpxxhnths table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#vbpxxhnths thead, #vbpxxhnths tbody, #vbpxxhnths tfoot, #vbpxxhnths tr, #vbpxxhnths td, #vbpxxhnths th {
+  border-style: none;
+}
+&#10;#vbpxxhnths p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#vbpxxhnths .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#vbpxxhnths .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#vbpxxhnths .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#vbpxxhnths .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#vbpxxhnths .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#vbpxxhnths .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#vbpxxhnths .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#vbpxxhnths .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#vbpxxhnths .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#vbpxxhnths .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#vbpxxhnths .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#vbpxxhnths .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#vbpxxhnths .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#vbpxxhnths .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#vbpxxhnths .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#vbpxxhnths .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#vbpxxhnths .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#vbpxxhnths .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#vbpxxhnths .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#vbpxxhnths .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#vbpxxhnths .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#vbpxxhnths .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#vbpxxhnths .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#vbpxxhnths .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#vbpxxhnths .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#vbpxxhnths .gt_left {
+  text-align: left;
+}
+&#10;#vbpxxhnths .gt_center {
+  text-align: center;
+}
+&#10;#vbpxxhnths .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#vbpxxhnths .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#vbpxxhnths .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#vbpxxhnths .gt_font_italic {
+  font-style: italic;
+}
+&#10;#vbpxxhnths .gt_super {
+  font-size: 65%;
+}
+&#10;#vbpxxhnths .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#vbpxxhnths .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#vbpxxhnths .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#vbpxxhnths .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#vbpxxhnths .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#vbpxxhnths .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#vbpxxhnths .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Underweight&lt;/strong&gt;, N = 3,797,884&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Underweight</strong>, N = 3,797,884<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Normal&lt;/strong&gt;, N = 62,452,871&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Normal</strong>, N = 62,452,871<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Overweight&lt;/strong&gt;, N = 76,984,839&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Overweight</strong>, N = 76,984,839<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Obese&lt;/strong&gt;, N = 101,342,006&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Obese</strong>, N = 101,342,006<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Gender</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">1,148,289 (30%)</td>
+<td headers="stat_2" class="gt_row gt_center">27,234,973 (44%)</td>
+<td headers="stat_3" class="gt_row gt_center">41,256,750 (54%)</td>
+<td headers="stat_4" class="gt_row gt_center">48,289,482 (48%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_1" class="gt_row gt_center">2,649,595 (70%)</td>
+<td headers="stat_2" class="gt_row gt_center">35,217,899 (56%)</td>
+<td headers="stat_3" class="gt_row gt_center">35,728,089 (46%)</td>
+<td headers="stat_4" class="gt_row gt_center">53,052,524 (52%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Age</td>
+<td headers="stat_1" class="gt_row gt_center">37 (17)</td>
+<td headers="stat_2" class="gt_row gt_center">44 (19)</td>
+<td headers="stat_3" class="gt_row gt_center">50 (17)</td>
+<td headers="stat_4" class="gt_row gt_center">48 (17)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Race/Hispanic Origin</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Asian</td>
+<td headers="stat_1" class="gt_row gt_center">385,874 (10%)</td>
+<td headers="stat_2" class="gt_row gt_center">6,348,964 (10%)</td>
+<td headers="stat_3" class="gt_row gt_center">5,473,194 (7.1%)</td>
+<td headers="stat_4" class="gt_row gt_center">2,321,160 (2.3%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Black</td>
+<td headers="stat_1" class="gt_row gt_center">613,071 (16%)</td>
+<td headers="stat_2" class="gt_row gt_center">6,036,949 (9.7%)</td>
+<td headers="stat_3" class="gt_row gt_center">7,381,673 (9.6%)</td>
+<td headers="stat_4" class="gt_row gt_center">13,643,866 (13%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">440,910 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">7,245,902 (12%)</td>
+<td headers="stat_3" class="gt_row gt_center">14,181,024 (18%)</td>
+<td headers="stat_4" class="gt_row gt_center">17,625,000 (17%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Other</td>
+<td headers="stat_1" class="gt_row gt_center">106,290 (2.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,276,951 (3.6%)</td>
+<td headers="stat_3" class="gt_row gt_center">2,692,021 (3.5%)</td>
+<td headers="stat_4" class="gt_row gt_center">4,801,387 (4.7%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    White</td>
+<td headers="stat_1" class="gt_row gt_center">2,251,739 (59%)</td>
+<td headers="stat_2" class="gt_row gt_center">40,544,106 (65%)</td>
+<td headers="stat_3" class="gt_row gt_center">47,256,927 (61%)</td>
+<td headers="stat_4" class="gt_row gt_center">62,950,593 (62%)</td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> n (%); Mean (SD)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<h3 id="bmi-categories-by-racehispanic-origin-gender-and-average-age-unweighted">BMI Categories by Race/Hispanic Origin, Gender, and Average Age Unweighted</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">tbl_summary</span><span class="p">(</span><span class="n">nhanes_tibble</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">by</span> <span class="o">=</span> <span class="n">bmi_cat</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">include</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">gender</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">race_cat</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">               <span class="n">label</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">gender</span> <span class="o">~</span> <span class="s">&#34;Gender&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">age</span> <span class="o">~</span> <span class="s">&#34;Age&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">race_cat</span> <span class="o">~</span> <span class="s">&#34;Race/Hispanic Origin&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">               <span class="n">statistic</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">age</span> <span class="o">~</span> <span class="s">&#34;{mean} ({sd})&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">               <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div id="wbodqqisyf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wbodqqisyf table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#wbodqqisyf thead, #wbodqqisyf tbody, #wbodqqisyf tfoot, #wbodqqisyf tr, #wbodqqisyf td, #wbodqqisyf th {
+  border-style: none;
+}
+&#10;#wbodqqisyf p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#wbodqqisyf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#wbodqqisyf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#wbodqqisyf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#wbodqqisyf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#wbodqqisyf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#wbodqqisyf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#wbodqqisyf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#wbodqqisyf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#wbodqqisyf .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#wbodqqisyf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#wbodqqisyf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#wbodqqisyf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#wbodqqisyf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#wbodqqisyf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#wbodqqisyf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#wbodqqisyf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#wbodqqisyf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#wbodqqisyf .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#wbodqqisyf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#wbodqqisyf .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#wbodqqisyf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#wbodqqisyf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#wbodqqisyf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#wbodqqisyf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#wbodqqisyf .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#wbodqqisyf .gt_left {
+  text-align: left;
+}
+&#10;#wbodqqisyf .gt_center {
+  text-align: center;
+}
+&#10;#wbodqqisyf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#wbodqqisyf .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#wbodqqisyf .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#wbodqqisyf .gt_font_italic {
+  font-style: italic;
+}
+&#10;#wbodqqisyf .gt_super {
+  font-size: 65%;
+}
+&#10;#wbodqqisyf .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#wbodqqisyf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#wbodqqisyf .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#wbodqqisyf .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#wbodqqisyf .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#wbodqqisyf .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#wbodqqisyf .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Normal&lt;/strong&gt;, N = 2,185&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Normal</strong>, N = 2,185<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Obese&lt;/strong&gt;, N = 3,688&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Obese</strong>, N = 3,688<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Overweight&lt;/strong&gt;, N = 2,767&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Overweight</strong>, N = 2,767<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Underweight&lt;/strong&gt;, N = 150&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Underweight</strong>, N = 150<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Gender</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">1,044 (48%)</td>
+<td headers="stat_2" class="gt_row gt_center">1,644 (45%)</td>
+<td headers="stat_3" class="gt_row gt_center">1,521 (55%)</td>
+<td headers="stat_4" class="gt_row gt_center">62 (41%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_1" class="gt_row gt_center">1,141 (52%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,044 (55%)</td>
+<td headers="stat_3" class="gt_row gt_center">1,246 (45%)</td>
+<td headers="stat_4" class="gt_row gt_center">88 (59%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Age</td>
+<td headers="stat_1" class="gt_row gt_center">46 (20)</td>
+<td headers="stat_2" class="gt_row gt_center">50 (17)</td>
+<td headers="stat_3" class="gt_row gt_center">52 (18)</td>
+<td headers="stat_4" class="gt_row gt_center">39 (20)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Race/Hispanic Origin</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Asian</td>
+<td headers="stat_1" class="gt_row gt_center">478 (22%)</td>
+<td headers="stat_2" class="gt_row gt_center">163 (4.4%)</td>
+<td headers="stat_3" class="gt_row gt_center">403 (15%)</td>
+<td headers="stat_4" class="gt_row gt_center">27 (18%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Black</td>
+<td headers="stat_1" class="gt_row gt_center">494 (23%)</td>
+<td headers="stat_2" class="gt_row gt_center">1,175 (32%)</td>
+<td headers="stat_3" class="gt_row gt_center">609 (22%)</td>
+<td headers="stat_4" class="gt_row gt_center">48 (32%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">341 (16%)</td>
+<td headers="stat_2" class="gt_row gt_center">879 (24%)</td>
+<td headers="stat_3" class="gt_row gt_center">701 (25%)</td>
+<td headers="stat_4" class="gt_row gt_center">19 (13%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Other</td>
+<td headers="stat_1" class="gt_row gt_center">110 (5.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">198 (5.4%)</td>
+<td headers="stat_3" class="gt_row gt_center">113 (4.1%)</td>
+<td headers="stat_4" class="gt_row gt_center">6 (4.0%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    White</td>
+<td headers="stat_1" class="gt_row gt_center">762 (35%)</td>
+<td headers="stat_2" class="gt_row gt_center">1,273 (35%)</td>
+<td headers="stat_3" class="gt_row gt_center">941 (34%)</td>
+<td headers="stat_4" class="gt_row gt_center">50 (33%)</td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> n (%); Mean (SD)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<h2 id="gender-vs-bmi-t-test">Gender vs BMI T-Test</h2>
+<h3 id="normality-assumption">Normality Assumption</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyqqmath</span><span class="p">(</span><span class="o">~</span><span class="n">bmi</span><span class="p">,</span> <span class="n">design</span> <span class="o">=</span> <span class="n">nhanes_adult</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/nhanes-bmi-analysis-using-survey-package/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<p>This deviates from the normal distribution, so I applied a log transformation to the BMI variable to remedy this deviation from the normal distribution at the tail end of the data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyqqmath</span><span class="p">(</span><span class="o">~</span><span class="nf">log10</span><span class="p">(</span><span class="n">bmi</span><span class="p">),</span> <span class="n">design</span> <span class="o">=</span> <span class="n">nhanes_adult</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/nhanes-bmi-analysis-using-survey-package/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+That looks a lot better, now time to visualize the data and run the analysis.
+<h3 id="boxplot-visualization">Boxplot Visualization</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyboxplot</span><span class="p">(</span><span class="nf">log10</span><span class="p">(</span><span class="n">bmi</span><span class="p">)</span> <span class="o">~</span> <span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">design</span> <span class="o">=</span> <span class="n">nhanes_adult</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;Gender&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">main</span> <span class="o">=</span> <span class="s">&#34;Weighted Boxplot of Mean Log Transformed BMI by Gender&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;Log Transformed BMI&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/nhanes-bmi-analysis-using-survey-package/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<h3 id="t-test">T-Test</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyttest</span><span class="p">(</span><span class="nf">log10</span><span class="p">(</span><span class="n">bmi</span><span class="p">)</span> <span class="o">~</span> <span class="n">gender</span><span class="p">,</span> <span class="n">nhanes_adult</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>## 
+## 	Design-based t-test
+## 
+## data:  log10(bmi) ~ gender
+## t = 0.46451, df = 24, p-value = 0.6465
+## alternative hypothesis: true difference in mean is not equal to 0
+## 95 percent confidence interval:
+##  -0.005848037  0.009244940
+## sample estimates:
+## difference in mean 
+##        0.001698451
+</code></pre>
+<h2 id="racehispanic-origin-vsbmi-anova">Race/Hispanic Origin vs. BMI ANOVA</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyboxplot</span><span class="p">(</span><span class="nf">log10</span><span class="p">(</span><span class="n">bmi</span><span class="p">)</span> <span class="o">~</span> <span class="n">race_cat</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">design</span> <span class="o">=</span> <span class="n">nhanes_adult</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;Race/Hispanic Origin&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;Log Transformed BMI&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">main</span> <span class="o">=</span> <span class="s">&#34;Weighted Boxplot of Mean Log Transformed BMI by 
+</span></span></span><span class="line"><span class="cl"><span class="s">           Race/Hispanic Origin&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/nhanes-bmi-analysis-using-survey-package/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+In visually inspecting the boxplot, it looks like there is a difference between the various race/hispanic origin groups and BMI, but lets see.
+<h3 id="fit-model">Fit Model</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">race.bmi.glm</span> <span class="o">&lt;-</span> <span class="nf">svyglm</span><span class="p">(</span><span class="nf">log10</span><span class="p">(</span><span class="n">bmi</span><span class="p">)</span> <span class="o">~</span> <span class="n">race_cat</span><span class="p">,</span> <span class="n">nhanes_adult</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="anova">ANOVA</h3>
+<p>A barrier that I ran into was that the survey package in R does not seen to have an ANOVA function, and when you run the survey GLM through the regular ANOVA function it does not work as I thought it would. I did some researching around and I found that this is a way to assess this for complex surveys using a Wald test.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">options</span><span class="p">(</span><span class="n">scipen</span> <span class="o">=</span> <span class="m">999</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">regTermTest</span><span class="p">(</span><span class="n">race.bmi.glm</span><span class="p">,</span> <span class="o">~</span><span class="n">race_cat</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>## Wald test for race_cat
+##  in svyglm(formula = log10(bmi) ~ race_cat, design = nhanes_adult)
+## F =  184.1178  on  4  and  21  df: p= 0.00000000000000050064
+</code></pre>
+<p>So it looks like there is a statistically significant difference between the various Race/Hispanic Origin categories and BMI, as hypothesized by the boxplot.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>While the NHANES dataset is still very useful, I did have to dig a lot deeper and do more research to find out how I can properly use this data.</p>
+<p>As I am also working through another book on statistics, I found out that there is not just parametric statistics if your data is normal, and non parmetric statistics if it isn’t, but that you’re allowed to transform your data to help fit better into the normal distribution so that you can use parametric statistics like T-Tests with more confidence.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/total-cholesterol-cdc-nhanes-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/total-cholesterol-cdc-nhanes-analysis/images/purple.68bc3fb2cfd4b03a2dbb9afc57eac5ff_hu3d03a01dcc18bc5be0e67db3d8d209a6_1915810_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Total Cholesterol CDC NHANES Analysis"
+                        data-key="total-cholesterol-cdc-nhanes-analysis" 
+                        data-hash="md5-aLw/ss/UsDotu5r8V&#43;rF/w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Total Cholesterol CDC NHANES Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/asthma-incidents-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/asthma-incidents-analysis/images/featured.c514d916917173a48a42e0114b469961_hud7e36f7e20e71be184458283bdae4646_55974_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Asthma Incidents Analysis"
+                        data-key="asthma-incidents-analysis" 
+                        data-hash="md5-xRTZFpFxc6SKQuARS0aZYQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Asthma Incidents Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jersey-blueberries/">
+        
+        
+            <div class="article-image">
+                <img src="/p/jersey-blueberries/images/blueberry.23fe19bf8e7d5c2a219b5c2b6026fbd2_hu3d03a01dcc18bc5be0e67db3d8d209a6_1579336_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Jersey Blueberries"
+                        data-key="jersey-blueberries" 
+                        data-hash="md5-I/4Zv459XCohm1wrYCb70g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jersey Blueberries</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
