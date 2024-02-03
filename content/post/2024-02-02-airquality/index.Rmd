@@ -1,0 +1,221 @@
+---
+title: Air Quality Regression
+author: R package build
+date: '2024-02-02'
+slug: airquality
+categories: ["R", "Public Health", "Environment"]
+tags: []
+description: An analysis of R's built in airquality dataset
+image: "images/smoke.jpeg"
+math: ~
+license: Michelle Gulotta
+hidden: no
+comments: no
+---
+
+Currently, I'm working through this great book [An Introduction to Statistical Learning with Applications in R](https://www.statlearning.com/), and I just finished the chapter on linear regression. One thing that I really like about this book is that there is a great balance of learning R and just learning statistics in a mathematical way which really shows the backbone of the R functions that I was just using without really knowing how they work.
+
+For this analysis I used the built in dataset "airquality" in R which stores 153 observations of different air quality measures averaged out by day taken in New York City from May to September 1973. I used this to practice my skills in linear regression, both simple and multivariate.
+
+## Load Libraries
+
+```{r}
+suppressPackageStartupMessages({
+library(tidyverse)
+library(broom)
+library(car)
+library(ggthemes)
+  })
+```
+
+## Load Data
+```{r}
+data("airquality")
+```
+
+## Explore and Clean Data
+```{r}
+str(airquality)
+```
+
+### Summary Statistics
+Creating a table of summary statistics that also doubles as a way to check for missing values, as since this dataset only has 153 observations so substantial amounts of missing data will affect the outcomes.
+```{r, warning=FALSE}
+airquality %>% 
+  dplyr::select(Ozone, Solar.R, Wind, Temp) %>% 
+  map_df(.f = ~broom::tidy(summary(.x)),
+         .id = "variable")
+```
+So it looks like there are a decent amount of missing values for the ozone variable, I'm going to use mean imputation to deal with this.
+
+### Mean Imputation for Missing Values
+```{r}
+airquality_mi <- airquality %>% 
+  mutate(
+    ozone_mi = as.integer(if_else(is.na(Ozone), 
+                            mean(Ozone, na.rm = TRUE), 
+                            Ozone)),
+    solar_mi = as.integer(if_else(is.na(Solar.R), 
+                            mean(Solar.R, na.rm = TRUE), 
+                            Solar.R))
+  ) %>% 
+  select(-1, -2)
+```
+
+### Clean Up and Print
+```{r}
+names(airquality_mi)[1:6] <- tolower(names(airquality_mi)[1:6])
+
+airquality_mi <- airquality_mi %>%
+  select(month, day, wind, temp, ozone_mi, solar_mi)
+
+as_tibble(airquality_mi)
+```
+
+## Simple Regression
+### Visualize Variables of Interest
+```{r}
+ggplot(data = airquality_mi, aes(x = temp, y = ozone_mi)) +
+  geom_jitter() +
+  labs(
+    x = "Temperature Measured in Fahrenheit",
+    y = "Mean Ozone per Day in Parts Per Billion",
+    title = "Ozone Concentration vs. Temperature in New York City
+    from May to September 1973"
+  ) +
+  theme_stata() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+### Fit Model
+```{r}
+aq.simple <- lm(ozone_mi ~ temp, data = airquality_mi)
+summary(aq.simple)
+```
+
+Looking at the summary of this model its already pretty evident that there are some issues, the residual standard error is pretty high and the R squared shows that a majority of variation cannot be explained by the model. I'm also going to run some diagnostic plots to see if there are other issues.
+
+### Diagnostics
+```{r}
+par(mfrow = c(2, 2))
+plot(aq.simple)
+```
+These plots suggest that there may be a non linear relationship between the variables, so I'm going to apply a transformation and see if that helps.
+
+### Polynomial Transformation
+```{r}
+aq.simple.trans <- lm(ozone_mi ~ temp + I(temp^2), data = airquality_mi)
+summary(aq.simple.trans)
+```
+So that's a bit better in terms of R squared, I'm going to re-check the diagnostic plots.
+```{r}
+par(mfrow = c(2, 2))
+plot(aq.simple.trans)
+```
+
+This is not the best model for the data, but being able to recognize that is also important. I'm going to visualize the regression line on my previous plot for the sake of practice.
+
+### Visualize with Least Squares Regression Line
+```{r}
+ggplot(data = airquality_mi, aes(x = temp, y = ozone_mi)) +
+  geom_jitter() +
+  stat_smooth(method = "lm",
+              formula = y ~ poly(x, 2, raw = TRUE)) +
+  labs(
+    x = "Temperature Measured in Fahrenheit",
+    y = "Mean Ozone per Day in Parts Per Billion",
+    title = "Ozone Concentration vs. Temperature in New York City
+    from May to September 1973"
+  ) +
+  theme_stata() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## Multivariate Regression
+I also want to do a multivariate regression with this data to see if I can come up with a better model and be able to practice making predictions using a regression model.
+
+### Fit Model
+```{r}
+aq.mv <- lm(ozone_mi ~ temp + wind + solar_mi, data = airquality_mi)
+summary(aq.mv)
+```
+
+### Diagnostics
+The first thing I want to check since I have multiple predictor variables in my new model is colinearity. I'm going to use the vif function to calculate the variance inflation factor to see if there are any variables that are correlated too strongly. 
+```{r}
+vif(aq.mv)
+```
+
+Looks good! Moving on to normal diagnostic plots
+```{r}
+par(mfrow = c(2, 2))
+plot(aq.mv)
+```
+This model could use some work to get it to fit the data and assumptions a bit better, I'm going to see if doing some transformations of the predictor helps.
+
+### Transformation
+
+First I'm going to visualize my individual predictor variables with the response variables just to see what I'm working with and which transformations might help me.
+
+I already visualized ozone and temperature in the simple regression, so I'm going to visualize ozone and wind.
+```{r}
+ggplot(data = airquality_mi, aes(x = wind, y = ozone_mi)) +
+  geom_jitter() +
+  labs(
+    x = "Average Wind Speed Measured in Miles Per Hour",
+    y = "Mean Ozone per Day in Parts Per Billion",
+    title = "Ozone Concentration vs. Wind in New York City
+    from May to September 1973"
+  ) +
+  theme_stata() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+And ozone and solar.
+```{r}
+ggplot(data = airquality_mi, aes(x = solar_mi, y = ozone_mi)) +
+  geom_jitter() +
+  labs(
+    x = "Solar Radiation Measured in Langleys",
+    y = "Mean Ozone per Day in Parts Per Billion",
+    title = "Ozone Concentration vs. Solar Radiation in New York City
+    from May to September 1973"
+  ) +
+  theme_stata() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+I'm going to apply polynomial transformations to two out of the three predictor variables.
+```{r}
+aq.mv.trans <- lm(ozone_mi ~ temp + I(temp^2) + wind + I(wind^2) + solar_mi, data = airquality_mi)
+summary(aq.mv.trans)
+```
+
+This R2 and RSE is definitely better than the simple regression model, as now almost 60% of the variation in the data can be explained by the model rather than being closer to 40%, still not the best but definitely better. Now I'm going to re-check the diagnostics to see if this satisfies the assumptions a bit better.
+```{r}
+par(mfrow = c(2, 2))
+plot(aq.mv.trans)
+```
+This definitely helped deal with the pattern in the residuals vs. fitted plot and helps satisfy the linearity assumption of the model.
+
+### Make Predictions
+I'm going to use this model to make a couple predictions about ozone levels when given information about temperature, solar radiation, and wind speeds, along with confidence intervals.
+```{r}
+new_data_point <- data.frame(
+  solar_mi = c(250, 120, 320),
+  temp = c(63, 74, 82),
+  wind = c(10.2, 9.5, 7.0)
+)
+ 
+predict(
+  aq.mv.trans,
+  new_data_point,
+  interval = "confidence"
+)
+```
+## Conclusion
+I've tried to perform linear regressions before, as it is very simple to do in R but I really didn't understand any of the outputs of the model or what constitutes as a good model, but the Linear Regression chapter of Intro to Statistical Learning along with running this analysis helped me understand those concepts better. 
+
+I also, until then, didn't really understand the importance of linear regression and thought that it was just similar to correlation, but we can actually use linear regression in order to input new data to get a prediction for the response variable, in this case the amount of ozone in the atmosphere.
+
+In working on this analysis I also learned about mean imputation when dealing with missing values, which has its advantages and disadvantages compared to just removing rows with missing values. 

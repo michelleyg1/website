@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='An analysis of R&#39;s built in airquality dataset'>
+<title>Air Quality Regression</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/airquality/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Air Quality Regression'>
+<meta property='og:description' content='An analysis of R&#39;s built in airquality dataset'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/airquality/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-02-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-02-02T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/airquality/images/smoke.jpeg' />
+<meta name="twitter:title" content="Air Quality Regression">
+<meta name="twitter:description" content="An analysis of R&#39;s built in airquality dataset"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/airquality/images/smoke.jpeg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-libraries">Load Libraries</a></li>
+    <li><a href="#load-data">Load Data</a></li>
+    <li><a href="#explore-and-clean-data">Explore and Clean Data</a>
+      <ol>
+        <li><a href="#summary-statistics">Summary Statistics</a></li>
+        <li><a href="#mean-imputation-for-missing-values">Mean Imputation for Missing Values</a></li>
+        <li><a href="#clean-up-and-print">Clean Up and Print</a></li>
+      </ol>
+    </li>
+    <li><a href="#simple-regression">Simple Regression</a>
+      <ol>
+        <li><a href="#visualize-variables-of-interest">Visualize Variables of Interest</a></li>
+        <li><a href="#fit-model">Fit Model</a></li>
+        <li><a href="#diagnostics">Diagnostics</a></li>
+        <li><a href="#polynomial-transformation">Polynomial Transformation</a></li>
+        <li><a href="#visualize-with-least-squares-regression-line">Visualize with Least Squares Regression Line</a></li>
+      </ol>
+    </li>
+    <li><a href="#multivariate-regression">Multivariate Regression</a>
+      <ol>
+        <li><a href="#fit-model-1">Fit Model</a></li>
+        <li><a href="#diagnostics-1">Diagnostics</a></li>
+        <li><a href="#transformation">Transformation</a></li>
+        <li><a href="#make-predictions">Make Predictions</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/airquality/">
+                <img src="/p/airquality/images/smoke_hu5459c0360c2b0cb7a147d2df0eb350ca_571128_800x0_resize_q75_box.jpeg"
+                        srcset="/p/airquality/images/smoke_hu5459c0360c2b0cb7a147d2df0eb350ca_571128_800x0_resize_q75_box.jpeg 800w, /p/airquality/images/smoke_hu5459c0360c2b0cb7a147d2df0eb350ca_571128_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="542" 
+                        loading="lazy"
+                        alt="Featured image of post Air Quality Regression" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+            <a href="/categories/environment/" >
+                Environment
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/airquality/">Air Quality Regression</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            An analysis of R&#39;s built in airquality dataset
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 02, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>Currently, I&rsquo;m working through this great book <a class="link" href="https://www.statlearning.com/"  target="_blank" rel="noopener"
+    >An Introduction to Statistical Learning with Applications in R</a>, and I just finished the chapter on linear regression. One thing that I really like about this book is that there is a great balance of learning R and just learning statistics in a mathematical way which really shows the backbone of the R functions that I was just using without really knowing how they work.</p>
+<p>For this analysis I used the built in dataset &ldquo;airquality&rdquo; in R which stores 153 observations of different air quality measures averaged out by day taken in New York City from May to September 1973. I used this to practice my skills in linear regression, both simple and multivariate.</p>
+<h2 id="load-libraries">Load Libraries</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">broom</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">car</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="load-data">Load Data</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">data</span><span class="p">(</span><span class="s">&#34;airquality&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="explore-and-clean-data">Explore and Clean Data</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">str</span><span class="p">(</span><span class="n">airquality</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## &#39;data.frame&#39;:	153 obs. of  6 variables:
+</span></span><span class="line"><span class="cl">##  $ Ozone  : int  41 36 12 18 NA 28 23 19 8 NA ...
+</span></span><span class="line"><span class="cl">##  $ Solar.R: int  190 118 149 313 NA NA 299 99 19 194 ...
+</span></span><span class="line"><span class="cl">##  $ Wind   : num  7.4 8 12.6 11.5 14.3 14.9 8.6 13.8 20.1 8.6 ...
+</span></span><span class="line"><span class="cl">##  $ Temp   : int  67 72 74 62 56 66 65 59 61 69 ...
+</span></span><span class="line"><span class="cl">##  $ Month  : int  5 5 5 5 5 5 5 5 5 5 ...
+</span></span><span class="line"><span class="cl">##  $ Day    : int  1 2 3 4 5 6 7 8 9 10 ...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="summary-statistics">Summary Statistics</h3>
+<p>Creating a table of summary statistics that also doubles as a way to check for missing values, as since this dataset only has 153 observations so substantial amounts of missing data will affect the outcomes.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">airquality</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">Ozone</span><span class="p">,</span> <span class="n">Solar.R</span><span class="p">,</span> <span class="n">Wind</span><span class="p">,</span> <span class="n">Temp</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">map_df</span><span class="p">(</span><span class="n">.f</span> <span class="o">=</span> <span class="o">~</span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="n">.x</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">.id</span> <span class="o">=</span> <span class="s">&#34;variable&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 4 × 8
+</span></span><span class="line"><span class="cl">##   variable minimum    q1 median   mean    q3 maximum    na
+</span></span><span class="line"><span class="cl">##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">## 1 Ozone        1    18     31.5  42.1   63.2   168      37
+</span></span><span class="line"><span class="cl">## 2 Solar.R      7   116.   205   186.   259.    334       7
+</span></span><span class="line"><span class="cl">## 3 Wind         1.7   7.4    9.7   9.96  11.5    20.7    NA
+</span></span><span class="line"><span class="cl">## 4 Temp        56    72     79    77.9   85      97      NA
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So it looks like there are a decent amount of missing values for the ozone variable, I&rsquo;m going to use mean imputation to deal with this.</p>
+<h3 id="mean-imputation-for-missing-values">Mean Imputation for Missing Values</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">airquality_mi</span> <span class="o">&lt;-</span> <span class="n">airquality</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ozone_mi</span> <span class="o">=</span> <span class="nf">as.integer</span><span class="p">(</span><span class="nf">if_else</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">Ozone</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                            <span class="nf">mean</span><span class="p">(</span><span class="n">Ozone</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                            <span class="n">Ozone</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">solar_mi</span> <span class="o">=</span> <span class="nf">as.integer</span><span class="p">(</span><span class="nf">if_else</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">Solar.R</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                            <span class="nf">mean</span><span class="p">(</span><span class="n">Solar.R</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                            <span class="n">Solar.R</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">-2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="clean-up-and-print">Clean Up and Print</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">names</span><span class="p">(</span><span class="n">airquality_mi</span><span class="p">)</span><span class="n">[1</span><span class="o">:</span><span class="m">6</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="nf">tolower</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">airquality_mi</span><span class="p">)</span><span class="n">[1</span><span class="o">:</span><span class="m">6</span><span class="n">]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">airquality_mi</span> <span class="o">&lt;-</span> <span class="n">airquality_mi</span> <span class="o">%&gt;%</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">select</span><span class="p">(</span><span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">wind</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">ozone_mi</span><span class="p">,</span> <span class="n">solar_mi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">as_tibble</span><span class="p">(</span><span class="n">airquality_mi</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 153 × 6
+</span></span><span class="line"><span class="cl">##    month   day  wind  temp ozone_mi solar_mi
+</span></span><span class="line"><span class="cl">##    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;int&gt;    &lt;int&gt;    &lt;int&gt;
+</span></span><span class="line"><span class="cl">##  1     5     1   7.4    67       41      190
+</span></span><span class="line"><span class="cl">##  2     5     2   8      72       36      118
+</span></span><span class="line"><span class="cl">##  3     5     3  12.6    74       12      149
+</span></span><span class="line"><span class="cl">##  4     5     4  11.5    62       18      313
+</span></span><span class="line"><span class="cl">##  5     5     5  14.3    56       42      185
+</span></span><span class="line"><span class="cl">##  6     5     6  14.9    66       28      185
+</span></span><span class="line"><span class="cl">##  7     5     7   8.6    65       23      299
+</span></span><span class="line"><span class="cl">##  8     5     8  13.8    59       19       99
+</span></span><span class="line"><span class="cl">##  9     5     9  20.1    61        8       19
+</span></span><span class="line"><span class="cl">## 10     5    10   8.6    69       42      194
+</span></span><span class="line"><span class="cl">## # ℹ 143 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="simple-regression">Simple Regression</h2>
+<h3 id="visualize-variables-of-interest">Visualize Variables of Interest</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">airquality_mi</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">temp</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ozone_mi</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_jitter</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Temperature Measured in Fahrenheit&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Mean Ozone per Day in Parts Per Billion&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Ozone Concentration vs. Temperature in New York City
+</span></span></span><span class="line"><span class="cl"><span class="s">    from May to September 1973&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_stata</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/airquality/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<h3 id="fit-model">Fit Model</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">aq.simple</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">ozone_mi</span> <span class="o">~</span> <span class="n">temp</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">airquality_mi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">aq.simple</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## lm(formula = ozone_mi ~ temp, data = airquality_mi)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residuals:
+</span></span><span class="line"><span class="cl">##     Min      1Q  Median      3Q     Max 
+</span></span><span class="line"><span class="cl">## -39.006 -15.851  -2.160   8.469 120.149 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##              Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class="line"><span class="cl">## (Intercept) -101.6222    15.3547  -6.618 5.96e-10 ***
+</span></span><span class="line"><span class="cl">## temp           1.8454     0.1957   9.428  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residual standard error: 22.84 on 151 degrees of freedom
+</span></span><span class="line"><span class="cl">## Multiple R-squared:  0.3706,	Adjusted R-squared:  0.3664 
+</span></span><span class="line"><span class="cl">## F-statistic:  88.9 on 1 and 151 DF,  p-value: &lt; 2.2e-16
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Looking at the summary of this model its already pretty evident that there are some issues, the residual standard error is pretty high and the R squared shows that a majority of variation cannot be explained by the model. I&rsquo;m also going to run some diagnostic plots to see if there are other issues.</p>
+<h3 id="diagnostics">Diagnostics</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">aq.simple</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/airquality/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+These plots suggest that there may be a non linear relationship between the variables, so I'm going to apply a transformation and see if that helps.
+<h3 id="polynomial-transformation">Polynomial Transformation</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">aq.simple.trans</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">ozone_mi</span> <span class="o">~</span> <span class="n">temp</span> <span class="o">+</span> <span class="nf">I</span><span class="p">(</span><span class="n">temp^2</span><span class="p">),</span> <span class="n">data</span> <span class="o">=</span> <span class="n">airquality_mi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">aq.simple.trans</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## lm(formula = ozone_mi ~ temp + I(temp^2), data = airquality_mi)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residuals:
+</span></span><span class="line"><span class="cl">##     Min      1Q  Median      3Q     Max 
+</span></span><span class="line"><span class="cl">## -41.463 -13.131  -2.735   9.869 124.916 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##              Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class="line"><span class="cl">## (Intercept) 296.43794   94.87393   3.125 0.002138 ** 
+</span></span><span class="line"><span class="cl">## temp         -8.78275    2.50999  -3.499 0.000615 ***
+</span></span><span class="line"><span class="cl">## I(temp^2)     0.06981    0.01644   4.246  3.8e-05 ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residual standard error: 21.65 on 150 degrees of freedom
+</span></span><span class="line"><span class="cl">## Multiple R-squared:  0.4381,	Adjusted R-squared:  0.4306 
+</span></span><span class="line"><span class="cl">## F-statistic: 58.47 on 2 and 150 DF,  p-value: &lt; 2.2e-16
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So that&rsquo;s a bit better in terms of R squared, I&rsquo;m going to re-check the diagnostic plots.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">aq.simple.trans</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/airquality/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<p>This is not the best model for the data, but being able to recognize that is also important. I&rsquo;m going to visualize the regression line on my previous plot for the sake of practice.</p>
+<h3 id="visualize-with-least-squares-regression-line">Visualize with Least Squares Regression Line</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">airquality_mi</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">temp</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ozone_mi</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_jitter</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s">&#34;lm&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">formula</span> <span class="o">=</span> <span class="n">y</span> <span class="o">~</span> <span class="nf">poly</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="n">raw</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Temperature Measured in Fahrenheit&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Mean Ozone per Day in Parts Per Billion&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Ozone Concentration vs. Temperature in New York City
+</span></span></span><span class="line"><span class="cl"><span class="s">    from May to September 1973&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_stata</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/airquality/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<h2 id="multivariate-regression">Multivariate Regression</h2>
+<p>I also want to do a multivariate regression with this data to see if I can come up with a better model and be able to practice making predictions using a regression model.</p>
+<h3 id="fit-model-1">Fit Model</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">aq.mv</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">ozone_mi</span> <span class="o">~</span> <span class="n">temp</span> <span class="o">+</span> <span class="n">wind</span> <span class="o">+</span> <span class="n">solar_mi</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">airquality_mi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">aq.mv</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## lm(formula = ozone_mi ~ temp + wind + solar_mi, data = airquality_mi)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residuals:
+</span></span><span class="line"><span class="cl">##     Min      1Q  Median      3Q     Max 
+</span></span><span class="line"><span class="cl">## -38.541 -14.590  -5.148  12.172 101.198 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##              Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class="line"><span class="cl">## (Intercept) -38.20875   18.88354  -2.023  0.04482 *  
+</span></span><span class="line"><span class="cl">## temp          1.24096    0.20907   5.935 1.97e-08 ***
+</span></span><span class="line"><span class="cl">## wind         -2.71862    0.54280  -5.009 1.53e-06 ***
+</span></span><span class="line"><span class="cl">## solar_mi      0.05772    0.02003   2.881  0.00454 ** 
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residual standard error: 20.9 on 149 degrees of freedom
+</span></span><span class="line"><span class="cl">## Multiple R-squared:   0.48,	Adjusted R-squared:  0.4696 
+</span></span><span class="line"><span class="cl">## F-statistic: 45.85 on 3 and 149 DF,  p-value: &lt; 2.2e-16
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="diagnostics-1">Diagnostics</h3>
+<p>The first thing I want to check since I have multiple predictor variables in my new model is colinearity. I&rsquo;m going to use the vif function to calculate the variance inflation factor to see if there are any variables that are correlated too strongly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">vif</span><span class="p">(</span><span class="n">aq.mv</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##     temp     wind solar_mi 
+</span></span><span class="line"><span class="cl">## 1.363082 1.272795 1.080454
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Looks good! Moving on to normal diagnostic plots</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">aq.mv</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/airquality/index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+This model could use some work to get it to fit the data and assumptions a bit better, I'm going to see if doing some transformations of the predictor helps.
+<h3 id="transformation">Transformation</h3>
+<p>First I&rsquo;m going to visualize my individual predictor variables with the response variables just to see what I&rsquo;m working with and which transformations might help me.</p>
+<p>I already visualized ozone and temperature in the simple regression, so I&rsquo;m going to visualize ozone and wind.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">airquality_mi</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">wind</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ozone_mi</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_jitter</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Average Wind Speed Measured in Miles Per Hour&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Mean Ozone per Day in Parts Per Billion&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Ozone Concentration vs. Wind in New York City
+</span></span></span><span class="line"><span class="cl"><span class="s">    from May to September 1973&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_stata</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/airquality/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<p>And ozone and solar.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">airquality_mi</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">solar_mi</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ozone_mi</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_jitter</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Solar Radiation Measured in Langleys&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Mean Ozone per Day in Parts Per Billion&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Ozone Concentration vs. Solar Radiation in New York City
+</span></span></span><span class="line"><span class="cl"><span class="s">    from May to September 1973&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_stata</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/airquality/index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<p>I&rsquo;m going to apply polynomial transformations to two out of the three predictor variables.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">aq.mv.trans</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">ozone_mi</span> <span class="o">~</span> <span class="n">temp</span> <span class="o">+</span> <span class="nf">I</span><span class="p">(</span><span class="n">temp^2</span><span class="p">)</span> <span class="o">+</span> <span class="n">wind</span> <span class="o">+</span> <span class="nf">I</span><span class="p">(</span><span class="n">wind^2</span><span class="p">)</span> <span class="o">+</span> <span class="n">solar_mi</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">airquality_mi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">aq.mv.trans</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## lm(formula = ozone_mi ~ temp + I(temp^2) + wind + I(wind^2) + 
+</span></span><span class="line"><span class="cl">##     solar_mi, data = airquality_mi)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residuals:
+</span></span><span class="line"><span class="cl">##     Min      1Q  Median      3Q     Max 
+</span></span><span class="line"><span class="cl">## -36.293 -10.929  -3.289   8.684  89.513 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##              Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class="line"><span class="cl">## (Intercept) 321.25924   81.78038   3.928 0.000131 ***
+</span></span><span class="line"><span class="cl">## temp         -7.28999    2.18385  -3.338 0.001069 ** 
+</span></span><span class="line"><span class="cl">## I(temp^2)     0.05580    0.01431   3.898 0.000147 ***
+</span></span><span class="line"><span class="cl">## wind        -11.10077    1.94439  -5.709 6.07e-08 ***
+</span></span><span class="line"><span class="cl">## I(wind^2)     0.39616    0.08865   4.469 1.56e-05 ***
+</span></span><span class="line"><span class="cl">## solar_mi      0.06206    0.01772   3.503 0.000610 ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residual standard error: 18.46 on 147 degrees of freedom
+</span></span><span class="line"><span class="cl">## Multiple R-squared:  0.5998,	Adjusted R-squared:  0.5862 
+</span></span><span class="line"><span class="cl">## F-statistic: 44.07 on 5 and 147 DF,  p-value: &lt; 2.2e-16
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This R2 and RSE is definitely better than the simple regression model, as now almost 60% of the variation in the data can be explained by the model rather than being closer to 40%, still not the best but definitely better. Now I&rsquo;m going to re-check the diagnostics to see if this satisfies the assumptions a bit better.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">aq.mv.trans</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/airquality/index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+This definitely helped deal with the pattern in the residuals vs. fitted plot and helps satisfy the linearity assumption of the model.
+<h3 id="make-predictions">Make Predictions</h3>
+<p>I&rsquo;m going to use this model to make a couple predictions about ozone levels when given information about temperature, solar radiation, and wind speeds, along with confidence intervals.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">new_data_point</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">solar_mi</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">250</span><span class="p">,</span> <span class="m">120</span><span class="p">,</span> <span class="m">320</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">temp</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">63</span><span class="p">,</span> <span class="m">74</span><span class="p">,</span> <span class="m">82</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">wind</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">10.2</span><span class="p">,</span> <span class="m">9.5</span><span class="p">,</span> <span class="m">7.0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="nf">predict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">aq.mv.trans</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">new_data_point</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">interval</span> <span class="o">=</span> <span class="s">&#34;confidence&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##        fit      lwr      upr
+</span></span><span class="line"><span class="cl">## 1 26.96636 19.31629 34.61643
+</span></span><span class="line"><span class="cl">## 2 25.10863 20.28017 29.93708
+</span></span><span class="line"><span class="cl">## 3 60.25022 54.08080 66.41964
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="conclusion">Conclusion</h2>
+<p>I&rsquo;ve tried to perform linear regressions before, as it is very simple to do in R but I really didn&rsquo;t understand any of the outputs of the model or what constitutes as a good model, but the Linear Regression chapter of Intro to Statistical Learning along with running this analysis helped me understand those concepts better.</p>
+<p>I also, until then, didn&rsquo;t really understand the importance of linear regression and thought that it was just similar to correlation, but we can actually use linear regression in order to input new data to get a prediction for the response variable, in this case the amount of ozone in the atmosphere.</p>
+<p>In working on this analysis I also learned about mean imputation when dealing with missing values, which has its advantages and disadvantages compared to just removing rows with missing values.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/nhanes-bmi-analysis-using-survey-package/">
+        
+        
+            <div class="article-image">
+                <img src="/p/nhanes-bmi-analysis-using-survey-package/images/green.ff465dc7b833982a180ff64c9703e9b1_hu5459c0360c2b0cb7a147d2df0eb350ca_2075947_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post NHANES BMI Analysis Using Survey Package"
+                        data-key="nhanes-bmi-analysis-using-survey-package" 
+                        data-hash="md5-/0Zdx7gzmCoYD/ZMlwPpsQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NHANES BMI Analysis Using Survey Package</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/total-cholesterol-cdc-nhanes-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/total-cholesterol-cdc-nhanes-analysis/images/purple.68bc3fb2cfd4b03a2dbb9afc57eac5ff_hu3d03a01dcc18bc5be0e67db3d8d209a6_1915810_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Total Cholesterol CDC NHANES Analysis"
+                        data-key="total-cholesterol-cdc-nhanes-analysis" 
+                        data-hash="md5-aLw/ss/UsDotu5r8V&#43;rF/w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Total Cholesterol CDC NHANES Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/asthma-incidents-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/asthma-incidents-analysis/images/featured.c514d916917173a48a42e0114b469961_hud7e36f7e20e71be184458283bdae4646_55974_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Asthma Incidents Analysis"
+                        data-key="asthma-incidents-analysis" 
+                        data-hash="md5-xRTZFpFxc6SKQuARS0aZYQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Asthma Incidents Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jersey-blueberries/">
+        
+        
+            <div class="article-image">
+                <img src="/p/jersey-blueberries/images/blueberry.23fe19bf8e7d5c2a219b5c2b6026fbd2_hu3d03a01dcc18bc5be0e67db3d8d209a6_1579336_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Jersey Blueberries"
+                        data-key="jersey-blueberries" 
+                        data-hash="md5-I/4Zv459XCohm1wrYCb70g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jersey Blueberries</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
