@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Using a portion of NYC Open Data&#39;s Motor Vehicle Collision data to create a model to predict if any person involved in an accident will sustain injuries'>
+<title>NYC Open Data Motor Vehicle Collision Injury Outcome Classification</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/accident-classification/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='NYC Open Data Motor Vehicle Collision Injury Outcome Classification'>
+<meta property='og:description' content='Using a portion of NYC Open Data&#39;s Motor Vehicle Collision data to create a model to predict if any person involved in an accident will sustain injuries'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/accident-classification/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-02-12T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-02-12T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/accident-classification/images/bridge.jpeg' />
+<meta name="twitter:title" content="NYC Open Data Motor Vehicle Collision Injury Outcome Classification">
+<meta name="twitter:description" content="Using a portion of NYC Open Data&#39;s Motor Vehicle Collision data to create a model to predict if any person involved in an accident will sustain injuries"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/accident-classification/images/bridge.jpeg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-libraries">Load Libraries</a></li>
+    <li><a href="#load-and-explore-data">Load and Explore Data</a></li>
+    <li><a href="#clean-and-manipulate-data">Clean and Manipulate Data</a>
+      <ol>
+        <li><a href="#creating-categories">Creating Categories</a></li>
+      </ol>
+    </li>
+    <li><a href="#data-visualization">Data Visualization</a>
+      <ol>
+        <li><a href="#contributing-factor">Contributing Factor</a></li>
+        <li><a href="#type-of-vehicle">Type of Vehicle</a></li>
+        <li><a href="#time-of-day">Time of Day</a></li>
+      </ol>
+    </li>
+    <li><a href="#classification-models-to-predict-injury-outcome-of-motor-vehicle-collision">Classification Models to Predict Injury Outcome of Motor Vehicle Collision</a>
+      <ol>
+        <li><a href="#create-training-and-test-data">Create Training and Test Data</a></li>
+        <li><a href="#logistic-regression">Logistic Regression</a></li>
+        <li><a href="#naive-bayes">Naive Bayes</a></li>
+      </ol>
+    </li>
+    <li><a href="#improve-logistic-regression-model">Improve Logistic Regression Model</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/accident-classification/">
+                <img src="/p/accident-classification/images/bridge_hu5459c0360c2b0cb7a147d2df0eb350ca_3648849_800x0_resize_q75_box.jpeg"
+                        srcset="/p/accident-classification/images/bridge_hu5459c0360c2b0cb7a147d2df0eb350ca_3648849_800x0_resize_q75_box.jpeg 800w, /p/accident-classification/images/bridge_hu5459c0360c2b0cb7a147d2df0eb350ca_3648849_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="459" 
+                        loading="lazy"
+                        alt="Featured image of post NYC Open Data Motor Vehicle Collision Injury Outcome Classification" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/accident-classification/">NYC Open Data Motor Vehicle Collision Injury Outcome Classification</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Using a portion of NYC Open Data&#39;s Motor Vehicle Collision data to create a model to predict if any person involved in an accident will sustain injuries
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 12, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="load-libraries">Load Libraries</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">e1071</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="load-and-explore-data">Load and Explore Data</h2>
+<p>I found this huge and interesting dataset on <a class="link" href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95/about_data"  target="_blank" rel="noopener"
+    >NYC&rsquo;s Open Data portal</a> and wanted to use it to practice with the new knowledge and skills that I learned recently. My goal was to create a classifier model that can predict if motor vehicle collisions would result in injuries or not to anyone involved in the accident based on several predictors.</p>
+<p>I saw there was a way to query the API directly and get the data into R without downloading it as a csv, and I did figure out how to do that for other open datasets that were smaller, but I had trouble with this large dataset. I ended up using the NYC Open Data&rsquo;s query tool to filter the dataset beforehand and downloaded it from there. I chose the borough of Queens to work with as there are many more highways and potential for accidents resulting in injuries there, rather than Manhattan where vehicles move very slowly through the grid shaped streets. I also filtered it for the calendar year of 2023 to further reduce the number of observations.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_raw</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&#34;/Users/michellegulotta/Desktop/motor_raw.csv&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">motor_raw</span> <span class="o">&lt;-</span> <span class="n">motor_raw</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">janitor</span><span class="o">::</span><span class="nf">clean_names</span><span class="p">(</span><span class="n">.,</span> <span class="s">&#34;snake&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I wanted to also minimize missing values to deal with, so for the sake of simplicity I only focused on the data in the first columns for contributing factor and vehicle type.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_cat</span> <span class="o">&lt;-</span> <span class="n">motor_raw</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">crash_date</span><span class="p">,</span> <span class="n">crash_time</span><span class="p">,</span> <span class="n">collision_id</span><span class="p">,</span> <span class="n">number_of_persons_injured</span><span class="p">,</span> <span class="n">number_of_persons_killed</span><span class="p">,</span> <span class="n">contributing_factor_vehicle_1</span><span class="p">,</span> <span class="n">vehicle_type_code_1</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now to check out the variables remaining along with the data types associated with each column.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">str</span><span class="p">(</span><span class="n">motor_cat</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## &#39;data.frame&#39;:	17822 obs. of  7 variables:
+</span></span><span class="line"><span class="cl">##  $ crash_date                   : chr  &#34;11/16/2023&#34; &#34;11/17/2023&#34; &#34;11/17/2023&#34; &#34;11/12/2023&#34; ...
+</span></span><span class="line"><span class="cl">##  $ crash_time                   : chr  &#34;15:45&#34; &#34;6:57&#34; &#34;14:30&#34; &#34;10:58&#34; ...
+</span></span><span class="line"><span class="cl">##  $ collision_id                 : int  4679634 4679868 4679994 4679991 4663636 4663437 4629913 4631543 4631801 4632069 ...
+</span></span><span class="line"><span class="cl">##  $ number_of_persons_injured    : int  1 0 0 0 0 0 0 4 0 1 ...
+</span></span><span class="line"><span class="cl">##  $ number_of_persons_killed     : int  0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class="line"><span class="cl">##  $ contributing_factor_vehicle_1: chr  &#34;Driver Inexperience&#34; &#34;Other Vehicular&#34; &#34;Unspecified&#34; &#34;Unspecified&#34; ...
+</span></span><span class="line"><span class="cl">##  $ vehicle_type_code_1          : chr  &#34;Motorcycle&#34; &#34;Sedan&#34; &#34;Station Wagon/Sport Utility Vehicle&#34; &#34;Station Wagon/Sport Utility Vehicle&#34; ...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="clean-and-manipulate-data">Clean and Manipulate Data</h2>
+<p>Time is stored as character and is in the 24 hour format, I just want the hour as I am going to use that to create a time of day category to use as a predictor. I also made a month category using the lubridate package, but I did not end up using this as a predictor, it was interesting to see how the lubridate package can help me in future projects.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_cat</span> <span class="o">&lt;-</span> <span class="n">motor_cat</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span><span class="n">hour</span> <span class="o">=</span> <span class="nf">substr</span><span class="p">(</span><span class="n">motor_cat</span><span class="o">$</span><span class="n">crash_time</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                       <span class="n">start</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                       <span class="n">stop</span> <span class="o">=</span> <span class="m">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">         <span class="nf">across</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">           <span class="n">.cols</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">contributing_factor_vehicle_1</span><span class="p">,</span> <span class="n">vehicle_type_code_1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">           <span class="n">.fns</span> <span class="o">=</span> <span class="o">~</span><span class="nf">if_else</span><span class="p">(</span><span class="n">.x</span> <span class="o">==</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="kc">NA</span><span class="p">,</span> <span class="n">.x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">         <span class="p">),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">month</span> <span class="o">=</span> <span class="nf">as.Date</span><span class="p">(</span><span class="n">crash_date</span><span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%m/%d/%Y&#34;</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">rename</span><span class="p">(</span><span class="n">type</span> <span class="o">=</span> <span class="n">vehicle_type_code_1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="n">contrib</span> <span class="o">=</span> <span class="n">contributing_factor_vehicle_1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">motor_cat</span><span class="o">$</span><span class="n">hour</span> <span class="o">&lt;-</span> <span class="nf">str_replace_all</span><span class="p">(</span><span class="n">motor_cat</span><span class="o">$</span><span class="n">hour</span><span class="p">,</span> <span class="s">&#34;:&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">motor_cat</span><span class="o">$</span><span class="n">hour</span> <span class="o">&lt;-</span> <span class="nf">as.integer</span><span class="p">(</span><span class="n">motor_cat</span><span class="o">$</span><span class="n">hour</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">motor_cat</span><span class="o">$</span><span class="n">month</span> <span class="o">&lt;-</span> <span class="nf">month</span><span class="p">(</span><span class="nf">ymd</span><span class="p">(</span><span class="n">motor_cat</span><span class="o">$</span><span class="n">month</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I&rsquo;m going to come back to this later, I want to do all of the category creating at once so I&rsquo;m going to work on the contributing factor and vehicle type variables. In the previous code I renamed these variables to make the name shorter as I&rsquo;m going to be renaming a lot of stuff later as you&rsquo;ll see.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_cat</span> <span class="o">%&gt;%</span> <span class="nf">tabyl</span><span class="p">(</span><span class="n">contrib</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                                                contrib    n      percent
+</span></span><span class="line"><span class="cl">##                                  Accelerator Defective   13 7.294355e-04
+</span></span><span class="line"><span class="cl">##                           Aggressive Driving/Road Rage  145 8.136012e-03
+</span></span><span class="line"><span class="cl">##                                    Alcohol Involvement  408 2.289305e-02
+</span></span><span class="line"><span class="cl">##                                         Animals Action   14 7.855460e-04
+</span></span><span class="line"><span class="cl">##                                       Backing Unsafely  691 3.877230e-02
+</span></span><span class="line"><span class="cl">##                                       Brakes Defective   69 3.871619e-03
+</span></span><span class="line"><span class="cl">##                                 Cell Phone (hand-Held)   11 6.172147e-04
+</span></span><span class="line"><span class="cl">##                                Cell Phone (hands-free)    1 5.611043e-05
+</span></span><span class="line"><span class="cl">##                         Driver Inattention/Distraction 4204 2.358882e-01
+</span></span><span class="line"><span class="cl">##                                    Driver Inexperience  372 2.087308e-02
+</span></span><span class="line"><span class="cl">##                             Driverless/Runaway Vehicle   24 1.346650e-03
+</span></span><span class="line"><span class="cl">##                                        Drugs (illegal)   11 6.172147e-04
+</span></span><span class="line"><span class="cl">##                                     Eating or Drinking    3 1.683313e-04
+</span></span><span class="line"><span class="cl">##                                  Failure to Keep Right   35 1.963865e-03
+</span></span><span class="line"><span class="cl">##                          Failure to Yield Right-of-Way 1830 1.026821e-01
+</span></span><span class="line"><span class="cl">##                                        Fatigued/Drowsy   27 1.514981e-03
+</span></span><span class="line"><span class="cl">##                                            Fell Asleep  117 6.564920e-03
+</span></span><span class="line"><span class="cl">##                                  Following Too Closely  988 5.543710e-02
+</span></span><span class="line"><span class="cl">##                                                  Glare   20 1.122209e-03
+</span></span><span class="line"><span class="cl">##                                   Headlights Defective    1 5.611043e-05
+</span></span><span class="line"><span class="cl">##                                                 Illnes   36 2.019975e-03
+</span></span><span class="line"><span class="cl">##                       Lane Marking Improper/Inadequate    7 3.927730e-04
+</span></span><span class="line"><span class="cl">##                                     Lost Consciousness   50 2.805521e-03
+</span></span><span class="line"><span class="cl">##                                     Obstruction/Debris   27 1.514981e-03
+</span></span><span class="line"><span class="cl">##                                Other Electronic Device    3 1.683313e-04
+</span></span><span class="line"><span class="cl">##                                 Other Lighting Defects    1 5.611043e-05
+</span></span><span class="line"><span class="cl">##                                        Other Vehicular  362 2.031197e-02
+</span></span><span class="line"><span class="cl">##                                Outside Car Distraction   47 2.637190e-03
+</span></span><span class="line"><span class="cl">##                                      Oversized Vehicle   33 1.851644e-03
+</span></span><span class="line"><span class="cl">##                                  Passenger Distraction   34 1.907754e-03
+</span></span><span class="line"><span class="cl">##                                    Passing Too Closely  656 3.680844e-02
+</span></span><span class="line"><span class="cl">##                         Passing or Lane Usage Improper  959 5.380990e-02
+</span></span><span class="line"><span class="cl">##                                     Pavement Defective   14 7.855460e-04
+</span></span><span class="line"><span class="cl">##                                      Pavement Slippery   60 3.366626e-03
+</span></span><span class="line"><span class="cl">##  Pedestrian/Bicyclist/Other Pedestrian Error/Confusion  129 7.238245e-03
+</span></span><span class="line"><span class="cl">##                                    Physical Disability    6 3.366626e-04
+</span></span><span class="line"><span class="cl">##                                Prescription Medication    2 1.122209e-04
+</span></span><span class="line"><span class="cl">##                         Reaction to Uninvolved Vehicle  125 7.013803e-03
+</span></span><span class="line"><span class="cl">##                           Shoulders Defective/Improper    1 5.611043e-05
+</span></span><span class="line"><span class="cl">##                                       Steering Failure   53 2.973853e-03
+</span></span><span class="line"><span class="cl">##                                         Tinted Windows    4 2.244417e-04
+</span></span><span class="line"><span class="cl">##                                Tire Failure/Inadequate   30 1.683313e-03
+</span></span><span class="line"><span class="cl">##                                    Tow Hitch Defective    2 1.122209e-04
+</span></span><span class="line"><span class="cl">##            Traffic Control Device Improper/Non-Working    6 3.366626e-04
+</span></span><span class="line"><span class="cl">##                            Traffic Control Disregarded  742 4.163394e-02
+</span></span><span class="line"><span class="cl">##                                     Turning Improperly  468 2.625968e-02
+</span></span><span class="line"><span class="cl">##                                   Unsafe Lane Changing  193 1.082931e-02
+</span></span><span class="line"><span class="cl">##                                           Unsafe Speed  770 4.320503e-02
+</span></span><span class="line"><span class="cl">##                                            Unspecified 3754 2.106385e-01
+</span></span><span class="line"><span class="cl">##                       Using On Board Navigation Device    1 5.611043e-05
+</span></span><span class="line"><span class="cl">##                                      Vehicle Vandalism    5 2.805521e-04
+</span></span><span class="line"><span class="cl">##                                View Obstructed/Limited  150 8.416564e-03
+</span></span><span class="line"><span class="cl">##                                                   &lt;NA&gt;  108 6.059926e-03
+</span></span><span class="line"><span class="cl">##  valid_percent
+</span></span><span class="line"><span class="cl">##   7.338828e-04
+</span></span><span class="line"><span class="cl">##   8.185616e-03
+</span></span><span class="line"><span class="cl">##   2.303263e-02
+</span></span><span class="line"><span class="cl">##   7.903353e-04
+</span></span><span class="line"><span class="cl">##   3.900869e-02
+</span></span><span class="line"><span class="cl">##   3.895224e-03
+</span></span><span class="line"><span class="cl">##   6.209778e-04
+</span></span><span class="line"><span class="cl">##   5.645252e-05
+</span></span><span class="line"><span class="cl">##   2.373264e-01
+</span></span><span class="line"><span class="cl">##   2.100034e-02
+</span></span><span class="line"><span class="cl">##   1.354861e-03
+</span></span><span class="line"><span class="cl">##   6.209778e-04
+</span></span><span class="line"><span class="cl">##   1.693576e-04
+</span></span><span class="line"><span class="cl">##   1.975838e-03
+</span></span><span class="line"><span class="cl">##   1.033081e-01
+</span></span><span class="line"><span class="cl">##   1.524218e-03
+</span></span><span class="line"><span class="cl">##   6.604945e-03
+</span></span><span class="line"><span class="cl">##   5.577509e-02
+</span></span><span class="line"><span class="cl">##   1.129050e-03
+</span></span><span class="line"><span class="cl">##   5.645252e-05
+</span></span><span class="line"><span class="cl">##   2.032291e-03
+</span></span><span class="line"><span class="cl">##   3.951677e-04
+</span></span><span class="line"><span class="cl">##   2.822626e-03
+</span></span><span class="line"><span class="cl">##   1.524218e-03
+</span></span><span class="line"><span class="cl">##   1.693576e-04
+</span></span><span class="line"><span class="cl">##   5.645252e-05
+</span></span><span class="line"><span class="cl">##   2.043581e-02
+</span></span><span class="line"><span class="cl">##   2.653269e-03
+</span></span><span class="line"><span class="cl">##   1.862933e-03
+</span></span><span class="line"><span class="cl">##   1.919386e-03
+</span></span><span class="line"><span class="cl">##   3.703286e-02
+</span></span><span class="line"><span class="cl">##   5.413797e-02
+</span></span><span class="line"><span class="cl">##   7.903353e-04
+</span></span><span class="line"><span class="cl">##   3.387151e-03
+</span></span><span class="line"><span class="cl">##   7.282376e-03
+</span></span><span class="line"><span class="cl">##   3.387151e-04
+</span></span><span class="line"><span class="cl">##   1.129050e-04
+</span></span><span class="line"><span class="cl">##   7.056565e-03
+</span></span><span class="line"><span class="cl">##   5.645252e-05
+</span></span><span class="line"><span class="cl">##   2.991984e-03
+</span></span><span class="line"><span class="cl">##   2.258101e-04
+</span></span><span class="line"><span class="cl">##   1.693576e-03
+</span></span><span class="line"><span class="cl">##   1.129050e-04
+</span></span><span class="line"><span class="cl">##   3.387151e-04
+</span></span><span class="line"><span class="cl">##   4.188777e-02
+</span></span><span class="line"><span class="cl">##   2.641978e-02
+</span></span><span class="line"><span class="cl">##   1.089534e-02
+</span></span><span class="line"><span class="cl">##   4.346844e-02
+</span></span><span class="line"><span class="cl">##   2.119228e-01
+</span></span><span class="line"><span class="cl">##   5.645252e-05
+</span></span><span class="line"><span class="cl">##   2.822626e-04
+</span></span><span class="line"><span class="cl">##   8.467879e-03
+</span></span><span class="line"><span class="cl">##             NA
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I&rsquo;m going to categorize these into much fewer categories to make it easier to create a model, how about now with the type of car as the primary vehicle involved in the accident.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_cat</span> <span class="o">%&gt;%</span> <span class="nf">tabyl</span><span class="p">(</span><span class="n">type</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                                 type    n      percent valid_percent
+</span></span><span class="line"><span class="cl">##                           2 dr sedan    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                               3-Door    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                           4 dr sedan   11 6.172147e-04  6.273526e-04
+</span></span><span class="line"><span class="cl">##                                 AMBU    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                            AMBULANCE   15 8.416564e-04  8.554808e-04
+</span></span><span class="line"><span class="cl">##                            AMBULENCE    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                            Ambulance   78 4.376613e-03  4.448500e-03
+</span></span><span class="line"><span class="cl">##                        Armored Truck    4 2.244417e-04  2.281282e-04
+</span></span><span class="line"><span class="cl">##                           BOOM MOPED    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                       Beverage Truck    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                                 Bike  205 1.150264e-02  1.169157e-02
+</span></span><span class="line"><span class="cl">##                            Box Truck  176 9.875435e-03  1.003764e-02
+</span></span><span class="line"><span class="cl">##                     Bulk Agriculture    3 1.683313e-04  1.710962e-04
+</span></span><span class="line"><span class="cl">##                                  Bus  247 1.385928e-02  1.408692e-02
+</span></span><span class="line"><span class="cl">##                            Carry All    7 3.927730e-04  3.992244e-04
+</span></span><span class="line"><span class="cl">##                          Chassis Cab    6 3.366626e-04  3.421923e-04
+</span></span><span class="line"><span class="cl">##                           Commercial    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                       Concrete Mixer    3 1.683313e-04  1.710962e-04
+</span></span><span class="line"><span class="cl">##                          Convertible   27 1.514981e-03  1.539865e-03
+</span></span><span class="line"><span class="cl">##                              Courier    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           DELIVERY T    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                 DUMP    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           DUMP TRUCK    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                 Dump   36 2.019975e-03  2.053154e-03
+</span></span><span class="line"><span class="cl">##                               E-Bike  154 8.641005e-03  8.782936e-03
+</span></span><span class="line"><span class="cl">##                            E-Scooter   75 4.208282e-03  4.277404e-03
+</span></span><span class="line"><span class="cl">##                           Electric m    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                 FDNY    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           FDNY AMBUL    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                            FDNY FIRE    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           FDNY truck    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           FIRE ENGIN    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           FIRE TRUCK    3 1.683313e-04  1.710962e-04
+</span></span><span class="line"><span class="cl">##                            FIRETRUCK    3 1.683313e-04  1.710962e-04
+</span></span><span class="line"><span class="cl">##                           FLYWING MO    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                            FOOD CART    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                            FORK LIFT    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           FREIGHT VA    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           Fire Truck    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           Fire engin    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           Fire truck    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                            Firetruck    3 1.683313e-04  1.710962e-04
+</span></span><span class="line"><span class="cl">##                             Flat Bed   26 1.458871e-03  1.482833e-03
+</span></span><span class="line"><span class="cl">##                            Flat Rack    7 3.927730e-04  3.992244e-04
+</span></span><span class="line"><span class="cl">##                              Ford FF    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                             Forklift    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           GARBAGE TR    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                            GAS MOPED    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                             GOLFCART    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                    Garbage or Refuse   24 1.346650e-03  1.368769e-03
+</span></span><span class="line"><span class="cl">##                           Government    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                 LIMO    3 1.683313e-04  1.710962e-04
+</span></span><span class="line"><span class="cl">##                               Ladder    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           Ladder tru    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                            Lift Boom    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                   MC    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           METRO TRAN    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                MOPED    5 2.805521e-04  2.851603e-04
+</span></span><span class="line"><span class="cl">##                           MOTOR SCOO    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           MOTORIZEDS    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                            Minicycle    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                Moped   94 5.274380e-03  5.361013e-03
+</span></span><span class="line"><span class="cl">##                            Motorbike   11 6.172147e-04  6.273526e-04
+</span></span><span class="line"><span class="cl">##                           Motorcycle  188 1.054876e-02  1.072203e-02
+</span></span><span class="line"><span class="cl">##                         Motorscooter   21 1.178319e-03  1.197673e-03
+</span></span><span class="line"><span class="cl">##                              Mta bus    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                Multi-Wheeled Vehicle    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           NYC FIRE T    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                  OMS    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                              Omnibus    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                            Open Body    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                  PAS    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                                   PK   34 1.907754e-03  1.939090e-03
+</span></span><span class="line"><span class="cl">##                        Pick-up Truck  428 2.401526e-02  2.440972e-02
+</span></span><span class="line"><span class="cl">##                                   RV    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                            Red moped    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                     Refrigerated Van    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           Road sweep    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           SCHOOL BUS    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                            SCHOOLBUS    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                              SCOOTER    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           SELF INSUR    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                  SPC    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                           Sanitation    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           School Bus    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                                Sedan 8491 4.764336e-01  4.842592e-01
+</span></span><span class="line"><span class="cl">##                           Sprinter v    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                        Stake or Rack    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##  Station Wagon/Sport Utility Vehicle 6625 3.717316e-01  3.778373e-01
+</span></span><span class="line"><span class="cl">##                            TOW TRUCK    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                              TRAILER    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                                TRUCK    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                               Tanker    8 4.488834e-04  4.562564e-04
+</span></span><span class="line"><span class="cl">##                                 Taxi  251 1.408372e-02  1.431505e-02
+</span></span><span class="line"><span class="cl">##                            Tow Truck    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                  Tow Truck / Wrecker   17 9.538772e-04  9.695449e-04
+</span></span><span class="line"><span class="cl">##                            Tow truck    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           Tractor Tr    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                 Tractor Truck Diesel   64 3.591067e-03  3.650051e-03
+</span></span><span class="line"><span class="cl">##               Tractor Truck Gasoline   13 7.294355e-04  7.414167e-04
+</span></span><span class="line"><span class="cl">##                              Trailer    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                                Truck    3 1.683313e-04  1.710962e-04
+</span></span><span class="line"><span class="cl">##                                UHAUL    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                 USPS    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           USPS VEHIC    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                              UTILITY    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                  Van   74 4.152171e-03  4.220372e-03
+</span></span><span class="line"><span class="cl">##                           Van Camper    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           Waste truc    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                            ambulance    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           commerical    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                 delv    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                             forklift    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                           pick up tr    1 5.611043e-05  5.703205e-05
+</span></span><span class="line"><span class="cl">##                                  van    2 1.122209e-04  1.140641e-04
+</span></span><span class="line"><span class="cl">##                                 &lt;NA&gt;  288 1.615980e-02            NA
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="creating-categories">Creating Categories</h3>
+<p>This dataset is a mess, I&rsquo;m going to clean it up here.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_cat</span> <span class="o">&lt;-</span> <span class="n">motor_cat</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span><span class="n">contrib_cat</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Accelerator Defective&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Brakes Defective&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Steering Failure&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Headlights Defective&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Other Lighting Defects&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Tinted Windows&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Tire Failure/Inadequate&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Tow Hitch Defective&#34;</span> <span class="o">~</span> <span class="s">&#34;Car Defects&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Backing Unsafely&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Driver Inexperience&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Failure to Keep Right&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Failure to Yield Right-of-Way&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Following Too Closely&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Passing Too Closely&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Passing or Lane Usage Improper&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Turning Improperly&#34;</span> <span class="o">~</span> <span class="s">&#34;Driver Error&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Alcohol Involvement&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Drugs (illegal)&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Prescription Medication&#34;</span> <span class="o">~</span> <span class="s">&#34;Substances&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Animals Action&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Driverless/Runaway Vehicle&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Glare&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Lane Marking Improper/Inadequate&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Obstruction/Debris&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Pavement Defective&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Pavement Slippery&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Pedestrian/Bicyclist/Other Pedestrian Error/Confusion&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Reaction to Uninvolved Vehicle&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Shoulders Defective/Improper&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Traffic Control Device Improper/Non-Working&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;View Obstructed/Limited&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Vehicle Vandalism&#34;</span> <span class="o">~</span> <span class="s">&#34;Road Conditions&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Cell Phone (hand-Held)&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Cell Phone (hands-free)&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Driver Inattention/Distraction&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Eating or Drinking&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Other Electronic Device&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Outside Car Distraction&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Using Onboard Navigation Device&#34;</span> <span class="o">~</span> <span class="s">&#34;Distracted Driver&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Fatigued/Drowsy&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Fell Asleep&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Illnes&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Lost Consciousness&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Physical Disability&#34;</span> <span class="o">~</span> <span class="s">&#34;Condition of Driver&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Aggressive Driving/Road Rage&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Traffic Control Disregarded&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Unsafe Lane Change&#34;</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Unsafe Speed&#34;</span> <span class="o">~</span> <span class="s">&#34;Dangerous Driving&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Unspecified&#34;</span> <span class="o">|</span> <span class="nf">is.na</span><span class="p">(</span><span class="n">contrib</span><span class="p">)</span> <span class="o">|</span> <span class="n">contrib</span> <span class="o">==</span> <span class="s">&#34;Other Vehicular&#34;</span> <span class="o">~</span> <span class="kc">NA</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">type_cat</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;2 dr sedan&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;3-Door&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;4 dr sedan&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Sedan&#34;</span> <span class="o">~</span> <span class="s">&#34;Sedan&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Taxi&#34;</span> <span class="o">~</span> <span class="s">&#34;Taxi&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Refrigerated Van&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Van&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Van Camper&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;van&#34;</span> <span class="o">~</span> <span class="s">&#34;Van&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Station Wagon/Sport Utility Vehicle&#34;</span> <span class="o">~</span> <span class="s">&#34;SUV&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;AMBU&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;AMBULANCE&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;AMBULENCE&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Ambulance&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;FDNY AMBUL&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;ambulance&#34;</span> <span class="o">~</span> <span class="s">&#34;Ambulance&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Armored Truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Beverage Truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Box Truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Concrete Mixer&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;DELIVERY T&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;DUMP&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;RV&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;DUMP TRUCK&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Dump&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Flat Bed&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Flat Rack&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;GARBAGE TR&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Garbage or Refuse&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Road sweep&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Sanitation&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;TOW TRUCK&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;TRAILER&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;TRUCK&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Tanker&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Tow Truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Tow Truck / Wrecker&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Tow truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Tractor Tr&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Tractor Truck Diesel&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Tractor Truck Gasoline&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Trailer&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;UHAUL&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;USPS&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;USPS VEHIC&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;UTILITY&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Waste truc&#34;</span> <span class="o">~</span> <span class="s">&#34;Truck&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Chassis Cab&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Pick-up Truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Pick up tr&#34;</span> <span class="o">~</span> <span class="s">&#34;Pick Up Truck&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;BOOM MOPED&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;GAS MOPED&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;MOPED&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Moped&#34;</span><span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Motorbike&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Motorcycle&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Red moped&#34;</span> <span class="o">~</span> <span class="s">&#34;Motorcycle/Moped&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Bike&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;E-Bike&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Electric m&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;FLYWING MO&#34;</span> <span class="o">~</span> <span class="s">&#34;Bike/E-Bike&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;E-Scooter&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;MOTOR SCOO&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;MOTORIZEDS&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Motorscooter&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;SCOOTER&#34;</span> <span class="o">~</span> <span class="s">&#34;Scooter/E-Scooter&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Bus&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Mta bus&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Omnibus&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;SCHOOL BUS&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;SCHOOLBUS&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;School Bus&#34;</span> <span class="o">~</span> <span class="s">&#34;Bus&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;FDNY&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;FDNY FIRE&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;FDNY truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;FIRE ENGIN&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;FIRE TRUCK&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;FIRETRUCK&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Fire Truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Fire engin&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Fire truck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Firetruck&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Ladder&#34;</span> <span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;Ladder tru&#34;</span><span class="o">|</span> <span class="n">type</span> <span class="o">==</span> <span class="s">&#34;NYC Fire T&#34;</span> <span class="o">~</span> <span class="s">&#34;Fire Truck&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">is.na</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="o">~</span> <span class="kc">NA</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">TRUE</span> <span class="o">~</span> <span class="s">&#34;Other&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">time_of_day</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hour</span> <span class="o">&lt;</span> <span class="m">6</span> <span class="o">|</span> <span class="n">hour</span> <span class="o">&gt;</span> <span class="m">20</span> <span class="o">~</span> <span class="s">&#34;Night&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hour</span> <span class="o">&lt;</span> <span class="m">12</span> <span class="o">~</span> <span class="s">&#34;Morning&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hour</span> <span class="o">&lt;</span> <span class="m">18</span> <span class="o">~</span> <span class="s">&#34;Afternoon&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hour</span> <span class="o">&lt;=</span> <span class="m">20</span> <span class="o">~</span> <span class="s">&#34;Evening&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fatal_cat</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">number_of_persons_killed</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="o">~</span> <span class="s">&#34;Fatal&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">TRUE</span> <span class="o">~</span> <span class="s">&#34;Non Fatal&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">injured_cat</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">number_of_persons_injured</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="o">~</span> <span class="s">&#34;Injuries&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">TRUE</span> <span class="o">~</span> <span class="s">&#34;No Injuries&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Phew, that was a lot of work. Now I&rsquo;m going to check to make sure that I didn&rsquo;t leave anything out and everything was either categorized or caught by the catch all at the end of the new type of vehicle category variable.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_cat</span> <span class="o">%&gt;%</span> <span class="nf">tabyl</span><span class="p">(</span><span class="n">contrib_cat</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##          contrib_cat    n     percent valid_percent
+</span></span><span class="line"><span class="cl">##          Car Defects  173 0.009707104    0.01297143
+</span></span><span class="line"><span class="cl">##  Condition of Driver  236 0.013242060    0.01769513
+</span></span><span class="line"><span class="cl">##    Dangerous Driving 1657 0.092974975    0.12424083
+</span></span><span class="line"><span class="cl">##    Distracted Driver 4269 0.239535406    0.32008698
+</span></span><span class="line"><span class="cl">##         Driver Error 5999 0.336606441    0.44980130
+</span></span><span class="line"><span class="cl">##      Road Conditions  582 0.032656268    0.04363800
+</span></span><span class="line"><span class="cl">##           Substances  421 0.023622489    0.03156632
+</span></span><span class="line"><span class="cl">##                 &lt;NA&gt; 4485 0.251655258            NA
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Looks good, now the type of vehicle category.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_cat</span> <span class="o">%&gt;%</span> <span class="nf">tabyl</span><span class="p">(</span><span class="n">type_cat</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##           type_cat    n     percent valid_percent
+</span></span><span class="line"><span class="cl">##          Ambulance  100 0.005611043   0.005703205
+</span></span><span class="line"><span class="cl">##        Bike/E-Bike  361 0.020255864   0.020588571
+</span></span><span class="line"><span class="cl">##                Bus  253 0.014195938   0.014429109
+</span></span><span class="line"><span class="cl">##         Fire Truck   18 0.001009988   0.001026577
+</span></span><span class="line"><span class="cl">##   Motorcycle/Moped  301 0.016889238   0.017166648
+</span></span><span class="line"><span class="cl">##              Other  102 0.005723263   0.005817269
+</span></span><span class="line"><span class="cl">##      Pick Up Truck  434 0.024351925   0.024751911
+</span></span><span class="line"><span class="cl">##  Scooter/E-Scooter   99 0.005554932   0.005646173
+</span></span><span class="line"><span class="cl">##              Sedan 8505 0.477219167   0.485057602
+</span></span><span class="line"><span class="cl">##                SUV 6625 0.371731568   0.377837345
+</span></span><span class="line"><span class="cl">##               Taxi  251 0.014083717   0.014315045
+</span></span><span class="line"><span class="cl">##              Truck  407 0.022836943   0.023212045
+</span></span><span class="line"><span class="cl">##                Van   78 0.004376613   0.004448500
+</span></span><span class="line"><span class="cl">##               &lt;NA&gt;  288 0.016159802            NA
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here&rsquo;s the final dataset, I generally display it in a tibble format as the blogdown format seems to display only the first few rows of tibbles which I like as it does not take up too much space on my blog post.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">motor_cat_df</span> <span class="o">&lt;-</span> <span class="n">motor_cat</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">contrib_cat</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">type_cat</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">collision_id</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="n">contrib_cat</span><span class="p">,</span> <span class="n">type_cat</span><span class="p">,</span> <span class="n">time_of_day</span><span class="p">,</span> <span class="n">injured_cat</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">motor_cat_final</span> <span class="o">&lt;-</span> <span class="nf">as_tibble</span><span class="p">(</span><span class="n">motor_cat_df</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">motor_cat_final</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 13,150 × 7
+</span></span><span class="line"><span class="cl">##    collision_id month  hour contrib_cat       type_cat   time_of_day injured_cat
+</span></span><span class="line"><span class="cl">##           &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;fct&gt;             &lt;fct&gt;      &lt;fct&gt;       &lt;fct&gt;      
+</span></span><span class="line"><span class="cl">##  1      4679634    11    15 Driver Error      Motorcycl… Afternoon   Injuries   
+</span></span><span class="line"><span class="cl">##  2      4663636     9     7 Distracted Driver Sedan      Morning     No Injuries
+</span></span><span class="line"><span class="cl">##  3      4663437     9     0 Driver Error      Sedan      Night       No Injuries
+</span></span><span class="line"><span class="cl">##  4      4629913     5    15 Driver Error      Sedan      Afternoon   No Injuries
+</span></span><span class="line"><span class="cl">##  5      4631543     5    16 Driver Error      SUV        Afternoon   Injuries   
+</span></span><span class="line"><span class="cl">##  6      4631801     5    14 Driver Error      SUV        Afternoon   No Injuries
+</span></span><span class="line"><span class="cl">##  7      4632066     5    15 Distracted Driver Pick Up T… Afternoon   No Injuries
+</span></span><span class="line"><span class="cl">##  8      4631365     5     9 Distracted Driver Truck      Morning     No Injuries
+</span></span><span class="line"><span class="cl">##  9      4680340    11    18 Dangerous Driving Motorcycl… Evening     Injuries   
+</span></span><span class="line"><span class="cl">## 10      4631597     5    15 Driver Error      SUV        Afternoon   No Injuries
+</span></span><span class="line"><span class="cl">## # ℹ 13,140 more rows
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="data-visualization">Data Visualization</h2>
+<p>I wanted to visualize the predictors that I am going to use in the model just to see how everything is distributed and if there are any obvious differences that the model might pick up on.</p>
+<h3 id="contributing-factor">Contributing Factor</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">motor_cat_final</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">contrib_cat</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">injured_cat</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_bar</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;dimgray&#34;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="m">0.8</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Count of Accidents and Their Outcomes by Contributing Factor&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Primary Contributing Factor of Accident&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Count&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: NYC Open Data Motor Vehicle Collisions- Crashes (January-December 2023)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">fill</span> <span class="o">=</span> <span class="s">&#34;Injury Outcome&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_minimal</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/accident-classification/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+The most common primary cause of the accident is distracted driving and driver error, this especially makes sense as distracted driving is made so easy these days by all the electronic devices that we have available. 
+<h3 id="type-of-vehicle">Type of Vehicle</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">motor_cat_final</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">type_cat</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">injured_cat</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_bar</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;dimgray&#34;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="m">0.8</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Count of Accidents and Their Outcomes by Type of Primary Vehicle&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Primary Vehicle Involved in of Accident&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Count&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: NYC Open Data Motor Vehicle Collisions- Crashes (January-December 2023)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">fill</span> <span class="o">=</span> <span class="s">&#34;Injury Outcome&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_minimal</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/accident-classification/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+One thing that stuck out to me, which is not very surprising now that I think about it, is the proportion of accidents that resulted in injuries when a bike/e-bike or motorcycle/moped is involved. This really emphasizes the importance of being safe and fully attentive when on the road not just for other drivers, but for bikes and motorcycles too, as well as the importance of bike infrastructure that would keep bikes seperate from other vehicles that can hurt them.
+<h3 id="time-of-day">Time of Day</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">motor_cat_final</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">time_of_day</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">injured_cat</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_bar</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;dimgray&#34;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="m">0.8</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Count of Accidents and Their Outcomes by Time of Day&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Time of Day that Accident Occurred&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Count&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: NYC Open Data Motor Vehicle Collisions- Crashes (January-December 2023)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">fill</span> <span class="o">=</span> <span class="s">&#34;Injury Outcome&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_minimal</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/accident-classification/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+Just inspecting this visually it does not look like there is that big of a difference between the different times of day and the proportion of accidents that result in injuries. 
+<h2 id="classification-models-to-predict-injury-outcome-of-motor-vehicle-collision">Classification Models to Predict Injury Outcome of Motor Vehicle Collision</h2>
+<h3 id="create-training-and-test-data">Create Training and Test Data</h3>
+<p>In order to create and test my model that classifies if an accident results in injuries or not for anyone involved, I&rsquo;m going to seperate my training and test data by taking an arbitrary amount of observations to be considered test and training using the sample_frac() and anti_join() functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">training</span> <span class="o">&lt;-</span> <span class="n">motor_cat_df</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">sample_frac</span><span class="p">(</span><span class="m">.70</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="n">test</span> <span class="o">&lt;-</span> <span class="n">motor_cat_df</span> <span class="o">%&gt;%</span> <span class="nf">anti_join</span><span class="p">(</span><span class="n">training</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s">&#34;collision_id&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">training_injury_outcome</span> <span class="o">&lt;-</span> <span class="n">training</span><span class="o">$</span><span class="n">injured_cat</span>
+</span></span><span class="line"><span class="cl"><span class="n">test_injury_outcome</span> <span class="o">&lt;-</span> <span class="n">test</span><span class="o">$</span><span class="n">injured_cat</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="logistic-regression">Logistic Regression</h3>
+<p>The first model that I wanted to fit was a logistic regression model, as there are only two different outcomes in the data (injuries vs. no injuries). Here I fitted that model with my predictors: contributing factor, type of vehicle, and time of day, along with my response variable which was if the accident resulted in injuries or not.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">glm.inj</span> <span class="o">&lt;-</span> <span class="nf">glm</span><span class="p">(</span><span class="n">injured_cat</span> <span class="o">~</span> <span class="n">contrib_cat</span> <span class="o">+</span> <span class="n">type_cat</span> <span class="o">+</span> <span class="n">time_of_day</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">data</span> <span class="o">=</span> <span class="n">training</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">family</span> <span class="o">=</span> <span class="n">binomial</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">glm.inj</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## glm(formula = injured_cat ~ contrib_cat + type_cat + time_of_day, 
+</span></span><span class="line"><span class="cl">##     family = binomial, data = training)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Deviance Residuals: 
+</span></span><span class="line"><span class="cl">##     Min       1Q   Median       3Q      Max  
+</span></span><span class="line"><span class="cl">## -2.0102  -1.2497   0.8528   1.0539   2.3111  
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##                                Estimate Std. Error z value Pr(&gt;|z|)    
+</span></span><span class="line"><span class="cl">## (Intercept)                     1.74107    0.48089   3.621 0.000294 ***
+</span></span><span class="line"><span class="cl">## contrib_catCondition of Driver -0.53689    0.24739  -2.170 0.029991 *  
+</span></span><span class="line"><span class="cl">## contrib_catDangerous Driving   -0.38954    0.19907  -1.957 0.050375 .  
+</span></span><span class="line"><span class="cl">## contrib_catDistracted Driver    0.09706    0.19357   0.501 0.616072    
+</span></span><span class="line"><span class="cl">## contrib_catDriver Error        -0.03027    0.19242  -0.157 0.874993    
+</span></span><span class="line"><span class="cl">## contrib_catRoad Conditions     -0.53907    0.21675  -2.487 0.012880 *  
+</span></span><span class="line"><span class="cl">## contrib_catSubstances           0.24526    0.22726   1.079 0.280488    
+</span></span><span class="line"><span class="cl">## type_catBike/E-Bike            -3.93770    0.49501  -7.955 1.79e-15 ***
+</span></span><span class="line"><span class="cl">## type_catBus                    -1.76695    0.47378  -3.729 0.000192 ***
+</span></span><span class="line"><span class="cl">## type_catFire Truck             -0.91710    0.94812  -0.967 0.333402    
+</span></span><span class="line"><span class="cl">## type_catMotorcycle/Moped       -3.50744    0.49026  -7.154 8.42e-13 ***
+</span></span><span class="line"><span class="cl">## type_catOther                  -1.65302    0.50726  -3.259 0.001119 ** 
+</span></span><span class="line"><span class="cl">## type_catPick Up Truck          -1.30525    0.46299  -2.819 0.004814 ** 
+</span></span><span class="line"><span class="cl">## type_catScooter/E-Scooter      -3.41098    0.54718  -6.234 4.55e-10 ***
+</span></span><span class="line"><span class="cl">## type_catSedan                  -1.54048    0.44326  -3.475 0.000510 ***
+</span></span><span class="line"><span class="cl">## type_catSUV                    -1.66967    0.44347  -3.765 0.000167 ***
+</span></span><span class="line"><span class="cl">## type_catTaxi                   -2.37742    0.47385  -5.017 5.24e-07 ***
+</span></span><span class="line"><span class="cl">## type_catTruck                  -1.11660    0.46499  -2.401 0.016336 *  
+</span></span><span class="line"><span class="cl">## type_catVan                    -1.29899    0.56568  -2.296 0.021658 *  
+</span></span><span class="line"><span class="cl">## time_of_dayEvening             -0.01271    0.06711  -0.189 0.849830    
+</span></span><span class="line"><span class="cl">## time_of_dayMorning              0.27367    0.05781   4.734 2.20e-06 ***
+</span></span><span class="line"><span class="cl">## time_of_dayNight                0.52662    0.05700   9.238  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## (Dispersion parameter for binomial family taken to be 1)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##     Null deviance: 12644  on 9204  degrees of freedom
+</span></span><span class="line"><span class="cl">## Residual deviance: 12059  on 9183  degrees of freedom
+</span></span><span class="line"><span class="cl">## AIC: 12103
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Number of Fisher Scoring iterations: 4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then I used the predict() function to predict the outcome using my test data, and compared the real data along with the predicted data using a confusion matrix.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inj.probs</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">glm.inj</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">test</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">type</span> <span class="o">=</span> <span class="s">&#34;response&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">inj.pred</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="s">&#34;No Injuries&#34;</span><span class="p">,</span> <span class="nf">length</span><span class="p">(</span><span class="n">inj.probs</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">inj.pred[inj.probs</span> <span class="o">&gt;</span> <span class="m">0.5</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="s">&#34;Injuries&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">inj.pred</span><span class="p">,</span> <span class="n">test_injury_outcome</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##              test_injury_outcome
+</span></span><span class="line"><span class="cl">## inj.pred      Injuries No Injuries
+</span></span><span class="line"><span class="cl">##   Injuries        1304        1980
+</span></span><span class="line"><span class="cl">##   No Injuries      422         239
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">(</span><span class="n">inj.pred</span> <span class="o">==</span> <span class="n">test_injury_outcome</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 0.391128
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Yikes, that&rsquo;s worse than just random guessing. I&rsquo;m going to use a different model now and see how that compares to the logistic regression.</p>
+<h3 id="naive-bayes">Naive Bayes</h3>
+<p>I chose to use the naive bayes model as it does not assume any particular distribution in the data. I fit the model using the naiveBayes() function from the e1071 package and displayed the output of the model object below.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">nb.inj</span> <span class="o">&lt;-</span> <span class="nf">naiveBayes</span><span class="p">(</span><span class="n">injured_cat</span> <span class="o">~</span> <span class="n">contrib_cat</span> <span class="o">+</span> <span class="n">type_cat</span> <span class="o">+</span> <span class="n">time_of_day</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">data</span> <span class="o">=</span> <span class="n">training</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">nb.inj</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Naive Bayes Classifier for Discrete Predictors
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## naiveBayes.default(x = X, y = Y, laplace = laplace)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## A-priori probabilities:
+</span></span><span class="line"><span class="cl">## Y
+</span></span><span class="line"><span class="cl">##    Injuries No Injuries 
+</span></span><span class="line"><span class="cl">##   0.4437806   0.5562194 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Conditional probabilities:
+</span></span><span class="line"><span class="cl">##              contrib_cat
+</span></span><span class="line"><span class="cl">## Y             Car Defects Condition of Driver Dangerous Driving
+</span></span><span class="line"><span class="cl">##   Injuries     0.01126071          0.02105263        0.14369645
+</span></span><span class="line"><span class="cl">##   No Injuries  0.01445313          0.01484375        0.10761719
+</span></span><span class="line"><span class="cl">##              contrib_cat
+</span></span><span class="line"><span class="cl">## Y             Distracted Driver Driver Error Road Conditions Substances
+</span></span><span class="line"><span class="cl">##   Injuries           0.29987760   0.44504284      0.05483476 0.02423501
+</span></span><span class="line"><span class="cl">##   No Injuries        0.34003906   0.45058594      0.03339844 0.03906250
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##              type_cat
+</span></span><span class="line"><span class="cl">## Y                Ambulance  Bike/E-Bike          Bus   Fire Truck
+</span></span><span class="line"><span class="cl">##   Injuries    0.0014687882 0.0438188494 0.0166462668 0.0004895961
+</span></span><span class="line"><span class="cl">##   No Injuries 0.0074218750 0.0044921875 0.0142578125 0.0009765625
+</span></span><span class="line"><span class="cl">##              type_cat
+</span></span><span class="line"><span class="cl">## Y             Motorcycle/Moped        Other Pick Up Truck Scooter/E-Scooter
+</span></span><span class="line"><span class="cl">##   Injuries        0.0337821297 0.0073439412  0.0205630355      0.0127294982
+</span></span><span class="line"><span class="cl">##   No Injuries     0.0052734375 0.0072265625  0.0292968750      0.0023437500
+</span></span><span class="line"><span class="cl">##              type_cat
+</span></span><span class="line"><span class="cl">## Y                    Sedan          SUV         Taxi        Truck          Van
+</span></span><span class="line"><span class="cl">##   Injuries    0.4411260710 0.3801713586 0.0212974296 0.0173806610 0.0031823745
+</span></span><span class="line"><span class="cl">##   No Injuries 0.5011718750 0.3804687500 0.0117187500 0.0310546875 0.0042968750
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##              time_of_day
+</span></span><span class="line"><span class="cl">## Y             Afternoon   Evening   Morning     Night
+</span></span><span class="line"><span class="cl">##   Injuries    0.3618115 0.1703794 0.2296206 0.2381885
+</span></span><span class="line"><span class="cl">##   No Injuries 0.2933594 0.1333984 0.2527344 0.3205078
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now to check the model to see how it compares to my worse-than-random-guessing logistic regression model.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">nb.inj.pred</span> <span class="o">&lt;-</span>  <span class="nf">predict</span><span class="p">(</span><span class="n">nb.inj</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">nb.inj.pred</span><span class="p">,</span> <span class="n">test_injury_outcome</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##              test_injury_outcome
+</span></span><span class="line"><span class="cl">## nb.inj.pred   Injuries No Injuries
+</span></span><span class="line"><span class="cl">##   Injuries         461         263
+</span></span><span class="line"><span class="cl">##   No Injuries     1265        1956
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">(</span><span class="n">nb.inj.pred</span> <span class="o">==</span> <span class="n">test_injury_outcome</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 0.6126743
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Well that&rsquo;s not great, but it&rsquo;s definitely an improvement from the previous logistic regression model.</p>
+<h2 id="improve-logistic-regression-model">Improve Logistic Regression Model</h2>
+<p>It looks like the primary contributing factor does not really have much statistical significance if there are injuries in a motor vehicle accident or not, I&rsquo;m going to remove that variable from each model and see how that changes things.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">glm.inj.new</span> <span class="o">&lt;-</span> <span class="nf">glm</span><span class="p">(</span><span class="n">injured_cat</span> <span class="o">~</span> <span class="n">type_cat</span> <span class="o">+</span> <span class="n">time_of_day</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">data</span> <span class="o">=</span> <span class="n">training</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">family</span> <span class="o">=</span> <span class="n">binomial</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">glm.inj.new</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## glm(formula = injured_cat ~ type_cat + time_of_day, family = binomial, 
+</span></span><span class="line"><span class="cl">##     data = training)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Deviance Residuals: 
+</span></span><span class="line"><span class="cl">##     Min       1Q   Median       3Q      Max  
+</span></span><span class="line"><span class="cl">## -2.1353  -1.2387   0.9115   1.0588   2.1639  
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##                            Estimate Std. Error z value Pr(&gt;|z|)    
+</span></span><span class="line"><span class="cl">## (Intercept)                1.651322   0.441470   3.741 0.000184 ***
+</span></span><span class="line"><span class="cl">## type_catBike/E-Bike       -3.888045   0.493421  -7.880 3.28e-15 ***
+</span></span><span class="line"><span class="cl">## type_catBus               -1.732093   0.472146  -3.669 0.000244 ***
+</span></span><span class="line"><span class="cl">## type_catFire Truck        -0.806790   0.946818  -0.852 0.394155    
+</span></span><span class="line"><span class="cl">## type_catMotorcycle/Moped  -3.482104   0.488651  -7.126 1.03e-12 ***
+</span></span><span class="line"><span class="cl">## type_catOther             -1.608261   0.505064  -3.184 0.001451 ** 
+</span></span><span class="line"><span class="cl">## type_catPick Up Truck     -1.283938   0.461426  -2.783 0.005393 ** 
+</span></span><span class="line"><span class="cl">## type_catScooter/E-Scooter -3.353955   0.545475  -6.149 7.81e-10 ***
+</span></span><span class="line"><span class="cl">## type_catSedan             -1.508263   0.441687  -3.415 0.000638 ***
+</span></span><span class="line"><span class="cl">## type_catSUV               -1.633338   0.441928  -3.696 0.000219 ***
+</span></span><span class="line"><span class="cl">## type_catTaxi              -2.305245   0.471983  -4.884 1.04e-06 ***
+</span></span><span class="line"><span class="cl">## type_catTruck             -1.076075   0.463503  -2.322 0.020254 *  
+</span></span><span class="line"><span class="cl">## type_catVan               -1.271352   0.563454  -2.256 0.024048 *  
+</span></span><span class="line"><span class="cl">## time_of_dayEvening        -0.003336   0.066715  -0.050 0.960122    
+</span></span><span class="line"><span class="cl">## time_of_dayMorning         0.267486   0.057502   4.652 3.29e-06 ***
+</span></span><span class="line"><span class="cl">## time_of_dayNight           0.520432   0.055919   9.307  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## (Dispersion parameter for binomial family taken to be 1)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##     Null deviance: 12644  on 9204  degrees of freedom
+</span></span><span class="line"><span class="cl">## Residual deviance: 12142  on 9189  degrees of freedom
+</span></span><span class="line"><span class="cl">## AIC: 12174
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Number of Fisher Scoring iterations: 4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now checking again</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inj.probs.new</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">glm.inj.new</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">test</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">type</span> <span class="o">=</span> <span class="s">&#34;response&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">inj.pred.new</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="s">&#34;No Injuries&#34;</span><span class="p">,</span> <span class="nf">length</span><span class="p">(</span><span class="n">inj.probs.new</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">inj.pred.new[inj.probs.new</span> <span class="o">&gt;</span> <span class="m">0.5</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="s">&#34;Injuries&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">inj.pred.new</span><span class="p">,</span> <span class="n">test_injury_outcome</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##              test_injury_outcome
+</span></span><span class="line"><span class="cl">## inj.pred.new  Injuries No Injuries
+</span></span><span class="line"><span class="cl">##   Injuries        1524        2156
+</span></span><span class="line"><span class="cl">##   No Injuries      202          63
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">(</span><span class="n">inj.pred.new</span> <span class="o">==</span> <span class="n">test_injury_outcome</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 0.4022814
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Still worse than guessing even though this does result in a slight improvement, but the Naive Bayes model still remains on top.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I learned so many new things trying to practice the skills that I&rsquo;ve learned using classification models. I&rsquo;m starting to become more familiar with the code on how to make predictions and check a classification model. Also, I learned a different way on how to seperate test and training data using the sample_frac() function in conjunction with the anti_join() function to create two different data frames that have a random fraction of observations in one data frame, and then the ones that were not selected in the other data frame.</p>
+<p>I also see how messy working with real life data rather than data from an R package or a textbook is, this dataset is so huge and I only used a very pared down version of it. The original has millions of observations! There are also a lot of instances of human error and just differences in recording observations in the contributing factor and type of vehicle columns.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/airquality/">
+        
+        
+            <div class="article-image">
+                <img src="/p/airquality/images/smoke.3cb2daf2f3801b55ecafaaa7096779b5_hu5459c0360c2b0cb7a147d2df0eb350ca_571128_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Air Quality Regression"
+                        data-key="airquality" 
+                        data-hash="md5-PLLa8vOAG1Xsr6qnCWd5tQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Air Quality Regression</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/nhanes-bmi-analysis-using-survey-package/">
+        
+        
+            <div class="article-image">
+                <img src="/p/nhanes-bmi-analysis-using-survey-package/images/green.ff465dc7b833982a180ff64c9703e9b1_hu5459c0360c2b0cb7a147d2df0eb350ca_2075947_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post NHANES BMI Analysis Using Survey Package"
+                        data-key="nhanes-bmi-analysis-using-survey-package" 
+                        data-hash="md5-/0Zdx7gzmCoYD/ZMlwPpsQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NHANES BMI Analysis Using Survey Package</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/total-cholesterol-cdc-nhanes-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/total-cholesterol-cdc-nhanes-analysis/images/purple.68bc3fb2cfd4b03a2dbb9afc57eac5ff_hu3d03a01dcc18bc5be0e67db3d8d209a6_1915810_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Total Cholesterol CDC NHANES Analysis"
+                        data-key="total-cholesterol-cdc-nhanes-analysis" 
+                        data-hash="md5-aLw/ss/UsDotu5r8V&#43;rF/w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Total Cholesterol CDC NHANES Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/asthma-incidents-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/asthma-incidents-analysis/images/featured.c514d916917173a48a42e0114b469961_hud7e36f7e20e71be184458283bdae4646_55974_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Asthma Incidents Analysis"
+                        data-key="asthma-incidents-analysis" 
+                        data-hash="md5-xRTZFpFxc6SKQuARS0aZYQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Asthma Incidents Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jersey-blueberries/">
+        
+        
+            <div class="article-image">
+                <img src="/p/jersey-blueberries/images/blueberry.23fe19bf8e7d5c2a219b5c2b6026fbd2_hu3d03a01dcc18bc5be0e67db3d8d209a6_1579336_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Jersey Blueberries"
+                        data-key="jersey-blueberries" 
+                        data-hash="md5-I/4Zv459XCohm1wrYCb70g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jersey Blueberries</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

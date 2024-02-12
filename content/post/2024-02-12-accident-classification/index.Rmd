@@ -1,0 +1,275 @@
+---
+title: NYC Open Data Motor Vehicle Collision Injury Outcome Classification
+author: R package build
+date: '2024-02-12'
+slug: accident-classification
+categories: ["R", "Public Health"]
+tags: []
+description: Using a portion of NYC Open Data's Motor Vehicle Collision data to create a model to predict if any person involved in an accident will sustain injuries
+image: "images/bridge.jpeg"
+math: ~
+license: Michelle Gulotta
+hidden: no
+comments: no
+---
+
+## Load Libraries
+
+```{r}
+suppressPackageStartupMessages({
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(e1071)
+})
+```
+
+
+## Load and Explore Data
+
+I found this huge and interesting dataset on [NYC's Open Data portal](https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95/about_data) and wanted to use it to practice with the new knowledge and skills that I learned recently. My goal was to create a classifier model that can predict if motor vehicle collisions would result in injuries or not to anyone involved in the accident based on several predictors. 
+
+I saw there was a way to query the API directly and get the data into R without downloading it as a csv, and I did figure out how to do that for other open datasets that were smaller, but I had trouble with this large dataset. I ended up using the NYC Open Data's query tool to filter the dataset beforehand and downloaded it from there. I chose the borough of Queens to work with as there are many more highways and potential for accidents resulting in injuries there, rather than Manhattan where vehicles move very slowly through the grid shaped streets. I also filtered it for the calendar year of 2023 to further reduce the number of observations.
+```{r}
+motor_raw <- read.csv("/Users/michellegulotta/Desktop/motor_raw.csv")
+motor_raw <- motor_raw %>% 
+  janitor::clean_names(., "snake")
+```
+
+I wanted to also minimize missing values to deal with, so for the sake of simplicity I only focused on the data in the first columns for contributing factor and vehicle type.
+```{r}
+motor_cat <- motor_raw %>% 
+  dplyr::select(crash_date, crash_time, collision_id, number_of_persons_injured, number_of_persons_killed, contributing_factor_vehicle_1, vehicle_type_code_1)
+```
+
+Now to check out the variables remaining along with the data types associated with each column.
+```{r}
+str(motor_cat)
+```
+
+## Clean and Manipulate Data
+
+Time is stored as character and is in the 24 hour format, I just want the hour as I am going to use that to create a time of day category to use as a predictor. I also made a month category using the lubridate package, but I did not end up using this as a predictor, it was interesting to see how the lubridate package can help me in future projects.
+```{r}
+motor_cat <- motor_cat %>% 
+  mutate(hour = substr(motor_cat$crash_time, 
+                       start = 1, 
+                       stop = 2),
+         across(
+           .cols = c(contributing_factor_vehicle_1, vehicle_type_code_1),
+           .fns = ~if_else(.x == "", NA, .x)
+         ),
+         month = as.Date(crash_date, format = "%m/%d/%Y")) %>% 
+  rename(type = vehicle_type_code_1,
+         contrib = contributing_factor_vehicle_1)
+
+
+motor_cat$hour <- str_replace_all(motor_cat$hour, ":", "")
+motor_cat$hour <- as.integer(motor_cat$hour)
+motor_cat$month <- month(ymd(motor_cat$month))
+
+```
+
+I'm going to come back to this later, I want to do all of the category creating at once so I'm going to work on the contributing factor and vehicle type variables. In the previous code I renamed these variables to make the name shorter as I'm going to be renaming a lot of stuff later as you'll see.
+```{r}
+motor_cat %>% tabyl(contrib)
+```
+I'm going to categorize these into much fewer categories to make it easier to create a model, how about now with the type of car as the primary vehicle involved in the accident.
+```{r}
+motor_cat %>% tabyl(type)
+```
+
+### Creating Categories
+
+This dataset is a mess, I'm going to clean it up here.
+```{r}
+motor_cat <- motor_cat %>% 
+  mutate(contrib_cat = as.factor(case_when(
+    contrib == "Accelerator Defective" | contrib == "Brakes Defective" | contrib == "Steering Failure" | contrib == "Headlights Defective" | contrib == "Other Lighting Defects" | contrib == "Tinted Windows" | contrib == "Tire Failure/Inadequate" | contrib == "Tow Hitch Defective" ~ "Car Defects",
+    contrib == "Backing Unsafely" | contrib == "Driver Inexperience" | contrib == "Failure to Keep Right" | contrib == "Failure to Yield Right-of-Way" | contrib == "Following Too Closely" | contrib == "Passing Too Closely" | contrib == "Passing or Lane Usage Improper" | contrib == "Turning Improperly" ~ "Driver Error",
+    contrib == "Alcohol Involvement" | contrib == "Drugs (illegal)" | contrib == "Prescription Medication" ~ "Substances",
+    contrib == "Animals Action" | contrib == "Driverless/Runaway Vehicle" | contrib == "Glare" | contrib == "Lane Marking Improper/Inadequate" | contrib == "Obstruction/Debris" | contrib == "Pavement Defective" | contrib == "Pavement Slippery" | contrib == "Pedestrian/Bicyclist/Other Pedestrian Error/Confusion" | contrib == "Reaction to Uninvolved Vehicle" | contrib == "Shoulders Defective/Improper" | contrib == "Traffic Control Device Improper/Non-Working" | contrib == "View Obstructed/Limited" | contrib == "Vehicle Vandalism" ~ "Road Conditions",
+    contrib == "Cell Phone (hand-Held)" | contrib == "Cell Phone (hands-free)" | contrib == "Driver Inattention/Distraction" | contrib == "Eating or Drinking" | contrib == "Other Electronic Device" | contrib == "Outside Car Distraction" | contrib == "Using Onboard Navigation Device" ~ "Distracted Driver",
+    contrib == "Fatigued/Drowsy" | contrib == "Fell Asleep" | contrib == "Illnes" | contrib == "Lost Consciousness" | contrib == "Physical Disability" ~ "Condition of Driver",
+    contrib == "Aggressive Driving/Road Rage" | contrib == "Traffic Control Disregarded" | contrib == "Unsafe Lane Change" | contrib == "Unsafe Speed" ~ "Dangerous Driving",
+    contrib == "Unspecified" | is.na(contrib) | contrib == "Other Vehicular" ~ NA
+  )),
+  type_cat = as.factor(case_when(
+    type == "2 dr sedan" | type == "3-Door" | type == "4 dr sedan" | type == "Sedan" ~ "Sedan",
+    type == "Taxi" ~ "Taxi",
+    type == "Refrigerated Van" | type == "Van" | type == "Van Camper" | type == "van" ~ "Van",
+    type == "Station Wagon/Sport Utility Vehicle" ~ "SUV",
+    type == "AMBU" | type == "AMBULANCE" | type == "AMBULENCE" | type == "Ambulance" | type == "FDNY AMBUL" | type == "ambulance" ~ "Ambulance",
+    type == "Armored Truck" | type == "Beverage Truck" | type == "Box Truck" | type == "Concrete Mixer" | type == "DELIVERY T" | type == "DUMP" | type == "RV" | type == "DUMP TRUCK" | type == "Dump" | type == "Flat Bed" | type == "Flat Rack" | type == "GARBAGE TR" | type == "Garbage or Refuse" | type == "Road sweep" | type == "Sanitation" | type == "TOW TRUCK" | type == "TRAILER" | type == "TRUCK" | type == "Tanker" | type == "Tow Truck" | type == "Tow Truck / Wrecker" | type == "Tow truck" | type == "Tractor Tr" | type == "Tractor Truck Diesel" | type == "Tractor Truck Gasoline" | type == "Trailer" | type == "Truck" | type == "UHAUL" | type == "USPS" | type == "USPS VEHIC" | type == "UTILITY" | type == "Waste truc" ~ "Truck",
+    type == "Chassis Cab" | type == "Pick-up Truck" | type == "Pick up tr" ~ "Pick Up Truck",
+    type == "BOOM MOPED" | type == "GAS MOPED" | type == "MOPED" | type == "Moped"| type == "Motorbike" | type == "Motorcycle" | type == "Red moped" ~ "Motorcycle/Moped",
+    type == "Bike" | type == "E-Bike" | type == "Electric m" | type == "FLYWING MO" ~ "Bike/E-Bike",
+    type == "E-Scooter" | type == "MOTOR SCOO" | type == "MOTORIZEDS" | type == "Motorscooter" | type == "SCOOTER" ~ "Scooter/E-Scooter",
+    type == "Bus" | type == "Mta bus" | type == "Omnibus" | type == "SCHOOL BUS" | type == "SCHOOLBUS" | type == "School Bus" ~ "Bus",
+    type == "FDNY" | type == "FDNY FIRE" | type == "FDNY truck" | type == "FIRE ENGIN" | type == "FIRE TRUCK" | type == "FIRETRUCK" | type == "Fire Truck" | type == "Fire engin" | type == "Fire truck" | type == "Firetruck" | type == "Ladder" | type == "Ladder tru"| type == "NYC Fire T" ~ "Fire Truck",
+    is.na(type) ~ NA,
+    TRUE ~ "Other"
+  )),
+  time_of_day = as.factor(case_when(
+    hour < 6 | hour > 20 ~ "Night",
+    hour < 12 ~ "Morning",
+    hour < 18 ~ "Afternoon",
+    hour <= 20 ~ "Evening"
+  )),
+  fatal_cat = as.factor(case_when(
+    number_of_persons_killed > 0 ~ "Fatal",
+    TRUE ~ "Non Fatal")
+  ),
+  injured_cat = as.factor(case_when(
+    number_of_persons_injured > 0 ~ "Injuries",
+    TRUE ~ "No Injuries")
+  ))
+```
+
+Phew, that was a lot of work. Now I'm going to check to make sure that I didn't leave anything out and everything was either categorized or caught by the catch all at the end of the new type of vehicle category variable.
+```{r}
+motor_cat %>% tabyl(contrib_cat)
+```
+Looks good, now the type of vehicle category.
+```{r}
+motor_cat %>% tabyl(type_cat)
+```
+
+Here's the final dataset, I generally display it in a tibble format as the blogdown format seems to display only the first few rows of tibbles which I like as it does not take up too much space on my blog post.
+```{r}
+motor_cat_df <- motor_cat %>% 
+  filter(!is.na(contrib_cat) & !is.na(type_cat)) %>% 
+  dplyr::select(collision_id, month, hour, contrib_cat, type_cat, time_of_day, injured_cat)
+
+motor_cat_final <- as_tibble(motor_cat_df)
+motor_cat_final
+```
+
+
+## Data Visualization
+
+I wanted to visualize the predictors that I am going to use in the model just to see how everything is distributed and if there are any obvious differences that the model might pick up on.
+
+### Contributing Factor
+```{r}
+ggplot(data = motor_cat_final, aes(y = contrib_cat, fill = injured_cat)) +
+  geom_bar(color = "dimgray", alpha = 0.8) +
+  labs(title = "Count of Accidents and Their Outcomes by Contributing Factor",
+       y = "Primary Contributing Factor of Accident",
+       x = "Count",
+       caption = "Source: NYC Open Data Motor Vehicle Collisions- Crashes (January-December 2023)",
+       fill = "Injury Outcome") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme_minimal()
+```
+The most common primary cause of the accident is distracted driving and driver error, this especially makes sense as distracted driving is made so easy these days by all the electronic devices that we have available. 
+
+### Type of Vehicle
+```{r}
+ggplot(data = motor_cat_final, aes(y = type_cat, fill = injured_cat)) +
+  geom_bar(color = "dimgray", alpha = 0.8) +
+  labs(title = "Count of Accidents and Their Outcomes by Type of Primary Vehicle",
+       y = "Primary Vehicle Involved in of Accident",
+       x = "Count",
+       caption = "Source: NYC Open Data Motor Vehicle Collisions- Crashes (January-December 2023)",
+       fill = "Injury Outcome") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme_minimal()
+```
+One thing that stuck out to me, which is not very surprising now that I think about it, is the proportion of accidents that resulted in injuries when a bike/e-bike or motorcycle/moped is involved. This really emphasizes the importance of being safe and fully attentive when on the road not just for other drivers, but for bikes and motorcycles too, as well as the importance of bike infrastructure that would keep bikes seperate from other vehicles that can hurt them.
+
+### Time of Day
+```{r}
+ggplot(data = motor_cat_final, aes(x = time_of_day, fill = injured_cat)) +
+  geom_bar(color = "dimgray", alpha = 0.8) +
+  labs(title = "Count of Accidents and Their Outcomes by Time of Day",
+       x = "Time of Day that Accident Occurred",
+       y = "Count",
+       caption = "Source: NYC Open Data Motor Vehicle Collisions- Crashes (January-December 2023)",
+       fill = "Injury Outcome") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme_minimal()
+```
+Just inspecting this visually it does not look like there is that big of a difference between the different times of day and the proportion of accidents that result in injuries. 
+
+## Classification Models to Predict Injury Outcome of Motor Vehicle Collision
+
+### Create Training and Test Data
+
+In order to create and test my model that classifies if an accident results in injuries or not for anyone involved, I'm going to seperate my training and test data by taking an arbitrary amount of observations to be considered test and training using the sample_frac() and anti_join() functions.
+```{r}
+set.seed(123)
+training <- motor_cat_df %>% 
+  sample_frac(.70)
+  
+test <- motor_cat_df %>% anti_join(training, by = "collision_id")
+
+training_injury_outcome <- training$injured_cat
+test_injury_outcome <- test$injured_cat
+```
+
+### Logistic Regression
+
+The first model that I wanted to fit was a logistic regression model, as there are only two different outcomes in the data (injuries vs. no injuries). Here I fitted that model with my predictors: contributing factor, type of vehicle, and time of day, along with my response variable which was if the accident resulted in injuries or not. 
+```{r}
+glm.inj <- glm(injured_cat ~ contrib_cat + type_cat + time_of_day,
+               data = training,
+               family = binomial)
+summary(glm.inj)
+```
+
+Then I used the predict() function to predict the outcome using my test data, and compared the real data along with the predicted data using a confusion matrix.
+```{r}
+inj.probs <- predict(glm.inj,
+                     test,
+                     type = "response")
+inj.pred <- rep("No Injuries", length(inj.probs))
+inj.pred[inj.probs > 0.5] <- "Injuries"
+
+table(inj.pred, test_injury_outcome)
+mean(inj.pred == test_injury_outcome)
+```
+Yikes, that's worse than just random guessing. I'm going to use a different model now and see how that compares to the logistic regression.
+
+### Naive Bayes
+I chose to use the naive bayes model as it does not assume any particular distribution in the data. I fit the model using the naiveBayes() function from the e1071 package and displayed the output of the model object below.
+```{r}
+nb.inj <- naiveBayes(injured_cat ~ contrib_cat + type_cat + time_of_day,
+                 data = training)
+nb.inj
+```
+
+Now to check the model to see how it compares to my worse-than-random-guessing logistic regression model.
+```{r}
+nb.inj.pred <-  predict(nb.inj, test)
+table(nb.inj.pred, test_injury_outcome)
+mean(nb.inj.pred == test_injury_outcome)
+```
+Well that's not great, but it's definitely an improvement from the previous logistic regression model.
+
+## Improve Logistic Regression Model
+It looks like the primary contributing factor does not really have much statistical significance if there are injuries in a motor vehicle accident or not, I'm going to remove that variable from each model and see how that changes things.
+```{r}
+glm.inj.new <- glm(injured_cat ~ type_cat + time_of_day,
+               data = training,
+               family = binomial)
+summary(glm.inj.new)
+```
+
+Now checking again
+```{r}
+inj.probs.new <- predict(glm.inj.new,
+                     test,
+                     type = "response")
+inj.pred.new <- rep("No Injuries", length(inj.probs.new))
+inj.pred.new[inj.probs.new > 0.5] <- "Injuries"
+
+table(inj.pred.new, test_injury_outcome)
+mean(inj.pred.new == test_injury_outcome)
+```
+Still worse than guessing even though this does result in a slight improvement, but the Naive Bayes model still remains on top.
+
+## Conclusion
+I learned so many new things trying to practice the skills that I've learned using classification models. I'm starting to become more familiar with the code on how to make predictions and check a classification model. Also, I learned a different way on how to seperate test and training data using the sample_frac() function in conjunction with the anti_join() function to create two different data frames that have a random fraction of observations in one data frame, and then the ones that were not selected in the other data frame.
+
+I also see how messy working with real life data rather than data from an R package or a textbook is, this dataset is so huge and I only used a very pared down version of it. The original has millions of observations! There are also a lot of instances of human error and just differences in recording observations in the contributing factor and type of vehicle columns.
