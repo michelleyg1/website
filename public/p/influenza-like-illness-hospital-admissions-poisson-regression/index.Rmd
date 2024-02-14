@@ -1,0 +1,129 @@
+---
+title: Influenza Like Illness Hospital Admissions Poisson Regression
+author: R package build
+date: '2024-02-13'
+slug: influenza-like-illness-hospital-admissions-poisson-regression
+categories: ["R", "Public Health"]
+tags: []
+description: A poission regression model for NYC Open Data's Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City
+image: "images/pois.jpeg"
+math: ~
+license: Michelle Gulotta
+hidden: no
+comments: no
+---
+
+For this analysis I was looking for data that captured count data so that I could practice using a poisson regression. I came across the NYC Open Data's [Emergency Department Visits and Admissions for Influenza-like Illness and/or Pneumonia](https://data.cityofnewyork.us/Health/Emergency-Department-Visits-and-Admissions-for-Inf/2nwg-uqyg/about_data) and decided to bring that into R to analyze. 
+
+## Load Libraries
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(RSocrata)
+  library(lubridate)
+})
+```
+
+## Load Data
+
+I chose 10,000 rows from the most populous zip code in New York City, 11368 which is in Corona, Queens. I chose this as I had trouble using the read.socrata() function with larger amounts of data.
+```{r}
+resp <- read.socrata("https://data.cityofnewyork.us/resource/2nwg-uqyg.json?mod_zcta=11368&$limit=10000")
+```
+
+Checking the different types of data that are stored in the differnet variables in the dataset.
+```{r}
+str(resp)
+```
+Looks like the counts are stored as characters, and the dates are stored in POSIXct format. I'm going to need to convert the data types for the counts, and I'll also drop the extract_date variable as that is not very useful to my analysis, as well as the mod_zcta variable since all of the values in this particular dataset are from that zip code.
+```{r}
+resp <- resp %>% 
+  dplyr::select(-extract_date, -mod_zcta) %>% 
+  mutate(
+    total_ed_visits = as.numeric(total_ed_visits),
+    ili_pne_visits = as.numeric(ili_pne_visits),
+    ili_pne_admissions = as.numeric(ili_pne_admissions),
+    month = factor(month(ymd(resp$date)))
+  )
+```
+
+## Visualize Data
+
+First I'm going to make a long version of the data so that I can group them by outcome and have a legend that shows which line is which and in different colors, I used pivot_longer() to achieve this. I also converted the date column from datetime to just date, so that I can later use the scale_x_date function in ggplot to scale my x axis.
+```{r}
+resp_long <- resp %>% 
+  pivot_longer(cols = c(total_ed_visits, ili_pne_visits, ili_pne_admissions),
+               names_to = "outcome",
+               values_to = "count") %>% 
+  mutate(
+    date = as.Date(date)
+  )
+```
+
+Then, I used ggplot to visualize the data.
+```{r}
+ggplot(data = resp_long, aes(x = date, y = count, color = outcome)) +
+  geom_smooth(se = FALSE) +
+  scale_color_discrete(name = "Outcome",
+                       labels = c("Admissions for ILI*",
+                                  "ED Visits for ILI*",
+                                  "All ED Visits")) +
+  labs(caption = "*Influenza Like Illness",
+       x = "Date",
+       y = "Count",
+       title = "Count of Emergency Department Visits (All Cause and ILI*) 
+       and Hospital Admissions for ILI*") +
+  scale_x_date(date_breaks = "4 months") +
+  theme_light() + 
+  theme(plot.title = element_text(hjust=0.5))
+```
+
+## Poisson Regression
+### Fit Model
+```{r}
+pois.resp<- glm(ili_pne_admissions ~ month,
+                 data = resp,
+                 family = poisson)
+summary(pois.resp)
+```
+
+### Visualize Coefficents
+```{r}
+coef <- c(coef(pois.resp))
+
+coef_df <- data.frame(
+  month = c(1:12),
+  coefficent = coef
+)
+
+ggplot(data = coef_df, aes(x = month, y = coef)) +
+  geom_line(color = "#619CFF", size = 1) +
+  geom_point(color = "black") +
+  scale_x_continuous(n.breaks = 12) +
+  labs(x = "Month",
+       y = "Coefficient",
+       title = "Poisson Model Coefficients by Month for Pois.Resp Model") +
+  theme_light() +
+  theme(plot.title = element_text(hjust=0.5))
+```
+
+### Predict
+
+I created a random small data frame of 3 different observations of month, and then used the predict() function to see what values for the response variable would be output. I also rounded it up to an interger as there can't be 0.6 admissions to the hospital.
+```{r}
+new_data <- data.frame(
+  month = factor(c(1, 10, 4))
+)
+
+round(predict(pois.resp,
+        new_data,
+        type = "response"))
+```
+
+## Conclusion
+
+This was a short and sweet analysis on real life data that reinforced what I've been learning about poisson regression. I wanted to make my model multivariate but there was not much information in this dataset as it was only for one specific purpose. One thing that I could have done to make this more complex was to add more variables such as air quality information from the days that the data were collected, but I decided that that would involve more work than I wanted to put into this specific post.
+
+I was thinking about putting general ED visits and Influenza like Illness ED visits as predictors in the model, but those are not really independent from the Influenza like Illness Admissions.
+
+It would also be interesting to see this data in a "normal" year as COVID definitely had an impact on the data and which months were related to Influenza like Illness admissions.

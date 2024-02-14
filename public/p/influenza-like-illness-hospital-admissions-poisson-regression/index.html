@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A poission regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City'>
+<title>Influenza Like Illness Hospital Admissions Poisson Regression</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Influenza Like Illness Hospital Admissions Poisson Regression'>
+<meta property='og:description' content='A poission regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-02-13T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-02-13T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois.jpeg' />
+<meta name="twitter:title" content="Influenza Like Illness Hospital Admissions Poisson Regression">
+<meta name="twitter:description" content="A poission regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois.jpeg' />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KWPFCQTTER"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-KWPFCQTTER', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-libraries">Load Libraries</a></li>
+    <li><a href="#load-data">Load Data</a></li>
+    <li><a href="#visualize-data">Visualize Data</a></li>
+    <li><a href="#poisson-regression">Poisson Regression</a>
+      <ol>
+        <li><a href="#fit-model">Fit Model</a></li>
+        <li><a href="#visualize-coefficents">Visualize Coefficents</a></li>
+        <li><a href="#predict">Predict</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/influenza-like-illness-hospital-admissions-poisson-regression/">
+                <img src="/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois_hu5459c0360c2b0cb7a147d2df0eb350ca_2464222_800x0_resize_q75_box.jpeg"
+                        srcset="/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois_hu5459c0360c2b0cb7a147d2df0eb350ca_2464222_800x0_resize_q75_box.jpeg 800w, /p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois_hu5459c0360c2b0cb7a147d2df0eb350ca_2464222_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="533" 
+                        loading="lazy"
+                        alt="Featured image of post Influenza Like Illness Hospital Admissions Poisson Regression" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/influenza-like-illness-hospital-admissions-poisson-regression/">Influenza Like Illness Hospital Admissions Poisson Regression</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            A poission regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 13, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>For this analysis I was looking for data that captured count data so that I could practice using a poisson regression. I came across the NYC Open Data&rsquo;s <a class="link" href="https://data.cityofnewyork.us/Health/Emergency-Department-Visits-and-Admissions-for-Inf/2nwg-uqyg/about_data"  target="_blank" rel="noopener"
+    >Emergency Department Visits and Admissions for Influenza-like Illness and/or Pneumonia</a> and decided to bring that into R to analyze.</p>
+<h2 id="load-libraries">Load Libraries</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">RSocrata</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="load-data">Load Data</h2>
+<p>I chose 10,000 rows from the most populous zip code in New York City, 11368 which is in Corona, Queens. I chose this as I had trouble using the read.socrata() function with larger amounts of data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">resp</span> <span class="o">&lt;-</span> <span class="nf">read.socrata</span><span class="p">(</span><span class="s">&#34;https://data.cityofnewyork.us/resource/2nwg-uqyg.json?mod_zcta=11368&amp;$limit=10000&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Checking the different types of data that are stored in the differnet variables in the dataset.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">str</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## &#39;data.frame&#39;:	10000 obs. of  6 variables:
+</span></span><span class="line"><span class="cl">##  $ extract_date      : POSIXct, format: &#34;2021-09-27&#34; &#34;2021-07-08&#34; ...
+</span></span><span class="line"><span class="cl">##  $ date              : POSIXct, format: &#34;2021-01-28&#34; &#34;2021-02-20&#34; ...
+</span></span><span class="line"><span class="cl">##  $ mod_zcta          : chr  &#34;11368&#34; &#34;11368&#34; &#34;11368&#34; &#34;11368&#34; ...
+</span></span><span class="line"><span class="cl">##  $ total_ed_visits   : chr  &#34;122&#34; &#34;117&#34; &#34;96&#34; &#34;120&#34; ...
+</span></span><span class="line"><span class="cl">##  $ ili_pne_visits    : chr  &#34;10&#34; &#34;4&#34; &#34;3&#34; &#34;6&#34; ...
+</span></span><span class="line"><span class="cl">##  $ ili_pne_admissions: chr  &#34;2&#34; &#34;1&#34; &#34;1&#34; &#34;1&#34; ...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Looks like the counts are stored as characters, and the dates are stored in POSIXct format. I&rsquo;m going to need to convert the data types for the counts, and I&rsquo;ll also drop the extract_date variable as that is not very useful to my analysis, as well as the mod_zcta variable since all of the values in this particular dataset are from that zip code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">resp</span> <span class="o">&lt;-</span> <span class="n">resp</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">extract_date</span><span class="p">,</span> <span class="o">-</span><span class="n">mod_zcta</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">total_ed_visits</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">total_ed_visits</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ili_pne_visits</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">ili_pne_visits</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ili_pne_admissions</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">ili_pne_admissions</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">month</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="nf">month</span><span class="p">(</span><span class="nf">ymd</span><span class="p">(</span><span class="n">resp</span><span class="o">$</span><span class="n">date</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="visualize-data">Visualize Data</h2>
+<p>First I&rsquo;m going to make a long version of the data so that I can group them by outcome and have a legend that shows which line is which and in different colors, I used pivot_longer() to achieve this. I also converted the date column from datetime to just date, so that I can later use the scale_x_date function in ggplot to scale my x axis.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">resp_long</span> <span class="o">&lt;-</span> <span class="n">resp</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">pivot_longer</span><span class="p">(</span><span class="n">cols</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">total_ed_visits</span><span class="p">,</span> <span class="n">ili_pne_visits</span><span class="p">,</span> <span class="n">ili_pne_admissions</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">               <span class="n">names_to</span> <span class="o">=</span> <span class="s">&#34;outcome&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">values_to</span> <span class="o">=</span> <span class="s">&#34;count&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">date</span> <span class="o">=</span> <span class="nf">as.Date</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then, I used ggplot to visualize the data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">resp_long</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">date</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">count</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">outcome</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_smooth</span><span class="p">(</span><span class="n">se</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_color_discrete</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;Outcome&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Admissions for ILI*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                  <span class="s">&#34;ED Visits for ILI*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                  <span class="s">&#34;All ED Visits&#34;</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;*Influenza Like Illness&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Date&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Count&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Count of Emergency Department Visits (All Cause and ILI*) 
+</span></span></span><span class="line"><span class="cl"><span class="s">       and Hospital Admissions for ILI*&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span> <span class="o">=</span> <span class="s">&#34;4 months&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_light</span><span class="p">()</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &#34;cs&#34;)&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<h2 id="poisson-regression">Poisson Regression</h2>
+<h3 id="fit-model">Fit Model</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">pois.resp</span><span class="o">&lt;-</span> <span class="nf">glm</span><span class="p">(</span><span class="n">ili_pne_admissions</span> <span class="o">~</span> <span class="n">month</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">data</span> <span class="o">=</span> <span class="n">resp</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">family</span> <span class="o">=</span> <span class="n">poisson</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">pois.resp</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## glm(formula = ili_pne_admissions ~ month, family = poisson, data = resp)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Deviance Residuals: 
+</span></span><span class="line"><span class="cl">##     Min       1Q   Median       3Q      Max  
+</span></span><span class="line"><span class="cl">## -5.0974  -1.2311  -0.3399   0.5260   7.9668  
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##             Estimate Std. Error z value Pr(&gt;|z|)    
+</span></span><span class="line"><span class="cl">## (Intercept)  1.15670    0.02425  47.706  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month2      -0.05197    0.03821  -1.360    0.174    
+</span></span><span class="line"><span class="cl">## month3       1.40761    0.02553  55.145  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month4       1.31247    0.02572  51.025  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month5      -0.83506    0.03479 -24.005  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month6      -1.73316    0.04833 -35.860  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month7      -1.44372    0.04373 -33.014  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month8      -1.10669    0.04060 -27.259  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month9      -1.68666    0.05373 -31.393  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month10     -1.43405    0.04957 -28.932  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month11     -0.92730    0.04361 -21.263  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## month12     -0.21770    0.03533  -6.161 7.21e-10 ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## (Dispersion parameter for poisson family taken to be 1)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##     Null deviance: 93222  on 9999  degrees of freedom
+</span></span><span class="line"><span class="cl">## Residual deviance: 44040  on 9988  degrees of freedom
+</span></span><span class="line"><span class="cl">## AIC: 64530
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Number of Fisher Scoring iterations: 5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="visualize-coefficents">Visualize Coefficents</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">coef</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">pois.resp</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">coef_df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">month</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">12</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">coefficent</span> <span class="o">=</span> <span class="n">coef</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">coef_df</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">month</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">coef</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_line</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;#619CFF&#34;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">1</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;black&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_x_continuous</span><span class="p">(</span><span class="n">n.breaks</span> <span class="o">=</span> <span class="m">12</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Month&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Coefficient&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Poisson Model Coefficients by Month for Pois.Resp Model&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_light</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="c1">## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+</span></span></span><span class="line"><span class="cl"><span class="c1">## ℹ Please use `linewidth` instead.
+</span></span></span><span class="line"><span class="cl"><span class="c1">## This warning is displayed once every 8 hours.
+</span></span></span><span class="line"><span class="cl"><span class="c1">## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+</span></span></span><span class="line"><span class="cl"><span class="c1">## generated.
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<h3 id="predict">Predict</h3>
+<p>I created a random small data frame of 3 different observations of month, and then used the predict() function to see what values for the response variable would be output. I also rounded it up to an interger as there can&rsquo;t be 0.6 admissions to the hospital.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">new_data</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">month</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">4</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">round</span><span class="p">(</span><span class="nf">predict</span><span class="p">(</span><span class="n">pois.resp</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">new_data</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">type</span> <span class="o">=</span> <span class="s">&#34;response&#34;</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##  1  2  3 
+</span></span><span class="line"><span class="cl">##  3  1 12
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="conclusion">Conclusion</h2>
+<p>This was a short and sweet analysis on real life data that reinforced what I&rsquo;ve been learning about poisson regression. I wanted to make my model multivariate but there was not much information in this dataset as it was only for one specific purpose. One thing that I could have done to make this more complex was to add more variables such as air quality information from the days that the data were collected, but I decided that that would involve more work than I wanted to put into this specific post.</p>
+<p>I was thinking about putting general ED visits and Influenza like Illness ED visits as predictors in the model, but those are not really independent from the Influenza like Illness Admissions.</p>
+<p>It would also be interesting to see this data in a &ldquo;normal&rdquo; year as COVID definitely had an impact on the data and which months were related to Influenza like Illness admissions.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/accident-classification/">
+        
+        
+            <div class="article-image">
+                <img src="/p/accident-classification/images/bridge.cae6c745b0af551d50cd268c3acc9fb3_hu5459c0360c2b0cb7a147d2df0eb350ca_3648849_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post NYC Open Data Motor Vehicle Collision Injury Outcome Classification"
+                        data-key="accident-classification" 
+                        data-hash="md5-yubHRbCvVR1QzSaMOsyfsw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NYC Open Data Motor Vehicle Collision Injury Outcome Classification</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/airquality/">
+        
+        
+            <div class="article-image">
+                <img src="/p/airquality/images/smoke.3cb2daf2f3801b55ecafaaa7096779b5_hu5459c0360c2b0cb7a147d2df0eb350ca_571128_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Air Quality Regression"
+                        data-key="airquality" 
+                        data-hash="md5-PLLa8vOAG1Xsr6qnCWd5tQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Air Quality Regression</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/nhanes-bmi-analysis-using-survey-package/">
+        
+        
+            <div class="article-image">
+                <img src="/p/nhanes-bmi-analysis-using-survey-package/images/green.ff465dc7b833982a180ff64c9703e9b1_hu5459c0360c2b0cb7a147d2df0eb350ca_2075947_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post NHANES BMI Analysis Using Survey Package"
+                        data-key="nhanes-bmi-analysis-using-survey-package" 
+                        data-hash="md5-/0Zdx7gzmCoYD/ZMlwPpsQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NHANES BMI Analysis Using Survey Package</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/total-cholesterol-cdc-nhanes-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/total-cholesterol-cdc-nhanes-analysis/images/purple.68bc3fb2cfd4b03a2dbb9afc57eac5ff_hu3d03a01dcc18bc5be0e67db3d8d209a6_1915810_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Total Cholesterol CDC NHANES Analysis"
+                        data-key="total-cholesterol-cdc-nhanes-analysis" 
+                        data-hash="md5-aLw/ss/UsDotu5r8V&#43;rF/w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Total Cholesterol CDC NHANES Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/asthma-incidents-analysis/">
+        
+        
+            <div class="article-image">
+                <img src="/p/asthma-incidents-analysis/images/featured.c514d916917173a48a42e0114b469961_hud7e36f7e20e71be184458283bdae4646_55974_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Asthma Incidents Analysis"
+                        data-key="asthma-incidents-analysis" 
+                        data-hash="md5-xRTZFpFxc6SKQuARS0aZYQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Asthma Incidents Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
