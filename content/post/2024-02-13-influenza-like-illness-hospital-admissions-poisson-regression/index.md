@@ -5,7 +5,7 @@ date: '2024-02-13'
 slug: influenza-like-illness-hospital-admissions-poisson-regression
 categories: ["R", "Public Health"]
 tags: []
-description: A poission regression model for NYC Open Data's Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City
+description: A poisson regression model for NYC Open Data's Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City
 image: "images/pois.jpeg"
 math: ~
 license: Michelle Gulotta
@@ -33,7 +33,7 @@ I chose 10,000 rows from the most populous zip code in New York City, 11368 whic
 resp <- read.socrata("https://data.cityofnewyork.us/resource/2nwg-uqyg.json?mod_zcta=11368&$limit=10000")
 ```
 
-Checking the different types of data that are stored in the differnet variables in the dataset.
+Checking the different types of data that are stored in the different variables in the dataset.
 
 ```r
 str(resp)
@@ -48,7 +48,7 @@ str(resp)
 ##  $ ili_pne_visits    : chr  "10" "4" "3" "6" ...
 ##  $ ili_pne_admissions: chr  "2" "1" "1" "1" ...
 ```
-Looks like the counts are stored as characters, and the dates are stored in POSIXct format. I'm going to need to convert the data types for the counts, and I'll also drop the extract_date variable as that is not very useful to my analysis, as well as the mod_zcta variable since all of the values in this particular dataset are from that zip code.
+Looks like the counts are stored as characters, and the dates are stored in POSIXct format. I'm going to need to convert the data types for the counts, and I'll also drop the extract_date variable as that is not very useful to my analysis, as well as the mod_zcta variable since all of the values in this particular dataset are from the same zip code.
 
 ```r
 resp <- resp %>% 
@@ -92,10 +92,6 @@ ggplot(data = resp_long, aes(x = date, y = count, color = outcome)) +
   scale_x_date(date_breaks = "4 months") +
   theme_light() + 
   theme(plot.title = element_text(hjust=0.5))
-```
-
-```
-## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 ```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
@@ -145,33 +141,25 @@ summary(pois.resp)
 ## Number of Fisher Scoring iterations: 5
 ```
 
-### Visualize Coefficents
+### Visualize Coefficients
 
 ```r
 coef <- c(coef(pois.resp))
 
 coef_df <- data.frame(
   month = c(1:12),
-  coefficent = coef
+  coefficient = coef
 )
 
 ggplot(data = coef_df, aes(x = month, y = coef)) +
-  geom_line(color = "#619CFF", size = 1) +
+  geom_line(color = "#619CFF", linewidth = 1) +
   geom_point(color = "black") +
   scale_x_continuous(n.breaks = 12) +
   labs(x = "Month",
        y = "Coefficient",
-       title = "Poisson Model Coefficients by Month for Pois.Resp Model") +
+       title = "Coefficients by Month for Pois.Resp Model") +
   theme_light() +
   theme(plot.title = element_text(hjust=0.5))
-```
-
-```
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.
 ```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />

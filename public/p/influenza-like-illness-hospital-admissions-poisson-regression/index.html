@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A poission regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A poisson regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City'>
 <title>Influenza Like Illness Hospital Admissions Poisson Regression</title>
 
 <link rel='canonical' href='https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/'>
 
 <link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Influenza Like Illness Hospital Admissions Poisson Regression'>
-<meta property='og:description' content='A poission regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City'>
+<meta property='og:description' content='A poisson regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City'>
 <meta property='og:url' content='https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/'>
 <meta property='og:site_name' content='Michelle Gulotta'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-02-13T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-02-13T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois.jpeg' />
 <meta name="twitter:title" content="Influenza Like Illness Hospital Admissions Poisson Regression">
-<meta name="twitter:description" content="A poission regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="A poisson regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois.jpeg' />
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWPFCQTTER"></script>
 <script>
@@ -216,7 +216,7 @@ if (!doNotTrack) {
     <li><a href="#poisson-regression">Poisson Regression</a>
       <ol>
         <li><a href="#fit-model">Fit Model</a></li>
-        <li><a href="#visualize-coefficents">Visualize Coefficents</a></li>
+        <li><a href="#visualize-coefficients">Visualize Coefficients</a></li>
         <li><a href="#predict">Predict</a></li>
       </ol>
     </li>
@@ -269,7 +269,7 @@ if (!doNotTrack) {
     
         
         <h3 class="article-subtitle">
-            A poission regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City
+            A poisson regression model for NYC Open Data&#39;s Hospital Data for ED visits and Adminssions for Influenza Like Illness in the most Populous Zip Code in New York City
         </h3>
         
     </div>
@@ -335,7 +335,7 @@ if (!doNotTrack) {
 <pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">resp</span> <span class="o">&lt;-</span> <span class="nf">read.socrata</span><span class="p">(</span><span class="s">&#34;https://data.cityofnewyork.us/resource/2nwg-uqyg.json?mod_zcta=11368&amp;$limit=10000&#34;</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Checking the different types of data that are stored in the differnet variables in the dataset.</p>
+</div><p>Checking the different types of data that are stored in the different variables in the dataset.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -364,7 +364,7 @@ if (!doNotTrack) {
 </span></span><span class="line"><span class="cl">##  $ ili_pne_admissions: chr  &#34;2&#34; &#34;1&#34; &#34;1&#34; &#34;1&#34; ...
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Looks like the counts are stored as characters, and the dates are stored in POSIXct format. I&rsquo;m going to need to convert the data types for the counts, and I&rsquo;ll also drop the extract_date variable as that is not very useful to my analysis, as well as the mod_zcta variable since all of the values in this particular dataset are from that zip code.</p>
+</div><p>Looks like the counts are stored as characters, and the dates are stored in POSIXct format. I&rsquo;m going to need to convert the data types for the counts, and I&rsquo;ll also drop the extract_date variable as that is not very useful to my analysis, as well as the mod_zcta variable since all of the values in this particular dataset are from the same zip code.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -442,14 +442,6 @@ if (!doNotTrack) {
 </span></span><span class="line"><span class="cl">  <span class="nf">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span> <span class="o">=</span> <span class="s">&#34;4 months&#34;</span><span class="p">)</span> <span class="o">+</span>
 </span></span><span class="line"><span class="cl">  <span class="nf">theme_light</span><span class="p">()</span> <span class="o">+</span> 
 </span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &#34;cs&#34;)&#39;
 </span></span></code></pre></td></tr></table>
 </div>
 </div><img src="https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
@@ -539,7 +531,7 @@ if (!doNotTrack) {
 </span></span><span class="line"><span class="cl">## Number of Fisher Scoring iterations: 5
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="visualize-coefficents">Visualize Coefficents</h3>
+</div><h3 id="visualize-coefficients">Visualize Coefficients</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -564,35 +556,19 @@ if (!doNotTrack) {
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">coef_df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">  <span class="n">month</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">12</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">  <span class="n">coefficent</span> <span class="o">=</span> <span class="n">coef</span>
+</span></span><span class="line"><span class="cl">  <span class="n">coefficient</span> <span class="o">=</span> <span class="n">coef</span>
 </span></span><span class="line"><span class="cl"><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">coef_df</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">month</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">coef</span><span class="p">))</span> <span class="o">+</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">geom_line</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;#619CFF&#34;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">1</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_line</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;#619CFF&#34;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="m">1</span><span class="p">)</span> <span class="o">+</span>
 </span></span><span class="line"><span class="cl">  <span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;black&#34;</span><span class="p">)</span> <span class="o">+</span>
 </span></span><span class="line"><span class="cl">  <span class="nf">scale_x_continuous</span><span class="p">(</span><span class="n">n.breaks</span> <span class="o">=</span> <span class="m">12</span><span class="p">)</span> <span class="o">+</span>
 </span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Month&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Coefficient&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">       <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Poisson Model Coefficients by Month for Pois.Resp Model&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">       <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Coefficients by Month for Pois.Resp Model&#34;</span><span class="p">)</span> <span class="o">+</span>
 </span></span><span class="line"><span class="cl">  <span class="nf">theme_light</span><span class="p">()</span> <span class="o">+</span>
 </span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span>
 </span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="c1">## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-</span></span></span><span class="line"><span class="cl"><span class="c1">## ℹ Please use `linewidth` instead.
-</span></span></span><span class="line"><span class="cl"><span class="c1">## This warning is displayed once every 8 hours.
-</span></span></span><span class="line"><span class="cl"><span class="c1">## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-</span></span></span><span class="line"><span class="cl"><span class="c1">## generated.
-</span></span></span></code></pre></td></tr></table>
 </div>
 </div><img src="https://michelleyg1.github.io/p/influenza-like-illness-hospital-admissions-poisson-regression/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 <h3 id="predict">Predict</h3>
