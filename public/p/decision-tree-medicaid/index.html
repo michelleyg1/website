@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Decision Tree Models to predict number of visits to ambulatory care for 1986 Medicaid Data'>
+<title>Doctor Visits Decision Trees</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/decision-tree-medicaid/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Doctor Visits Decision Trees'>
+<meta property='og:description' content='Decision Tree Models to predict number of visits to ambulatory care for 1986 Medicaid Data'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/decision-tree-medicaid/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-02-23T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-02-23T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/decision-tree-medicaid/images/tree.jpeg' />
+<meta name="twitter:title" content="Doctor Visits Decision Trees">
+<meta name="twitter:description" content="Decision Tree Models to predict number of visits to ambulatory care for 1986 Medicaid Data"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/decision-tree-medicaid/images/tree.jpeg' />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KWPFCQTTER"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-KWPFCQTTER', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-libraries">Load Libraries</a></li>
+    <li><a href="#load-and-clean-data">Load and Clean Data</a></li>
+    <li><a href="#summary-statistics">Summary Statistics</a></li>
+    <li><a href="#regression-tree">Regression Tree</a>
+      <ol>
+        <li><a href="#prune-tree">Prune Tree</a></li>
+      </ol>
+    </li>
+    <li><a href="#bagging">Bagging</a></li>
+    <li><a href="#random-forest">Random Forest</a>
+      <ol>
+        <li><a href="#importance-plot">Importance Plot</a></li>
+      </ol>
+    </li>
+    <li><a href="#boosting">Boosting</a>
+      <ol>
+        <li><a href="#changing-number-of-trees">Changing Number of Trees</a></li>
+      </ol>
+    </li>
+    <li><a href="#bayesian-additive-regression-tree">Bayesian Additive Regression Tree</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/decision-tree-medicaid/">
+                <img src="/p/decision-tree-medicaid/images/tree_hu5459c0360c2b0cb7a147d2df0eb350ca_2079033_800x0_resize_q75_box.jpeg"
+                        srcset="/p/decision-tree-medicaid/images/tree_hu5459c0360c2b0cb7a147d2df0eb350ca_2079033_800x0_resize_q75_box.jpeg 800w, /p/decision-tree-medicaid/images/tree_hu5459c0360c2b0cb7a147d2df0eb350ca_2079033_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="531" 
+                        loading="lazy"
+                        alt="Featured image of post Doctor Visits Decision Trees" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/decision-tree-medicaid/">Doctor Visits Decision Trees</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Decision Tree Models to predict number of visits to ambulatory care for 1986 Medicaid Data
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 23, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>I&rsquo;ve been working through the chapter in <a class="link" href="https://www.statlearning.com/"  target="_blank" rel="noopener"
+    >Intro to Statistical Learning with Applications in R</a> that discusses how to use decision trees to make predictions with both categorical and continuous response variables. I wanted to do a quick post working through my own models using the techniques that I learned in this chapter. For these models, I used the Data from the 1986 Medicaid Survey that can be found in the blapsr package.</p>
+<h2 id="load-libraries">Load Libraries</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">blapsr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">randomForest</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">gbm</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">BART</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">vtable</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="load-and-clean-data">Load and Clean Data</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">data</span><span class="p">(</span><span class="n">medicaid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">str</span><span class="p">(</span><span class="n">medicaid</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## &#39;data.frame&#39;:	485 obs. of  10 variables:
+</span></span><span class="line"><span class="cl">##  $ numvisits   : int  0 1 0 0 11 3 0 6 1 0 ...
+</span></span><span class="line"><span class="cl">##  $ exposure    : int  100 90 106 114 115 102 92 92 117 101 ...
+</span></span><span class="line"><span class="cl">##  $ children    : int  1 3 4 2 1 1 2 1 1 1 ...
+</span></span><span class="line"><span class="cl">##  $ age         : int  24 19 17 29 26 22 24 21 21 24 ...
+</span></span><span class="line"><span class="cl">##  $ income1000  : int  14500 6000 8377 6000 8500 6000 4000 6000 6000 6000 ...
+</span></span><span class="line"><span class="cl">##  $ access      : int  50 17 42 33 67 25 50 67 25 67 ...
+</span></span><span class="line"><span class="cl">##  $ pc1times1000: int  495 520 -1227 -1524 173 -905 -1202 656 -1227 -235 ...
+</span></span><span class="line"><span class="cl">##  $ maritalstat : int  0 0 0 0 0 0 0 1 0 1 ...
+</span></span><span class="line"><span class="cl">##  $ sex         : int  1 1 1 1 1 1 1 1 1 1 ...
+</span></span><span class="line"><span class="cl">##  $ race        : int  1 1 1 1 1 0 1 1 1 1 ...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>There are 10 different variables in this data frame, it looks like the factor variables maritalstat, sex, and race got read as integers rather than factors so I&rsquo;m going to fix that below and also use case_when to show which dummy variable represents which level of the factor as they are not very intuitive.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">medicaid</span> <span class="o">&lt;-</span> <span class="n">medicaid</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span><span class="n">race_f</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span><span class="n">race</span> <span class="o">==</span> <span class="m">0</span> <span class="o">~</span> <span class="s">&#34;Other&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">race</span> <span class="o">==</span> <span class="m">1</span> <span class="o">~</span> <span class="s">&#34;White&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">sex_f</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span><span class="n">sex</span> <span class="o">==</span> <span class="m">0</span> <span class="o">~</span> <span class="s">&#34;Male&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="n">sex</span> <span class="o">==</span> <span class="m">1</span> <span class="o">~</span> <span class="s">&#34;Female&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">maritalstat_f</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span><span class="n">maritalstat</span> <span class="o">==</span> <span class="m">0</span> <span class="o">~</span> <span class="s">&#34;Other&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                           <span class="n">maritalstat</span> <span class="o">==</span> <span class="m">1</span> <span class="o">~</span> <span class="s">&#34;Married&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">         <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">maritalstat</span><span class="p">,</span> <span class="o">-</span><span class="n">sex</span><span class="p">,</span> <span class="o">-</span><span class="n">race</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">medicaid_tibble</span> <span class="o">&lt;-</span> <span class="nf">as_tibble</span><span class="p">(</span><span class="n">medicaid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">medicaid_tibble</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 485 × 10
+</span></span><span class="line"><span class="cl">##    numvisits exposure children   age income1000 access pc1times1000 race_f sex_f
+</span></span><span class="line"><span class="cl">##        &lt;int&gt;    &lt;int&gt;    &lt;int&gt; &lt;int&gt;      &lt;int&gt;  &lt;int&gt;        &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;
+</span></span><span class="line"><span class="cl">##  1         0      100        1    24      14500     50          495 White  Fema…
+</span></span><span class="line"><span class="cl">##  2         1       90        3    19       6000     17          520 White  Fema…
+</span></span><span class="line"><span class="cl">##  3         0      106        4    17       8377     42        -1227 White  Fema…
+</span></span><span class="line"><span class="cl">##  4         0      114        2    29       6000     33        -1524 White  Fema…
+</span></span><span class="line"><span class="cl">##  5        11      115        1    26       8500     67          173 White  Fema…
+</span></span><span class="line"><span class="cl">##  6         3      102        1    22       6000     25         -905 Other  Fema…
+</span></span><span class="line"><span class="cl">##  7         0       92        2    24       4000     50        -1202 White  Fema…
+</span></span><span class="line"><span class="cl">##  8         6       92        1    21       6000     67          656 White  Fema…
+</span></span><span class="line"><span class="cl">##  9         1      117        1    21       6000     25        -1227 White  Fema…
+</span></span><span class="line"><span class="cl">## 10         0      101        1    24       6000     67         -235 White  Fema…
+</span></span><span class="line"><span class="cl">## # ℹ 475 more rows
+</span></span><span class="line"><span class="cl">## # ℹ 1 more variable: maritalstat_f &lt;fct&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary-statistics">Summary Statistics</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">sumtable</span><span class="p">(</span><span class="n">medicaid</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="s">&#34;kable&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="table-wrapper"><table>
+<caption><span id="tab:unnamed-chunk-4"></span>Table 1: Summary Statistics</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Variable </th>
+   <th style="text-align:left;"> N </th>
+   <th style="text-align:left;"> Mean </th>
+   <th style="text-align:left;"> Std. Dev. </th>
+   <th style="text-align:left;"> Min </th>
+   <th style="text-align:left;"> Pctl. 25 </th>
+   <th style="text-align:left;"> Pctl. 75 </th>
+   <th style="text-align:left;"> Max </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> numvisits </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;"> 1.6 </td>
+   <td style="text-align:left;"> 3.3 </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> 48 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> exposure </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;"> 104 </td>
+   <td style="text-align:left;"> 10 </td>
+   <td style="text-align:left;"> 32 </td>
+   <td style="text-align:left;"> 98 </td>
+   <td style="text-align:left;"> 112 </td>
+   <td style="text-align:left;"> 120 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> children </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;"> 2.3 </td>
+   <td style="text-align:left;"> 1.3 </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> 3 </td>
+   <td style="text-align:left;"> 9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;"> 31 </td>
+   <td style="text-align:left;"> 8.9 </td>
+   <td style="text-align:left;"> 16 </td>
+   <td style="text-align:left;"> 24 </td>
+   <td style="text-align:left;"> 36 </td>
+   <td style="text-align:left;"> 64 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> income1000 </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;"> 8098 </td>
+   <td style="text-align:left;"> 3242 </td>
+   <td style="text-align:left;"> 500 </td>
+   <td style="text-align:left;"> 6000 </td>
+   <td style="text-align:left;"> 8500 </td>
+   <td style="text-align:left;"> 17500 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> access </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;"> 38 </td>
+   <td style="text-align:left;"> 19 </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> 25 </td>
+   <td style="text-align:left;"> 50 </td>
+   <td style="text-align:left;"> 92 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> pc1times1000 </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;"> -0.041 </td>
+   <td style="text-align:left;"> 1434 </td>
+   <td style="text-align:left;"> -1524 </td>
+   <td style="text-align:left;"> -1066 </td>
+   <td style="text-align:left;"> 657 </td>
+   <td style="text-align:left;"> 7217 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> race_f </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ... Other </td>
+   <td style="text-align:left;"> 159 </td>
+   <td style="text-align:left;"> 33% </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ... White </td>
+   <td style="text-align:left;"> 326 </td>
+   <td style="text-align:left;"> 67% </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> sex_f </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ... Female </td>
+   <td style="text-align:left;"> 469 </td>
+   <td style="text-align:left;"> 97% </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ... Male </td>
+   <td style="text-align:left;"> 16 </td>
+   <td style="text-align:left;"> 3% </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> maritalstat_f </td>
+   <td style="text-align:left;"> 485 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ... Married </td>
+   <td style="text-align:left;"> 75 </td>
+   <td style="text-align:left;"> 15% </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ... Other </td>
+   <td style="text-align:left;"> 410 </td>
+   <td style="text-align:left;"> 85% </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+</tbody>
+</table></div>
+<h2 id="regression-tree">Regression Tree</h2>
+<p>This data did not require much cleaning, so I&rsquo;m going to go straight into the model fitting. First, I&rsquo;m going to separate training and test data so that I can put my models to be able to calculate an error rate and see if fitting different types of models improve my error rate.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">train</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">nrow</span><span class="p">(</span><span class="n">medicaid</span><span class="p">),</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">medicaid</span><span class="p">)</span> <span class="o">/</span> <span class="m">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">test</span> <span class="o">&lt;-</span> <span class="n">medicaid[</span><span class="o">-</span><span class="n">train</span><span class="p">,</span> <span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">y.test</span> <span class="o">&lt;-</span> <span class="n">medicaid[</span><span class="o">-</span><span class="n">train</span><span class="p">,</span> <span class="s">&#34;numvisits&#34;</span><span class="n">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now I&rsquo;m going to fit my first model, just a simple regression tree using the tree() function in the tree library.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">reg.tree</span> <span class="o">&lt;-</span> <span class="nf">tree</span><span class="p">(</span><span class="n">numvisits</span> <span class="o">~</span> <span class="n">.,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">data</span> <span class="o">=</span> <span class="n">medicaid</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">subset</span> <span class="o">=</span> <span class="n">train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">reg.tree</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Regression tree:
+</span></span><span class="line"><span class="cl">## tree(formula = numvisits ~ ., data = medicaid, subset = train)
+</span></span><span class="line"><span class="cl">## Variables actually used in tree construction:
+</span></span><span class="line"><span class="cl">## [1] &#34;access&#34;       &#34;pc1times1000&#34; &#34;age&#34;         
+</span></span><span class="line"><span class="cl">## Number of terminal nodes:  4 
+</span></span><span class="line"><span class="cl">## Residual mean deviance:  12.85 = 3058 / 238 
+</span></span><span class="line"><span class="cl">## Distribution of residuals:
+</span></span><span class="line"><span class="cl">##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+</span></span><span class="line"><span class="cl">## -10.8300  -1.3270  -0.9136   0.0000   0.6728  37.1700
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Looks like a lot of variables were eliminated from the construction of the trees, I&rsquo;m going to plot it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">reg.tree</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">text</span><span class="p">(</span><span class="n">reg.tree</span><span class="p">,</span> <span class="n">pretty</span> <span class="o">=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">title</span><span class="p">(</span><span class="s">&#34;Regression Tree for Medicaid 1986 Data&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/decision-tree-medicaid/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<h3 id="prune-tree">Prune Tree</h3>
+<p>This tree is already pretty minimal, but I&rsquo;m going to go through the pruning process just to practice. First I&rsquo;m going to plot the error as a function of size of the tree.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cv.reg</span> <span class="o">&lt;-</span> <span class="nf">cv.tree</span><span class="p">(</span><span class="n">reg.tree</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">cv.reg</span><span class="o">$</span><span class="n">size</span><span class="p">,</span> <span class="n">cv.reg</span><span class="o">$</span><span class="n">dev</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&#34;b&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/decision-tree-medicaid/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<p>It looks like one is the best tree size for this particular dataset, but for the sake of being able to create a graph I&rsquo;m going to set the best to two and see which variable was eliminated.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">prune.reg</span> <span class="o">&lt;-</span> <span class="nf">prune.tree</span><span class="p">(</span><span class="n">reg.tree</span><span class="p">,</span> <span class="n">best</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">prune.reg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">text</span><span class="p">(</span><span class="n">prune.reg</span><span class="p">,</span> <span class="n">pretty</span> <span class="o">=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">title</span><span class="p">(</span><span class="s">&#34;Pruned Regression Tree for Medicaid 1986 Data&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/decision-tree-medicaid/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+So age was the one variable that was eliminated, leaving access and pc1times1000.
+<p>Now, I&rsquo;m going to put this model to the test using mean square error for the test data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">reg.pred</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">reg.tree</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">prune.reg.pred</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">prune.reg</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Unpruned Tree Test MSE</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">((</span><span class="n">reg.pred</span> <span class="o">-</span> <span class="n">y.test</span><span class="p">)</span><span class="n">^2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 10.36599
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># Pruned Tree Test MSE</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">((</span><span class="n">prune.reg.pred</span> <span class="o">-</span> <span class="n">y.test</span><span class="p">)</span><span class="n">^2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 10.20865
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The pruning does improve the prediction but very slightly bringing the test MSE from 10.37 to 10.21.</p>
+<h2 id="bagging">Bagging</h2>
+<p>The next model that I am going to fit is a bagging model, I&rsquo;m going to set mtry to equal the number of predictors as that is the key difference between bagging and random forests.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bag.tree</span> <span class="o">&lt;-</span> <span class="nf">randomForest</span><span class="p">(</span><span class="n">numvisits</span> <span class="o">~</span> <span class="n">.,</span>
+</span></span><span class="line"><span class="cl">                         <span class="n">data</span> <span class="o">=</span> <span class="n">medicaid</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="n">subset</span> <span class="o">=</span> <span class="n">train</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="n">mtry</span> <span class="o">=</span> <span class="m">9</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="n">importance</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Next, I&rsquo;m going to make a set of predicted data and use it to calculate the test MSE.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">bag.pred</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">bag.tree</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">((</span><span class="n">bag.pred</span> <span class="o">-</span> <span class="n">y.test</span><span class="p">)</span><span class="n">^2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 9.255999
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As expected, this yields a better result than just doing a regression tree with no bagging as it reduces variance, now I&rsquo;m going to try a Random forest approach by altering the model slightly.</p>
+<h2 id="random-forest">Random Forest</h2>
+<p>Here, the only thing that was changed between Bagging and Random Forest is that mtry was set to sqrt(p) instead of p itself.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">rf.tree</span> <span class="o">&lt;-</span> <span class="nf">randomForest</span><span class="p">(</span><span class="n">numvisits</span> <span class="o">~</span> <span class="n">.,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">data</span> <span class="o">=</span> <span class="n">medicaid</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">subset</span> <span class="o">=</span> <span class="n">train</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">mtry</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">importance</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, to predict and calculate our test MSE.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">rf.pred</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">rf.tree</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">((</span><span class="n">rf.pred</span> <span class="o">-</span> <span class="n">y.test</span><span class="p">)</span><span class="n">^2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 7.044376
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nice! This brings the test MSE down to 7.14, a pretty big improvement from my first model.</p>
+<h3 id="importance-plot">Importance Plot</h3>
+<p>I&rsquo;m going to use a built in plot from the randomForest library to show the importance of the various predictors to take a look at which is the strongest variable in the model.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">varImpPlot</span><span class="p">(</span><span class="n">rf.tree</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/decision-tree-medicaid/index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<h2 id="boosting">Boosting</h2>
+<p>Next, I&rsquo;m going to fit another model using decision trees, but this time I am going to use the boosting method that uses the gbm() function from the gbm library to fit the model.
+Also, when a summary of this model is printed it prints a plot of relative influence of the predictors.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">boost.tree</span> <span class="o">&lt;-</span> <span class="nf">gbm</span><span class="p">(</span><span class="n">numvisits</span> <span class="o">~</span><span class="n">.,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">data</span> <span class="o">=</span> <span class="n">medicaid</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">distribution</span> <span class="o">=</span> <span class="s">&#34;gaussian&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">boost.tree</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/decision-tree-medicaid/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                         var   rel.inf
+</span></span><span class="line"><span class="cl">## pc1times1000   pc1times1000 67.629823
+</span></span><span class="line"><span class="cl">## access               access 15.745251
+</span></span><span class="line"><span class="cl">## exposure           exposure  5.430522
+</span></span><span class="line"><span class="cl">## children           children  4.713071
+</span></span><span class="line"><span class="cl">## income1000       income1000  3.591793
+</span></span><span class="line"><span class="cl">## age                     age  2.889541
+</span></span><span class="line"><span class="cl">## race_f               race_f  0.000000
+</span></span><span class="line"><span class="cl">## sex_f                 sex_f  0.000000
+</span></span><span class="line"><span class="cl">## maritalstat_f maritalstat_f  0.000000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This package also gives a built in plot of partial dependence. Here I integrate out all other variables and just take a look at the pc1times1000 variable. This variable represents the first principal component of three health status variables (functional limitations, acute conditions, and chronic conditions).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">boost.tree</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="s">&#34;pc1times1000&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/decision-tree-medicaid/index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<p>And to check the test MSE and see how the model compares to the rest.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">boost.pred</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">boost.tree</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Using 100 trees...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">((</span><span class="n">boost.pred</span> <span class="o">-</span> <span class="n">y.test</span><span class="p">)</span><span class="n">^2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 5.589588
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="changing-number-of-trees">Changing Number of Trees</h3>
+<p>I want to see how the model is affected when I set n.trees equal to a thousand instead of the default of one hundred trees. Below, I added the n.trees specification to the model and calculated the MSE.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">boost.tree.2</span> <span class="o">&lt;-</span> <span class="nf">gbm</span><span class="p">(</span><span class="n">numvisits</span> <span class="o">~</span><span class="n">.,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">data</span> <span class="o">=</span> <span class="n">medicaid</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">distribution</span> <span class="o">=</span> <span class="s">&#34;gaussian&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">n.trees</span> <span class="o">=</span> <span class="m">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">boost.pred.2</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">boost.tree.2</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">n.trees</span> <span class="o">=</span> <span class="m">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">((</span><span class="n">boost.pred.2</span> <span class="o">-</span> <span class="n">y.test</span><span class="p">)</span><span class="n">^2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 4.80569
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is the best so far! More than half of the error of the first model that I fit.</p>
+<h2 id="bayesian-additive-regression-tree">Bayesian Additive Regression Tree</h2>
+<p>Here I create the components of the model from my test and training data in order to use the gbart() function in the BART package.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">x</span> <span class="o">&lt;-</span> <span class="n">medicaid[</span><span class="p">,</span> <span class="m">2</span><span class="o">:</span><span class="m">10</span><span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">&lt;-</span> <span class="n">medicaid[</span><span class="p">,</span> <span class="s">&#34;numvisits&#34;</span><span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">x.train</span> <span class="o">&lt;-</span> <span class="n">x[train</span><span class="p">,</span> <span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">y.train</span> <span class="o">&lt;-</span> <span class="n">y[train]</span>
+</span></span><span class="line"><span class="cl"><span class="n">x.test</span> <span class="o">&lt;-</span> <span class="n">x[</span><span class="o">-</span><span class="n">train</span><span class="p">,</span> <span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">y.test</span> <span class="o">&lt;-</span> <span class="n">y[</span><span class="o">-</span><span class="n">train]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And again, I fit the model, create some predictions off of the test data, and then calculate the test MSE, lets see if this final method improves the MSE further.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bart.tree</span> <span class="o">&lt;-</span> <span class="nf">gbart</span><span class="p">(</span><span class="n">x.train</span><span class="p">,</span> <span class="n">y.train</span><span class="p">,</span> <span class="n">x.test</span> <span class="o">=</span> <span class="n">x.test</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## *****Calling gbart: type=1
+</span></span><span class="line"><span class="cl">## *****Data:
+</span></span><span class="line"><span class="cl">## data:n,p,np: 242, 12, 243
+</span></span><span class="line"><span class="cl">## y1,yn: -0.595041, -1.595041
+</span></span><span class="line"><span class="cl">## x1,x[n*p]: 95.000000, 0.000000
+</span></span><span class="line"><span class="cl">## xp1,xp[np*p]: 100.000000, 1.000000
+</span></span><span class="line"><span class="cl">## *****Number of Trees: 200
+</span></span><span class="line"><span class="cl">## *****Number of Cut Points: 32 ... 1
+</span></span><span class="line"><span class="cl">## *****burn,nd,thin: 100,1000,1
+</span></span><span class="line"><span class="cl">## *****Prior:beta,alpha,tau,nu,lambda,offset: 2,0.95,0.848528,3,2.87615,1.59504
+</span></span><span class="line"><span class="cl">## *****sigma: 3.842563
+</span></span><span class="line"><span class="cl">## *****w (weights): 1.000000 ... 1.000000
+</span></span><span class="line"><span class="cl">## *****Dirichlet:sparse,theta,omega,a,b,rho,augment: 0,0,1,0.5,1,12,0
+</span></span><span class="line"><span class="cl">## *****printevery: 100
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## MCMC
+</span></span><span class="line"><span class="cl">## done 0 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 100 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 200 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 300 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 400 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 500 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 600 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 700 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 800 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 900 (out of 1100)
+</span></span><span class="line"><span class="cl">## done 1000 (out of 1100)
+</span></span><span class="line"><span class="cl">## time: 6s
+</span></span><span class="line"><span class="cl">## trcnt,tecnt: 1000,1000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">yhat</span> <span class="o">&lt;-</span> <span class="n">bart.tree</span><span class="o">$</span><span class="n">yhat.test.mean</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mean</span><span class="p">((</span><span class="n">y.test</span> <span class="o">-</span> <span class="n">yhat</span><span class="p">)</span><span class="n">^2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 7.379971
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>7.41, this is a step back in terms of accurasy on test data from the previous model.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this case boosting with 1000 trees gives the best mean square error of 4.8 which means the model is off generally by 2.2 visits when used on data outside of the training set.</p>
+<p>Decision trees are definitely a departure to what I&rsquo;ve been learning the last couple of weeks, which has mostly been regression methods of predicting, but it is good to have a whole arsenal of options when trying to do statistical learning.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/air-quality-cross-validation/">
+        
+        
+            <div class="article-image">
+                <img src="/p/air-quality-cross-validation/images/cross.40ecb031321986e137568301e9ee991c_hu5459c0360c2b0cb7a147d2df0eb350ca_471906_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Air Quality Cross Validation"
+                        data-key="air-quality-cross-validation" 
+                        data-hash="md5-QOywMTIZhuE3VoMB6e6ZHA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Air Quality Cross Validation</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/influenza-like-illness-hospital-admissions-poisson-regression/">
+        
+        
+            <div class="article-image">
+                <img src="/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois.adeac14497a8897f4b237b23ea5b74d4_hu5459c0360c2b0cb7a147d2df0eb350ca_2464222_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Influenza Like Illness Hospital Admissions Poisson Regression"
+                        data-key="influenza-like-illness-hospital-admissions-poisson-regression" 
+                        data-hash="md5-rerBRJeoiX9LI3sj6lt01A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Influenza Like Illness Hospital Admissions Poisson Regression</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/accident-classification/">
+        
+        
+            <div class="article-image">
+                <img src="/p/accident-classification/images/bridge.cae6c745b0af551d50cd268c3acc9fb3_hu5459c0360c2b0cb7a147d2df0eb350ca_3648849_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post NYC Open Data Motor Vehicle Collision Injury Outcome Classification"
+                        data-key="accident-classification" 
+                        data-hash="md5-yubHRbCvVR1QzSaMOsyfsw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NYC Open Data Motor Vehicle Collision Injury Outcome Classification</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/airquality/">
+        
+        
+            <div class="article-image">
+                <img src="/p/airquality/images/smoke.3cb2daf2f3801b55ecafaaa7096779b5_hu5459c0360c2b0cb7a147d2df0eb350ca_571128_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Air Quality Regression"
+                        data-key="airquality" 
+                        data-hash="md5-PLLa8vOAG1Xsr6qnCWd5tQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Air Quality Regression</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/nhanes-bmi-analysis-using-survey-package/">
+        
+        
+            <div class="article-image">
+                <img src="/p/nhanes-bmi-analysis-using-survey-package/images/green.ff465dc7b833982a180ff64c9703e9b1_hu5459c0360c2b0cb7a147d2df0eb350ca_2075947_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post NHANES BMI Analysis Using Survey Package"
+                        data-key="nhanes-bmi-analysis-using-survey-package" 
+                        data-hash="md5-/0Zdx7gzmCoYD/ZMlwPpsQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NHANES BMI Analysis Using Survey Package</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

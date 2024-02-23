@@ -1,0 +1,218 @@
+---
+title: Doctor Visits Decision Trees
+author: R package build
+date: '2024-02-23'
+slug: decision-tree-medicaid
+categories: ["R", "Public Health"]
+tags: []
+description: Decision Tree Models to predict number of visits to ambulatory care for 1986 Medicaid Data
+image: "images/tree.jpeg"
+math: ~
+license: ~
+hidden: no
+comments: no
+---
+
+I've been working through the chapter in [Intro to Statistical Learning with Applications in R](https://www.statlearning.com/) that discusses how to use decision trees to make predictions with both categorical and continuous response variables. I wanted to do a quick post working through my own models using the techniques that I learned in this chapter. For these models, I used the Data from the 1986 Medicaid Survey that can be found in the blapsr package.
+
+## Load Libraries
+```{r}
+suppressPackageStartupMessages({
+library(tidyverse)
+library(blapsr)
+library(tree)
+library(randomForest)
+library(gbm)
+library(BART)
+library(vtable)
+})
+```
+
+## Load and Clean Data
+```{r}
+data(medicaid)
+str(medicaid)
+```
+There are 10 different variables in this data frame, it looks like the factor variables maritalstat, sex, and race got read as integers rather than factors so I'm going to fix that below and also use case_when to show which dummy variable represents which level of the factor as they are not very intuitive. 
+
+```{r}
+medicaid <- medicaid %>% 
+  mutate(race_f = as.factor(case_when(race == 0 ~ "Other",
+                                    race == 1 ~ "White")),
+         sex_f = as.factor(case_when(sex == 0 ~ "Male",
+                                   sex == 1 ~ "Female")),
+         maritalstat_f = as.factor(case_when(maritalstat == 0 ~ "Other",
+                                           maritalstat == 1 ~ "Married"))
+         ) %>% 
+  dplyr::select(-maritalstat, -sex, -race)
+
+medicaid_tibble <- as_tibble(medicaid)
+medicaid_tibble
+```
+
+## Summary Statistics
+
+```{r}
+sumtable(medicaid, out = "kable")
+```
+
+## Regression Tree
+
+This data did not require much cleaning, so I'm going to go straight into the model fitting. First, I'm going to separate training and test data so that I can put my models to be able to calculate an error rate and see if fitting different types of models improve my error rate.
+```{r}
+set.seed(123)
+train <- sample(1:nrow(medicaid), nrow(medicaid) / 2)
+test <- medicaid[-train, ]
+y.test <- medicaid[-train, "numvisits"]
+```
+
+Now I'm going to fit my first model, just a simple regression tree using the tree() function in the tree library. 
+```{r}
+reg.tree <- tree(numvisits ~ .,
+                 data = medicaid,
+                 subset = train)
+summary(reg.tree)
+```
+
+Looks like a lot of variables were eliminated from the construction of the trees, I'm going to plot it.
+```{r}
+plot(reg.tree)
+text(reg.tree, pretty = 0)
+title("Regression Tree for Medicaid 1986 Data")
+```
+
+### Prune Tree
+
+This tree is already pretty minimal, but I'm going to go through the pruning process just to practice. First I'm going to plot the error as a function of size of the tree.
+```{r}
+cv.reg <- cv.tree(reg.tree)
+plot(cv.reg$size, cv.reg$dev, type = "b")
+```
+
+It looks like one is the best tree size for this particular dataset, but for the sake of being able to create a graph I'm going to set the best to two and see which variable was eliminated.
+```{r}
+prune.reg <- prune.tree(reg.tree, best = 2)
+plot(prune.reg)
+text(prune.reg, pretty = 0)
+title("Pruned Regression Tree for Medicaid 1986 Data")
+```
+So age was the one variable that was eliminated, leaving access and pc1times1000.
+
+Now, I'm going to put this model to the test using mean square error for the test data.
+```{r}
+reg.pred <- predict(reg.tree, test)
+prune.reg.pred <- predict(prune.reg, test)
+# Unpruned Tree Test MSE
+mean((reg.pred - y.test)^2)
+# Pruned Tree Test MSE
+mean((prune.reg.pred - y.test)^2)
+```
+The pruning does improve the prediction but very slightly bringing the test MSE from 10.37 to 10.21.
+
+## Bagging
+
+The next model that I am going to fit is a bagging model, I'm going to set mtry to equal the number of predictors as that is the key difference between bagging and random forests.
+```{r}
+set.seed(123)
+bag.tree <- randomForest(numvisits ~ .,
+                         data = medicaid,
+                         subset = train,
+                         mtry = 9,
+                         importance = TRUE)
+```
+
+Next, I'm going to make a set of predicted data and use it to calculate the test MSE.
+```{r}
+bag.pred <- predict(bag.tree, test)
+mean((bag.pred - y.test)^2)
+```
+As expected, this yields a better result than just doing a regression tree with no bagging as it reduces variance, now I'm going to try a Random forest approach by altering the model slightly.
+
+## Random Forest
+
+Here, the only thing that was changed between Bagging and Random Forest is that mtry was set to sqrt(p) instead of p itself.
+```{r}
+set.seed(123)
+rf.tree <- randomForest(numvisits ~ .,
+                        data = medicaid,
+                        subset = train,
+                        mtry = 3,
+                        importance = TRUE)
+```
+
+Now, to predict and calculate our test MSE.
+```{r}
+rf.pred <- predict(rf.tree, test)
+mean((rf.pred - y.test)^2)
+```
+Nice! This brings the test MSE down to 7.14, a pretty big improvement from my first model.
+
+### Importance Plot
+I'm going to use a built in plot from the randomForest library to show the importance of the various predictors to take a look at which is the strongest variable in the model.
+```{r}
+varImpPlot(rf.tree)
+```
+
+## Boosting
+
+Next, I'm going to fit another model using decision trees, but this time I am going to use the boosting method that uses the gbm() function from the gbm library to fit the model.
+Also, when a summary of this model is printed it prints a plot of relative influence of the predictors.
+```{r}
+set.seed(123)
+boost.tree <- gbm(numvisits ~.,
+                  data = medicaid,
+                  distribution = "gaussian")
+summary(boost.tree)
+```
+
+This package also gives a built in plot of partial dependence. Here I integrate out all other variables and just take a look at the pc1times1000 variable. This variable represents the first principal component of three health status variables (functional limitations, acute conditions, and chronic conditions).
+```{r}
+plot(boost.tree, i = "pc1times1000")
+```
+
+And to check the test MSE and see how the model compares to the rest.
+```{r}
+boost.pred <- predict(boost.tree, test)
+mean((boost.pred - y.test)^2)
+```
+
+### Changing Number of Trees
+
+I want to see how the model is affected when I set n.trees equal to a thousand instead of the default of one hundred trees. Below, I added the n.trees specification to the model and calculated the MSE.
+```{r}
+set.seed(123)
+boost.tree.2 <- gbm(numvisits ~.,
+                  data = medicaid,
+                  distribution = "gaussian",
+                  n.trees = 1000)
+boost.pred.2 <- predict(boost.tree.2, test, n.trees = 1000)
+mean((boost.pred.2 - y.test)^2)
+```
+This is the best so far! More than half of the error of the first model that I fit.
+
+## Bayesian Additive Regression Tree
+
+Here I create the components of the model from my test and training data in order to use the gbart() function in the BART package.
+```{r}
+x <- medicaid[, 2:10]
+y <- medicaid[, "numvisits"]
+x.train <- x[train, ]
+y.train <- y[train]
+x.test <- x[-train, ]
+y.test <- y[-train]
+```
+
+And again, I fit the model, create some predictions off of the test data, and then calculate the test MSE, lets see if this final method improves the MSE further.
+```{r}
+set.seed(123)
+bart.tree <- gbart(x.train, y.train, x.test = x.test)
+yhat <- bart.tree$yhat.test.mean
+mean((y.test - yhat)^2)
+```
+7.41, this is a step back in terms of accurasy on test data from the previous model.
+
+## Conclusion
+
+In this case boosting with 1000 trees gives the best mean square error of 4.8 which means the model is off generally by 2.2 visits when used on data outside of the training set. 
+
+Decision trees are definitely a departure to what I've been learning the last couple of weeks, which has mostly been regression methods of predicting, but it is good to have a whole arsenal of options when trying to do statistical learning. 
