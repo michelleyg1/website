@@ -15,7 +15,7 @@
         <guid>https://michelleyg1.github.io/p/alcohol-bone-health/</guid>
         <description>&lt;img src="https://michelleyg1.github.io/p/alcohol-bone-health/images/bone.jpeg" alt="Featured image of post Alcohol Consumption and Bone Health" /&gt;&lt;p&gt;For this analysis I wanted to explore the connection between bone health and alcohol consumption. From my non-medical professional prospective, I assumed that there would be decreased bone health measures as alcohol consumption increased, but &lt;a class=&#34;link&#34; href=&#34;https://www.liebertpub.com/doi/abs/10.1089/jwh.1999.8.65&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;some papers&lt;/a&gt; actually &lt;a class=&#34;link&#34; href=&#34;https://link.springer.com/article/10.1007/s00198-006-0249-0&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;show the opposite&lt;/a&gt; effect. I decided to see if the NHANES 2011-2015 data reflects this prior research as well to practice analyzing surveys.&lt;/p&gt;
+    &gt;show the opposite&lt;/a&gt; effect. I decided to see if the NHANES 2011 to 2016 data reflects this patter as well, and also to practice analyzing complex surveys and explore more that the survey package has to offer.&lt;/p&gt;
 &lt;h2 id=&#34;load-packages&#34;&gt;Load Packages&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -38,7 +38,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id=&#34;load-data&#34;&gt;Load Data&lt;/h2&gt;
-&lt;p&gt;I combined three cycles of NHANES data from the years 2011-2016, in doing this I saw in the documentation that new sample weights would have to be created to accommodate for this. Also, in reading the documentation I saw that the questionnaire that included the questions about alcohol consumption were administered in the mobile examination center, rather than in the in home interview questionnaire and therefore the exam weights would have to be used.&lt;/p&gt;
+&lt;p&gt;I combined three cycles of NHANES data from the years 2011 to 2016, in doing this I saw in the documentation that new sample weights would have to be created to accommodate for this. Also, in reading the documentation I saw that the questionnaire that included the questions about alcohol consumption were administered in the mobile examination center, rather than in the in home interview questionnaire and therefore the exam weights would have to be used.&lt;/p&gt;
 &lt;p&gt;I performed this calculation when I was manipulating the other columns using dplyr&amp;rsquo;s mutate function, and for now I&amp;rsquo;m starting off with importing the relevant data using the nhanesA package.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;

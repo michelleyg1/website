@@ -13,7 +13,7 @@ hidden: no
 comments: no
 ---
 
-For this analysis I wanted to explore the connection between bone health and alcohol consumption. From my non-medical professional prospective, I assumed that there would be decreased bone health measures as alcohol consumption increased, but [some papers](https://www.liebertpub.com/doi/abs/10.1089/jwh.1999.8.65) actually [show the opposite](https://link.springer.com/article/10.1007/s00198-006-0249-0) effect. I decided to see if the NHANES 2011-2015 data reflects this prior research as well to practice analyzing surveys. 
+For this analysis I wanted to explore the connection between bone health and alcohol consumption. From my non-medical professional prospective, I assumed that there would be decreased bone health measures as alcohol consumption increased, but [some papers](https://www.liebertpub.com/doi/abs/10.1089/jwh.1999.8.65) actually [show the opposite](https://link.springer.com/article/10.1007/s00198-006-0249-0) effect. I decided to see if the NHANES 2011 to 2016 data reflects this patter as well, and also to practice analyzing complex surveys and explore more that the survey package has to offer.
  
 ## Load Packages
 ```{r}
@@ -29,7 +29,7 @@ suppressPackageStartupMessages({
  
 ## Load Data
  
-I combined three cycles of NHANES data from the years 2011-2016, in doing this I saw in the documentation that new sample weights would have to be created to accommodate for this. Also, in reading the documentation I saw that the questionnaire that included the questions about alcohol consumption were administered in the mobile examination center, rather than in the in home interview questionnaire and therefore the exam weights would have to be used. 
+I combined three cycles of NHANES data from the years 2011 to 2016, in doing this I saw in the documentation that new sample weights would have to be created to accommodate for this. Also, in reading the documentation I saw that the questionnaire that included the questions about alcohol consumption were administered in the mobile examination center, rather than in the in home interview questionnaire and therefore the exam weights would have to be used. 
 
 I performed this calculation when I was manipulating the other columns using dplyr's mutate function, and for now I'm starting off with importing the relevant data using the nhanesA package.
 ```{r}
