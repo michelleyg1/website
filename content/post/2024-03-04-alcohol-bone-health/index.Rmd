@@ -1,0 +1,320 @@
+---
+title: Alcohol Consumption and Bone Health
+author: R package build
+date: '2024-03-04'
+slug: alcohol-bone-health
+categories: ["R", "Public Health"]
+tags: []
+description: Is alcohol consumption good for your bones? An analysis of NHANES data from 2011 to 2016
+image: "images/bone.jpeg"
+math: ~
+license: Michelle Gulotta
+hidden: no
+comments: no
+---
+
+For this analysis I wanted to explore the connection between bone health and alcohol consumption. From my non-medical professional prospective, I assumed that there would be decreased bone health measures as alcohol consumption increased, but [some papers](https://www.liebertpub.com/doi/abs/10.1089/jwh.1999.8.65) actually [show the opposite](https://link.springer.com/article/10.1007/s00198-006-0249-0) effect. I decided to see if the NHANES 2011-2015 data reflects this prior research as well to practice analyzing surveys. 
+ 
+## Load Packages
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(nhanesA)
+  library(survey)
+  library(janitor)
+  library(tableone)
+})
+```
+ 
+ 
+## Load Data
+ 
+I combined three cycles of NHANES data from the years 2011-2016, in doing this I saw in the documentation that new sample weights would have to be created to accommodate for this. Also, in reading the documentation I saw that the questionnaire that included the questions about alcohol consumption were administered in the mobile examination center, rather than in the in home interview questionnaire and therefore the exam weights would have to be used. 
+
+I performed this calculation when I was manipulating the other columns using dplyr's mutate function, and for now I'm starting off with importing the relevant data using the nhanesA package.
+```{r}
+# Demographic Data
+demo11 <- nhanes("DEMO_G") %>% 
+  dplyr::select(SEQN, RIAGENDR, RIDAGEYR, RIDEXPRG, RIDRETH3, SDMVPSU, SDMVSTRA, WTMEC2YR)
+demo13 <- nhanes("DEMO_H") %>% 
+  dplyr::select(SEQN, RIAGENDR, RIDAGEYR, RIDEXPRG, RIDRETH3, SDMVPSU, SDMVSTRA, WTMEC2YR)
+demo15 <- nhanes("DEMO_I") %>% 
+  dplyr::select(SEQN, RIAGENDR, RIDAGEYR, RIDEXPRG, RIDRETH3, SDMVPSU, SDMVSTRA, WTMEC2YR)
+# Alcohol Consumption Data
+alc11 <- nhanes("ALQ_G") %>% 
+  dplyr::select(SEQN, ALQ101, ALQ110, ALQ120Q, ALQ120U, ALQ130)
+alc13 <- nhanes("ALQ_H") %>% 
+  dplyr::select(SEQN, ALQ101, ALQ110, ALQ120Q, ALQ120U, ALQ130)
+alc15 <- nhanes("ALQ_I") %>% 
+  dplyr::select(SEQN, ALQ101, ALQ110, ALQ120Q, ALQ120U, ALQ130)
+# Bone Density Data
+bone11 <- nhanes("DXX_G") %>% 
+  dplyr::select(SEQN, DXDTOBMC, DXDTOBMD)
+bone13 <- nhanes("DXX_H") %>% 
+  dplyr::select(SEQN, DXDTOBMC, DXDTOBMD)
+bone15 <- nhanes("DXX_I") %>% 
+  dplyr::select(SEQN, DXDTOBMC, DXDTOBMD)
+```
+ 
+## Merge Data
+```{r}
+df11 <- merge(demo11, alc11, by = c("SEQN"), all = TRUE) %>% merge(bone11, by = c("SEQN"), all = TRUE)
+df13 <- merge(demo13, alc13, by = c("SEQN"), all = TRUE) %>% merge(bone13, by = c("SEQN"), all = TRUE)
+df15 <- merge(demo15, alc15, by = c("SEQN"), all = TRUE) %>% merge(bone15, by = c("SEQN"), all = TRUE)
+
+df <- rbind(df11, df13, df15)
+
+df$SEQN <- NULL
+```
+ 
+## Data Cleaning
+
+### Assess Variables
+
+First I wanted to know the values of my selected variables so that I could make more concise categories and also assess for missing values and how they are coded. 
+```{r}
+df %>% tabyl(RIDRETH3)
+df %>% tabyl(RIDEXPRG)
+df %>% tabyl(ALQ101)
+df %>% tabyl(ALQ110)
+df %>% tabyl(ALQ120Q)
+df %>% tabyl(ALQ120U)
+df %>% tabyl(ALQ130)
+```
+
+This was a useful part of data cleaning, as I was able to see that certain missing values were coded as 999 or 777 rather than NA, this would've seriously thrown off my calculations when I tried to create the variable to capture average drinks over last 12 months time period.
+
+### Creating New Variables
+
+```{r}
+dff <- df %>% 
+  mutate(weight = 1/3*df$WTMEC2YR,
+         preg = as.factor(case_when(
+                          RIDEXPRG == "Yes, positive lab pregnancy test or self-reported pregnant at exam" ~ "Yes",
+                          RIDEXPRG == "The participant was not pregnant at exam" ~ "No",
+                          TRUE ~ NA)),
+         race = as.factor(case_when(
+                          RIDRETH3 == "Mexican American" | RIDRETH3 == "Other Hispanic" ~ "Hispanic",
+                          RIDRETH3 == "Non-Hispanic White" ~ "White",
+                          RIDRETH3 == "Non-Hispanic Black" ~ "Black",
+                          RIDRETH3 == "Non-Hispanic Asian" ~ "Asian",
+                          RIDRETH3 == "Other Race - Including Multi-Racial" ~ "Other")),
+         drinksyr = if_else(ALQ101 == "Don't know", NA, ALQ101),
+         drinkslife = if_else(ALQ110 == "Don't know" | ALQ110 == "Refused", NA, ALQ110),
+         drinksfreq = if_else(ALQ120Q == 777 | ALQ120Q == 999, NA, ALQ120Q),
+         drinksamt = if_else(ALQ130 == 777 | ALQ130 == 999, NA, ALQ130),
+         drinksfreqcalc = case_when(
+                          ALQ120U == "Week" ~ drinksfreq * 52,
+                          ALQ120U == "Month" ~ drinksfreq * 12,
+                          ALQ120U == "Year" ~ drinksfreq,
+                          ALQ120Q == 0 & ALQ120U == NA ~ 0,
+                          ALQ120Q == NA & ALQ120U == NA ~ NA),
+         drinkstotalyr = drinksfreqcalc * drinksamt,
+         drinktype = as_factor(case_when(
+                            RIAGENDR == "Female" & ALQ130 >= 4 ~ "Binge Drinker",
+                            RIAGENDR == "Female" & ALQ130 < 4 ~ "Drinker",
+                            RIAGENDR == "Male" & ALQ130 >= 5 ~ "Binge Drinker",
+                            RIAGENDR == "Male" & ALQ130 < 5 ~ "Drinker",
+                            ALQ110 == "No" ~ "Non Drinker"))
+           ) %>% 
+  rename(
+    gender = RIAGENDR,
+    age = RIDAGEYR,
+    psu = SDMVPSU,
+    strata = SDMVSTRA,
+    bmc = DXDTOBMC,
+    bmd = DXDTOBMD
+  ) %>% 
+  dplyr::select(-RIDRETH3, -RIDEXPRG, -ALQ101, -ALQ110, - ALQ120Q, - ALQ120U, -ALQ130, -WTMEC2YR)
+```
+ 
+Now I'm going to check out how my new columns look and make sure that there's nothing unexpected that I didn't cover through all of my case_when()s and if_else()s.
+```{r}
+str(dff)
+```
+
+It looks like factor levels that have no observations are still appearing as a valid level, I'm going to use the droplevels() function to clean this up.
+```{r}
+dff$drinksyr <- droplevels(dff$drinksyr)
+dff$drinkslife <- droplevels(dff$drinkslife)
+```
+ 
+And now re-checking.
+```{r}
+str(dff)
+```
+ 
+### Variable Summary
+
+My final dataset includes the following variables that I'm going to use to assess alcohol consumption
+ - drinksyr: have you had at least 12 drinks in a year?
+ - drinkslife: have you had at least 12 drinks in your life?
+ - drinksamt: ALQ130 with missing values recoded as NA
+ - drinksfreq: ALQ120Q with missing values recoded as NA
+ - drinksfreqcalc: drinking days during a year period
+ - drinkstotalyr: average total drinks a year created by multiplying average drinks/drinking day with average amount of drinking days in a year
+ - drinktype: if an average drinking day for an individual is considered binge drinking (note that these amounts are different for men and women)
+
+## Table
+```{r}
+init.table <- CreateTableOne(data = dff, 
+                             includeNA = TRUE)
+print(init.table,
+      showAllLevels = TRUE)
+```
+ 
+## Survey Object
+ 
+Here I used the survey package to create a survey design object with my clean dataset.
+```{r}
+alc.svy <- svydesign(id = ~psu,
+                     strata = ~strata,
+                     weights = ~weight,
+                     nest = TRUE,
+                     survey.lonely.psu = "adjust",
+                     data = dff)
+```
+ 
+### Exclusion Criteria
+
+As survey data is only supposed to be filtered through the subset() method of an already existing survey object, I used this method to apply my exclusion criteria of age being over 21 and the participant not being pregnant. I also filtered out observations where the first question about alcohol consumption behaviors was missing, and missing information about bone mineral density and bone mineral content. 
+```{r}
+alc.subset <- subset(alc.svy,
+                     age >= 21 
+                     & preg == "No" | is.na(preg) 
+                     & !is.na(drinksyr) 
+                     & !is.na(bmc) 
+                     & !is.na(bmd))
+```
+ 
+
+## Graphics
+### Box Plot of Bone Health Metrics by Type of Drinker
+
+Here I used the built in graphics in the survey package to create a box plot.
+```{r}
+par(mfrow = c(1, 2),
+    xpd = NA)
+svyboxplot(bmd ~ drinktype, 
+           alc.subset,
+           ylab = "Bone Mineral Density",
+           col = c("#98bad5", "#305674", "#c6d3e3"),
+           show.names = FALSE)
+svyboxplot(bmc ~ drinktype, 
+           alc.subset,
+           ylab = "Bone Mineral Content",
+           col = c("#98bad5", "#305674", "#c6d3e3"),
+           show.names = FALSE,
+           bty = "L")
+legend("bottomleft", 
+       legend = c("Non Drinker", "Normal Drinker", "Binge Drinker"),
+       fill = c("#98bad5", "#305674", "#c6d3e3"),
+       inset = c(-1.25, -0.3),
+       cex = 0.9,
+       horiz = TRUE)
+mtext("Bone Mineral Content and Density by Type of Drinker", 
+      side = 3, 
+      line = -2.5,
+      cex = 1.2,
+      outer = TRUE)
+```
+
+### Bone Health Metrics by Average Amount of Alcoholic Drinks Consumed in One Year
+
+Here I use the built in graphics to take a look at the relationship between the two different bone health measurements and total average alcohol consumption over the course of a year.
+```{r}
+par(mfrow = c(1, 2))
+      
+svyplot(bmd ~ drinkstotalyr, 
+        alc.subset,
+        xlim = c(0, 5000),
+        xlab = "",
+        ylab = "Bone Mineral Density (g/cm^2)",
+        style = c("transparent"))
+lines(svysmooth(bmd ~ drinkstotalyr, 
+                alc.subset, 
+                bandwidth = 200),
+       col = "#2C54A7",
+       lwd = 2)
+
+svyplot(bmc ~ drinkstotalyr, 
+        alc.subset,
+        xlim = c(0, 5000),
+        ylab = "Bone Mineral Content (g)",
+        xlab = "",
+        style = c("transparent"))
+lines(svysmooth(bmc ~ drinkstotalyr, 
+                alc.subset, 
+                bandwidth = 200),
+       col = "#2C54A7",
+       lwd = 2)
+mtext("Bone Mineral Density(g/cm^2) and Bone Mineral Content by
+      Average Alcoholic Drinks in One Year", 
+      side = 3, 
+      line = -2.5,
+      cex = 1.2,
+      outer = TRUE)
+mtext("Average Alcoholic Drinks in One Year", 
+      side = 1, 
+      line = -2.5,
+      outer = TRUE)
+```
+
+## Average Total Drinks in One Year Regression
+
+Now I'm going to fit some models to assess the relationship between my selected responses and covariates to see if there are any relationships between alcohol consumption and bone health measures when adjusting for other variables. 
+I also plot the diagnostic plots to assess these models.
+
+### Bone Density
+```{r}
+bmd.glm <- svyglm(bmd ~ drinkstotalyr + gender + age + race, 
+               alc.subset)
+par(mfrow = c(2, 2))
+plot(bmd.glm)
+```
+Diagnostics look good, the data is relatively normal and there are no obvious patterns in the other values that would throw off any assumptions. Now I'm going to take a look at a summary of the model to get the coefficients. 
+```{r}
+summary(bmd.glm)
+```
+So it looks like drinkstotalyr is not statistically significant. 
+
+### Bone Mineral Content
+
+Now to check out the same things for the bone mineral content variable instead of the bone mineral density.
+```{r}
+bmc.glm <- svyglm(bmc ~ drinkstotalyr + gender + age + race, 
+               alc.subset)
+par(mfrow = c(2, 2))
+plot(bmc.glm)
+```
+This looks okay, I'm going to look at the summary.
+```{r}
+summary(bmc.glm)
+```
+This is not statistically significant either.
+
+## Type of Drinker Regression
+
+I'm now going to look at my created drinktype variable to see if there is any signifigance within a model that has that variable instead of total drinks consumed in a year on average.
+
+### Bone Mineral Density
+```{r}
+bmd.glm2 <- svyglm(bmd ~ drinktype + gender + age + race, 
+                   alc.subset)
+summary(bmd.glm2)
+```
+
+### Bone Mineral Content
+```{r}
+bmc.glm2 <- svyglm(bmc ~ drinktype + gender + age + race, 
+                   alc.subset)
+summary(bmc.glm2)
+```
+
+So these models do show a positive increase of bone mineral content and density when the individual is classified as a drinker and also, to a lesser extent, as a binge drinker, which reinforces the findings from previous papers about this topic.
+
+## Conclusion
+
+Things that are generally considered bad for you aren't always bad for everything, sometimes they can also be neutral when you're looking at very specific measures of someone's health rather than the big picture.
+
+I'm definitely used to using ggplot2 for graphics, but using R's default graphics syntax was a bit challenging and definitely took me a bit to find out how to do certain things, like putting the legend on the box plot for example. I was originally hesitant to use these built in graphics due to that, but I decided to go ahead and use them as it is meant to be used with survey data and the content was correct, it just took me longer to customize the plots.
