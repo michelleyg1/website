@@ -1,0 +1,211 @@
+---
+title: Liver Condition Trends
+author: R package build
+date: '2024-03-11'
+slug: liver-condition-trends
+categories: ["R", "Public Health"]
+tags: ["Liver", "Chronic Illness", "NHANES"]
+description: Analyzing trends in proportion of the US population with a liver condition and average age at diagnosis
+image: "images/liver.jpeg"
+math: ~
+license: Michelle Gulotta
+hidden: no
+comments: no
+---
+
+For this post, I decided to analyze NHANES data from the years 2011-2016 once again, as there are so many variables to explore and possible research questions that can be looked into from this data alone. I decided to do an analysis of trends in very general liver health data, in this case the proportion of the population that has been told that they have a liver condition, and average age at diagnosis in those that responded yes.
+
+There are many kinds of liver conditions that can be caused by either genetic, viral, or lifestyle factors that are not always serious, but can definitely be if it goes untreated. So, I was interested in seeing if there was a change in the responses to these survey interview questions over the three two-year long cycles.
+
+## Load Packages
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(nhanesA)
+  library(survey)
+  library(janitor)
+  library(tableone)
+})
+```
+
+## Load Data
+
+Looking back at my prior NHANES projects, I realized that the code to import the data was quite repetitive, so I decided to face my fear of writing functions and write some simple functions to import the data that I needed from the three different survey cycles. First, I created one for the demographic data, and then the liver condition data as I would be selecting the same columns from all three data sets.
+
+### Demographic Import Function
+```{r}
+demo <- function(nhanes = "DEMO") {
+  nhanes(nhanes) %>% 
+    dplyr::select(SEQN, RIAGENDR, RIDAGEYR, RIDEXPRG, RIDRETH3, SDMVPSU, SDMVSTRA, WTINT2YR)
+}
+```
+
+### Liver Import Function
+```{r}
+liv <- function(nhanes = "MCQ") {
+  nhanes(nhanes) %>% 
+    dplyr::select(SEQN, MCQ160L, MCQ180L)
+}
+```
+
+and now to apply my functions to import the data that I need in a less repetitive manner.
+```{r}
+# Demographics Data
+demo_11 <- demo("DEMO_G")
+demo_13 <- demo("DEMO_H")
+demo_15 <- demo("DEMO_I")
+# Liver Data
+liv_11 <- liv("MCQ_G")
+liv_13 <- liv("MCQ_H")
+liv_15 <- liv("MCQ_I")
+```
+
+## Merge Data
+
+I'm also going to create a function to merge the demographic and liver data by the unique identifier SEQN, and then drop the column as that won't be needed past this step to create the final dataset. 
+```{r}
+merge.nhanes <- function(demo, liv) {
+  merged <- merge(demo, liv, by = c("SEQN"), all = TRUE)
+  merged$SEQN <- NULL
+  merged
+}
+```
+
+Then I applied the merge.nhanes() functions, and also created a separate column that identifies which cycle that the specific data came from as that is the variable I am interested in comparing as I'm trying to see if there are any changes over time that have occurred. And finally, I create my final, unclean, and merged dataset using rbind().
+```{r}
+df_11 <- merge.nhanes(demo_11, liv_11) %>% 
+  mutate(cycle = "2011-2012 Cycle")
+df_13 <- merge.nhanes(demo_13, liv_13) %>% 
+  mutate(cycle = "2013-2014 Cycle")
+df_15 <- merge.nhanes(demo_15, liv_15) %>% 
+  mutate(cycle = "2015-2016 Cycle")
+
+df <- rbind(df_11, df_13, df_15)
+```
+
+## Clean Data
+
+I then use dyplr's mutate, rename, and select to clean up the dataset and give it more intuitive variable names. I also had to go back in and make sure that all types of coding for missing data was accounted for as I noticed when doing summary statistics later that the liver age variable was way outside of a reasonable age that someone would even be alive, 
+
+so I assumed there was alternative coding for NAs that I must have missed, and found out some observations were coded as 99999 instead of NA, and I fixed that with a simple if_else() function.
+```{r}
+dff <- df %>% 
+  mutate(
+         preg = as.factor(case_when(
+                          RIDEXPRG == "Yes, positive lab pregnancy test or self-reported pregnant at exam" ~ "Yes",
+                          RIDEXPRG == "The participant was not pregnant at exam" ~ "No",
+                          TRUE ~ NA)),
+         race = as.factor(case_when(
+                          RIDRETH3 == "Mexican American" | RIDRETH3 == "Other Hispanic" ~ "Hispanic",
+                          RIDRETH3 == "Non-Hispanic White" ~ "White",
+                          RIDRETH3 == "Non-Hispanic Black" ~"Black",
+                          RIDRETH3 == "Non-Hispanic Asian" ~ "Asian",
+                          RIDRETH3 == "Other Race - Including Multi-Racial" ~ "Other")),
+         liver = as.factor(case_when(
+                          MCQ160L == "Yes" ~ "Yes",
+                          MCQ160L == "No" ~ "No",
+                          TRUE ~ NA)),
+         liverage = if_else(MCQ180L == 99999, NA, MCQ180L),
+         cycle = as.factor(cycle)
+  ) %>% 
+  rename(
+    gender = RIAGENDR,
+    age = RIDAGEYR,
+    psu = SDMVPSU,
+    strata = SDMVSTRA,
+    weight = WTINT2YR
+  ) %>% 
+  dplyr::select(-RIDRETH3, -RIDEXPRG, -MCQ160L, -MCQ180L)
+```
+
+
+## Summary Statistics
+
+Now to take a look at a summary table of my data to make sure that everything was coded in the way that I want it to be, and that there are no glaring outliers anymore that may show that the data was not cleaned properly.
+```{r}
+init.table <- CreateTableOne(data = dff, includeNA = TRUE)
+print(init.table, showAllLevels = TRUE)
+```
+Looks good! Doesn't say that the average age that someone was told that they had a liver condition was 49,000 anymore haha. 
+
+## Survey Design Objects
+
+Now an important part of the survey analysis process in R, to create a survey design object with my cleaned up data frame using the psu weight, strata variables created by NHANES.
+```{r}
+svy.des <- svydesign(id = ~psu,
+                     strata = ~strata,
+                     weights = ~weight,
+                     nest = TRUE,
+                     survey.lonely.psu = "adjust",
+                     data = dff)
+```
+
+## Apply Exclusion Criteria
+
+And to apply my exclusion criteria to the survey design object to exclude participants under 18, ones that are currently confirmed to be pregnant, and ones with missing values for the liver variable (which stores the response to the question, "Were you ever told that you have a liver condition?")
+```{r}
+svy.subset <- subset(svy.des,
+                     age >= 18
+                     & preg == "No" | is.na(preg)
+                     & !is.na(liver))
+```
+
+## Proportion of Population with a Liver Condition
+
+I'm going to use the svyby() function to calculate the proportion of people diagnosed with a liver condition, using the survey package takes the weights into account and makes it reflect the proportion of the whole population that has been told that they have a liver condition, rather than just the group surveyed. 
+
+I also found that you can extract elements of the svyby function if you assign the output to an object, which I did below in order to graph the values in a bar chart.
+```{r}
+bys <- svyby(~liver, ~cycle, svy.subset, svymean, na.rm = TRUE)
+barplot(bys$liverYes, 
+        names.arg = bys$cycle,
+        col = c("#f0bdf7", "#efa2ef", "#ff6399"))
+title(main = "Proportion of Population Told that They Have a Liver Condition",
+      xlab = "Survey Cycle Years",
+      ylab = "Proportion")
+```
+From the graph it appears that the proportion of the population who have been told that they have a liver condition is slightly increasing over the three different survey cycles. However, the y axis had to be scaled to a very small number in order for this difference to be seen on the graph, as a very small proportion of the population have a liver condition. 
+
+### Change in Proportion of Population with a Liver Condition Over Time
+
+I'm going to make a quick table using the svytable() function to take a look at how many individuals in the population have been told that they have a liver condition vs. those that do not over the three survey cycles.
+```{r}
+svytable(~liver + cycle, svy.subset)
+```
+Just by looking at the table, the number of yes answers has gotten greater, but so has the population overall. I'm going to do a chi squared test to see if there are any statistically differences in the proportions.
+```{r}
+svychisq(~liver + cycle, svy.subset, statistic = "Chisq")
+```
+At a p value threshold of 0.05, this null hypothesis that there are no differences in the proportions cannot be rejected.
+
+## Average Age at Diagnosis
+
+Another variable that I am interested in taking a closer look at how it has changed over the three survey cycles is the liverage variable. This is a follow up question for those who responded yes to the previous question if they were ever told that they had a liver condition to capture the age that they were first told that they had a liver condition.
+
+I used the svyboxplot() function to visualize this data comparing the average age at diagnosis with a liver condition between survey cycles.
+```{r}
+svyboxplot(liverage ~ cycle, 
+           svy.subset,
+           col = c("#f0bdf7", "#efa2ef", "#ff6399"))
+title(main = "Average Age when Diagnosed with a Liver Condition",
+      xlab = "Survey Cycle Years",
+      ylab = "Average Age at Diagnosis")
+```
+
+### Change in Average Age at Diagnosis of a Liver Condition Over Time
+
+In order to compare the average age at diagnosis within each survey cycle group, I performed an analysis of variance test by fitting a svyglm() model along with using the regTermTest() function, as there is no specific anova function in this package that takes into consideration the survey design.
+```{r}
+liv.fit <- svyglm(liverage ~ cycle, svy.subset)
+regTermTest(liv.fit, ~cycle)
+```
+
+It looks like this variable as well does not show any statistically significant differences between the survey cycle years at a p = 0.05 threshold.
+
+## Conclusion
+
+I wanted to do a trend analysis over the years as it was a bit of a departure from what I have already done with the NHANES data in the past. In doing this analysis, I also started using R's ability to write custom functions to avoid writing repetitive code, which was very intimidating to be before starting this, but I realized that it's just generalizing regular R code.
+
+I would like to do future analyses with even more years, as since there were only three cycles to compare there were not too many changes noted, and perhaps there is more of a long term (10+ year) trend that I'm missing by just focusing on a six year time period. I'm also excited for when the newest NHANES data releases that would be the first post-pandemic data, so that we can see how the pandemic changed up trends in population health data.
+
+This trend analysis can also be expanded upon by adding the laboratory data for liver health markers from the Mobile Examination Center (MEC) portion of the survey. One thing to note that would change if this was added as a variable is the survey weights, which would be represented by the MEC weigthts rather than the interview weights, as a smaller amount of people came in for the MEC exam compared to the at home interview.

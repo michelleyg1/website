@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Analyzing trends in proportion of the US population with a liver condition and average age at diagnosis'>
+<title>Liver Condition Trends</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/liver-condition-trends/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Liver Condition Trends'>
+<meta property='og:description' content='Analyzing trends in proportion of the US population with a liver condition and average age at diagnosis'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/liver-condition-trends/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Liver' /><meta property='article:tag' content='Chronic Illness' /><meta property='article:tag' content='NHANES' /><meta property='article:published_time' content='2024-03-11T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-03-11T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/liver-condition-trends/images/liver.jpeg' />
+<meta name="twitter:title" content="Liver Condition Trends">
+<meta name="twitter:description" content="Analyzing trends in proportion of the US population with a liver condition and average age at diagnosis"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/liver-condition-trends/images/liver.jpeg' />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KWPFCQTTER"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-KWPFCQTTER', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-packages">Load Packages</a></li>
+    <li><a href="#load-data">Load Data</a>
+      <ol>
+        <li><a href="#demographic-import-function">Demographic Import Function</a></li>
+        <li><a href="#liver-import-function">Liver Import Function</a></li>
+      </ol>
+    </li>
+    <li><a href="#merge-data">Merge Data</a></li>
+    <li><a href="#clean-data">Clean Data</a></li>
+    <li><a href="#summary-statistics">Summary Statistics</a></li>
+    <li><a href="#survey-design-objects">Survey Design Objects</a></li>
+    <li><a href="#apply-exclusion-criteria">Apply Exclusion Criteria</a></li>
+    <li><a href="#proportion-of-population-with-a-liver-condition">Proportion of Population with a Liver Condition</a>
+      <ol>
+        <li><a href="#change-in-proportion-of-population-with-a-liver-condition-over-time">Change in Proportion of Population with a Liver Condition Over Time</a></li>
+      </ol>
+    </li>
+    <li><a href="#average-age-at-diagnosis">Average Age at Diagnosis</a>
+      <ol>
+        <li><a href="#change-in-average-age-at-diagnosis-of-a-liver-condition-over-time">Change in Average Age at Diagnosis of a Liver Condition Over Time</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/liver-condition-trends/">
+                <img src="/p/liver-condition-trends/images/liver_hu5459c0360c2b0cb7a147d2df0eb350ca_229405_800x0_resize_q75_box.jpeg"
+                        srcset="/p/liver-condition-trends/images/liver_hu5459c0360c2b0cb7a147d2df0eb350ca_229405_800x0_resize_q75_box.jpeg 800w, /p/liver-condition-trends/images/liver_hu5459c0360c2b0cb7a147d2df0eb350ca_229405_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="1213" 
+                        loading="lazy"
+                        alt="Featured image of post Liver Condition Trends" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/liver-condition-trends/">Liver Condition Trends</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Analyzing trends in proportion of the US population with a liver condition and average age at diagnosis
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 11, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>For this post, I decided to analyze NHANES data from the years 2011-2016 once again, as there are so many variables to explore and possible research questions that can be looked into from this data alone. I decided to do an analysis of trends in very general liver health data, in this case the proportion of the population that has been told that they have a liver condition, and average age at diagnosis in those that responded yes.</p>
+<p>There are many kinds of liver conditions that can be caused by either genetic, viral, or lifestyle factors that are not always serious, but can definitely be if it goes untreated. So, I was interested in seeing if there was a change in the responses to these survey interview questions over the three two-year long cycles.</p>
+<h2 id="load-packages">Load Packages</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">nhanesA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">survey</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">tableone</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="load-data">Load Data</h2>
+<p>Looking back at my prior NHANES projects, I realized that the code to import the data was quite repetitive, so I decided to face my fear of writing functions and write some simple functions to import the data that I needed from the three different survey cycles. First, I created one for the demographic data, and then the liver condition data as I would be selecting the same columns from all three data sets.</p>
+<h3 id="demographic-import-function">Demographic Import Function</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">demo</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">nhanes</span> <span class="o">=</span> <span class="s">&#34;DEMO&#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">nhanes</span><span class="p">(</span><span class="n">nhanes</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">SEQN</span><span class="p">,</span> <span class="n">RIAGENDR</span><span class="p">,</span> <span class="n">RIDAGEYR</span><span class="p">,</span> <span class="n">RIDEXPRG</span><span class="p">,</span> <span class="n">RIDRETH3</span><span class="p">,</span> <span class="n">SDMVPSU</span><span class="p">,</span> <span class="n">SDMVSTRA</span><span class="p">,</span> <span class="n">WTINT2YR</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="liver-import-function">Liver Import Function</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">liv</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">nhanes</span> <span class="o">=</span> <span class="s">&#34;MCQ&#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">nhanes</span><span class="p">(</span><span class="n">nhanes</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">SEQN</span><span class="p">,</span> <span class="n">MCQ160L</span><span class="p">,</span> <span class="n">MCQ180L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and now to apply my functions to import the data that I need in a less repetitive manner.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># Demographics Data</span>
+</span></span><span class="line"><span class="cl"><span class="n">demo_11</span> <span class="o">&lt;-</span> <span class="nf">demo</span><span class="p">(</span><span class="s">&#34;DEMO_G&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">demo_13</span> <span class="o">&lt;-</span> <span class="nf">demo</span><span class="p">(</span><span class="s">&#34;DEMO_H&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">demo_15</span> <span class="o">&lt;-</span> <span class="nf">demo</span><span class="p">(</span><span class="s">&#34;DEMO_I&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Liver Data</span>
+</span></span><span class="line"><span class="cl"><span class="n">liv_11</span> <span class="o">&lt;-</span> <span class="nf">liv</span><span class="p">(</span><span class="s">&#34;MCQ_G&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">liv_13</span> <span class="o">&lt;-</span> <span class="nf">liv</span><span class="p">(</span><span class="s">&#34;MCQ_H&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">liv_15</span> <span class="o">&lt;-</span> <span class="nf">liv</span><span class="p">(</span><span class="s">&#34;MCQ_I&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="merge-data">Merge Data</h2>
+<p>I&rsquo;m also going to create a function to merge the demographic and liver data by the unique identifier SEQN, and then drop the column as that won&rsquo;t be needed past this step to create the final dataset.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">merge.nhanes</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">liv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">merged</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">liv</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;SEQN&#34;</span><span class="p">),</span> <span class="n">all</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">merged</span><span class="o">$</span><span class="n">SEQN</span> <span class="o">&lt;-</span> <span class="kc">NULL</span>
+</span></span><span class="line"><span class="cl">  <span class="n">merged</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then I applied the merge.nhanes() functions, and also created a separate column that identifies which cycle that the specific data came from as that is the variable I am interested in comparing as I&rsquo;m trying to see if there are any changes over time that have occurred. And finally, I create my final, unclean, and merged dataset using rbind().</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">df_11</span> <span class="o">&lt;-</span> <span class="nf">merge.nhanes</span><span class="p">(</span><span class="n">demo_11</span><span class="p">,</span> <span class="n">liv_11</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span><span class="n">cycle</span> <span class="o">=</span> <span class="s">&#34;2011-2012 Cycle&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_13</span> <span class="o">&lt;-</span> <span class="nf">merge.nhanes</span><span class="p">(</span><span class="n">demo_13</span><span class="p">,</span> <span class="n">liv_13</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span><span class="n">cycle</span> <span class="o">=</span> <span class="s">&#34;2013-2014 Cycle&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df_15</span> <span class="o">&lt;-</span> <span class="nf">merge.nhanes</span><span class="p">(</span><span class="n">demo_15</span><span class="p">,</span> <span class="n">liv_15</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span><span class="n">cycle</span> <span class="o">=</span> <span class="s">&#34;2015-2016 Cycle&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">rbind</span><span class="p">(</span><span class="n">df_11</span><span class="p">,</span> <span class="n">df_13</span><span class="p">,</span> <span class="n">df_15</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="clean-data">Clean Data</h2>
+<p>I then use dyplr&rsquo;s mutate, rename, and select to clean up the dataset and give it more intuitive variable names. I also had to go back in and make sure that all types of coding for missing data was accounted for as I noticed when doing summary statistics later that the liver age variable was way outside of a reasonable age that someone would even be alive,</p>
+<p>so I assumed there was alternative coding for NAs that I must have missed, and found out some observations were coded as 99999 instead of NA, and I fixed that with a simple if_else() function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">dff</span> <span class="o">&lt;-</span> <span class="n">df</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">         <span class="n">preg</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDEXPRG</span> <span class="o">==</span> <span class="s">&#34;Yes, positive lab pregnancy test or self-reported pregnant at exam&#34;</span> <span class="o">~</span> <span class="s">&#34;Yes&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDEXPRG</span> <span class="o">==</span> <span class="s">&#34;The participant was not pregnant at exam&#34;</span> <span class="o">~</span> <span class="s">&#34;No&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="kc">TRUE</span> <span class="o">~</span> <span class="kc">NA</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">race</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Mexican American&#34;</span> <span class="o">|</span> <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Other Hispanic&#34;</span> <span class="o">~</span> <span class="s">&#34;Hispanic&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic White&#34;</span> <span class="o">~</span> <span class="s">&#34;White&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic Black&#34;</span> <span class="o">~</span><span class="s">&#34;Black&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic Asian&#34;</span> <span class="o">~</span> <span class="s">&#34;Asian&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Other Race - Including Multi-Racial&#34;</span> <span class="o">~</span> <span class="s">&#34;Other&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">liver</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">MCQ160L</span> <span class="o">==</span> <span class="s">&#34;Yes&#34;</span> <span class="o">~</span> <span class="s">&#34;Yes&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">MCQ160L</span> <span class="o">==</span> <span class="s">&#34;No&#34;</span> <span class="o">~</span> <span class="s">&#34;No&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="kc">TRUE</span> <span class="o">~</span> <span class="kc">NA</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">liverage</span> <span class="o">=</span> <span class="nf">if_else</span><span class="p">(</span><span class="n">MCQ180L</span> <span class="o">==</span> <span class="m">99999</span><span class="p">,</span> <span class="kc">NA</span><span class="p">,</span> <span class="n">MCQ180L</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">cycle</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">rename</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gender</span> <span class="o">=</span> <span class="n">RIAGENDR</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">age</span> <span class="o">=</span> <span class="n">RIDAGEYR</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">psu</span> <span class="o">=</span> <span class="n">SDMVPSU</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">strata</span> <span class="o">=</span> <span class="n">SDMVSTRA</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">weight</span> <span class="o">=</span> <span class="n">WTINT2YR</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">RIDRETH3</span><span class="p">,</span> <span class="o">-</span><span class="n">RIDEXPRG</span><span class="p">,</span> <span class="o">-</span><span class="n">MCQ160L</span><span class="p">,</span> <span class="o">-</span><span class="n">MCQ180L</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary-statistics">Summary Statistics</h2>
+<p>Now to take a look at a summary table of my data to make sure that everything was coded in the way that I want it to be, and that there are no glaring outliers anymore that may show that the data was not cleaned properly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">init.table</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">dff</span><span class="p">,</span> <span class="n">includeNA</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">print</span><span class="p">(</span><span class="n">init.table</span><span class="p">,</span> <span class="n">showAllLevels</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                       
+</span></span><span class="line"><span class="cl">##                        level           Overall            
+</span></span><span class="line"><span class="cl">##   n                                       29902           
+</span></span><span class="line"><span class="cl">##   gender (%)           Male               14751 (49.3)    
+</span></span><span class="line"><span class="cl">##                        Female             15151 (50.7)    
+</span></span><span class="line"><span class="cl">##   age (mean (SD))                         31.60 (24.59)   
+</span></span><span class="line"><span class="cl">##   psu (mean (SD))                          1.54 (0.56)    
+</span></span><span class="line"><span class="cl">##   strata (mean (SD))                     111.13 (13.03)   
+</span></span><span class="line"><span class="cl">##   weight (mean (SD))                   31244.60 (31423.20)
+</span></span><span class="line"><span class="cl">##   cycle (%)            2011-2012 Cycle     9756 (32.6)    
+</span></span><span class="line"><span class="cl">##                        2013-2014 Cycle    10175 (34.0)    
+</span></span><span class="line"><span class="cl">##                        2015-2016 Cycle     9971 (33.3)    
+</span></span><span class="line"><span class="cl">##   preg (%)             No                  3341 (11.2)    
+</span></span><span class="line"><span class="cl">##                        Yes                  192 ( 0.6)    
+</span></span><span class="line"><span class="cl">##                        &lt;NA&gt;               26369 (88.2)    
+</span></span><span class="line"><span class="cl">##   race (%)             Asian               3398 (11.4)    
+</span></span><span class="line"><span class="cl">##                        Black               7079 (23.7)    
+</span></span><span class="line"><span class="cl">##                        Hispanic            8350 (27.9)    
+</span></span><span class="line"><span class="cl">##                        Other               1362 ( 4.6)    
+</span></span><span class="line"><span class="cl">##                        White               9713 (32.5)    
+</span></span><span class="line"><span class="cl">##   liver (%)            No                 16307 (54.5)    
+</span></span><span class="line"><span class="cl">##                        Yes                  712 ( 2.4)    
+</span></span><span class="line"><span class="cl">##                        &lt;NA&gt;               12883 (43.1)    
+</span></span><span class="line"><span class="cl">##   liverage (mean (SD))                    42.00 (16.61)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Looks good! Doesn&rsquo;t say that the average age that someone was told that they had a liver condition was 49,000 anymore haha.</p>
+<h2 id="survey-design-objects">Survey Design Objects</h2>
+<p>Now an important part of the survey analysis process in R, to create a survey design object with my cleaned up data frame using the psu weight, strata variables created by NHANES.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">svy.des</span> <span class="o">&lt;-</span> <span class="nf">svydesign</span><span class="p">(</span><span class="n">id</span> <span class="o">=</span> <span class="o">~</span><span class="n">psu</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">strata</span> <span class="o">=</span> <span class="o">~</span><span class="n">strata</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">weights</span> <span class="o">=</span> <span class="o">~</span><span class="n">weight</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">nest</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">survey.lonely.psu</span> <span class="o">=</span> <span class="s">&#34;adjust&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">data</span> <span class="o">=</span> <span class="n">dff</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="apply-exclusion-criteria">Apply Exclusion Criteria</h2>
+<p>And to apply my exclusion criteria to the survey design object to exclude participants under 18, ones that are currently confirmed to be pregnant, and ones with missing values for the liver variable (which stores the response to the question, &ldquo;Were you ever told that you have a liver condition?&rdquo;)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">svy.subset</span> <span class="o">&lt;-</span> <span class="nf">subset</span><span class="p">(</span><span class="n">svy.des</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">age</span> <span class="o">&gt;=</span> <span class="m">18</span>
+</span></span><span class="line"><span class="cl">                     <span class="o">&amp;</span> <span class="n">preg</span> <span class="o">==</span> <span class="s">&#34;No&#34;</span> <span class="o">|</span> <span class="nf">is.na</span><span class="p">(</span><span class="n">preg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                     <span class="o">&amp;</span> <span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">liver</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="proportion-of-population-with-a-liver-condition">Proportion of Population with a Liver Condition</h2>
+<p>I&rsquo;m going to use the svyby() function to calculate the proportion of people diagnosed with a liver condition, using the survey package takes the weights into account and makes it reflect the proportion of the whole population that has been told that they have a liver condition, rather than just the group surveyed.</p>
+<p>I also found that you can extract elements of the svyby function if you assign the output to an object, which I did below in order to graph the values in a bar chart.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">bys</span> <span class="o">&lt;-</span> <span class="nf">svyby</span><span class="p">(</span><span class="o">~</span><span class="n">liver</span><span class="p">,</span> <span class="o">~</span><span class="n">cycle</span><span class="p">,</span> <span class="n">svy.subset</span><span class="p">,</span> <span class="n">svymean</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">barplot</span><span class="p">(</span><span class="n">bys</span><span class="o">$</span><span class="n">liverYes</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">names.arg</span> <span class="o">=</span> <span class="n">bys</span><span class="o">$</span><span class="n">cycle</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#f0bdf7&#34;</span><span class="p">,</span> <span class="s">&#34;#efa2ef&#34;</span><span class="p">,</span> <span class="s">&#34;#ff6399&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">title</span><span class="p">(</span><span class="n">main</span> <span class="o">=</span> <span class="s">&#34;Proportion of Population Told that They Have a Liver Condition&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;Survey Cycle Years&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;Proportion&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/liver-condition-trends/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+From the graph it appears that the proportion of the population who have been told that they have a liver condition is slightly increasing over the three different survey cycles. However, the y axis had to be scaled to a very small number in order for this difference to be seen on the graph, as a very small proportion of the population have a liver condition. 
+<h3 id="change-in-proportion-of-population-with-a-liver-condition-over-time">Change in Proportion of Population with a Liver Condition Over Time</h3>
+<p>I&rsquo;m going to make a quick table using the svytable() function to take a look at how many individuals in the population have been told that they have a liver condition vs. those that do not over the three survey cycles.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svytable</span><span class="p">(</span><span class="o">~</span><span class="n">liver</span> <span class="o">+</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">svy.subset</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##      cycle
+</span></span><span class="line"><span class="cl">## liver 2011-2012 Cycle 2013-2014 Cycle 2015-2016 Cycle
+</span></span><span class="line"><span class="cl">##   No        214089692       218439531       221466497
+</span></span><span class="line"><span class="cl">##   Yes         7262141         7746168         9628194
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Just by looking at the table, the number of yes answers has gotten greater, but so has the population overall. I&rsquo;m going to do a chi squared test to see if there are any statistically differences in the proportions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svychisq</span><span class="p">(</span><span class="o">~</span><span class="n">liver</span> <span class="o">+</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">svy.subset</span><span class="p">,</span> <span class="n">statistic</span> <span class="o">=</span> <span class="s">&#34;Chisq&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Pearson&#39;s X^2: Rao &amp; Scott adjustment
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  svychisq(~liver + cycle, svy.subset, statistic = &#34;Chisq&#34;)
+</span></span><span class="line"><span class="cl">## X-squared = 7.3014, df = 2, p-value = 0.1832
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At a p value threshold of 0.05, this null hypothesis that there are no differences in the proportions cannot be rejected.</p>
+<h2 id="average-age-at-diagnosis">Average Age at Diagnosis</h2>
+<p>Another variable that I am interested in taking a closer look at how it has changed over the three survey cycles is the liverage variable. This is a follow up question for those who responded yes to the previous question if they were ever told that they had a liver condition to capture the age that they were first told that they had a liver condition.</p>
+<p>I used the svyboxplot() function to visualize this data comparing the average age at diagnosis with a liver condition between survey cycles.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyboxplot</span><span class="p">(</span><span class="n">liverage</span> <span class="o">~</span> <span class="n">cycle</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">svy.subset</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#f0bdf7&#34;</span><span class="p">,</span> <span class="s">&#34;#efa2ef&#34;</span><span class="p">,</span> <span class="s">&#34;#ff6399&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">title</span><span class="p">(</span><span class="n">main</span> <span class="o">=</span> <span class="s">&#34;Average Age when Diagnosed with a Liver Condition&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;Survey Cycle Years&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;Average Age at Diagnosis&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/liver-condition-trends/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<h3 id="change-in-average-age-at-diagnosis-of-a-liver-condition-over-time">Change in Average Age at Diagnosis of a Liver Condition Over Time</h3>
+<p>In order to compare the average age at diagnosis within each survey cycle group, I performed an analysis of variance test by fitting a svyglm() model along with using the regTermTest() function, as there is no specific anova function in this package that takes into consideration the survey design.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">liv.fit</span> <span class="o">&lt;-</span> <span class="nf">svyglm</span><span class="p">(</span><span class="n">liverage</span> <span class="o">~</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">svy.subset</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">regTermTest</span><span class="p">(</span><span class="n">liv.fit</span><span class="p">,</span> <span class="o">~</span><span class="n">cycle</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Wald test for cycle
+</span></span><span class="line"><span class="cl">##  in svyglm(formula = liverage ~ cycle, design = svy.subset)
+</span></span><span class="line"><span class="cl">## F =  1.845992  on  2  and  45  df: p= 0.16962
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It looks like this variable as well does not show any statistically significant differences between the survey cycle years at a p = 0.05 threshold.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I wanted to do a trend analysis over the years as it was a bit of a departure from what I have already done with the NHANES data in the past. In doing this analysis, I also started using R&rsquo;s ability to write custom functions to avoid writing repetitive code, which was very intimidating to be before starting this, but I realized that it&rsquo;s just generalizing regular R code.</p>
+<p>I would like to do future analyses with even more years, as since there were only three cycles to compare there were not too many changes noted, and perhaps there is more of a long term (10+ year) trend that I&rsquo;m missing by just focusing on a six year time period. I&rsquo;m also excited for when the newest NHANES data releases that would be the first post-pandemic data, so that we can see how the pandemic changed up trends in population health data.</p>
+<p>This trend analysis can also be expanded upon by adding the laboratory data for liver health markers from the Mobile Examination Center (MEC) portion of the survey. One thing to note that would change if this was added as a variable is the survey weights, which would be represented by the MEC weigthts rather than the interview weights, as a smaller amount of people came in for the MEC exam compared to the at home interview.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/liver/">Liver</a>
+        
+            <a href="/tags/chronic-illness/">Chronic Illness</a>
+        
+            <a href="/tags/nhanes/">NHANES</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/alcohol-bone-health/">
+        
+        
+            <div class="article-image">
+                <img src="/p/alcohol-bone-health/images/bone.c95160ffdb3a1135fa1507418dd5b160_hu5459c0360c2b0cb7a147d2df0eb350ca_7068840_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Alcohol Consumption and Bone Health"
+                        data-key="alcohol-bone-health" 
+                        data-hash="md5-yVFg/9s6ETX6FQdBjdWxYA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alcohol Consumption and Bone Health</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/decision-tree-medicaid/">
+        
+        
+            <div class="article-image">
+                <img src="/p/decision-tree-medicaid/images/tree.d015cf78241a3722204b9b702286b408_hu5459c0360c2b0cb7a147d2df0eb350ca_2079033_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Doctor Visits Decision Trees"
+                        data-key="decision-tree-medicaid" 
+                        data-hash="md5-0BXPeCQaNyIgS5twIoa0CA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Doctor Visits Decision Trees</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/air-quality-cross-validation/">
+        
+        
+            <div class="article-image">
+                <img src="/p/air-quality-cross-validation/images/cross.40ecb031321986e137568301e9ee991c_hu5459c0360c2b0cb7a147d2df0eb350ca_471906_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Air Quality Cross Validation"
+                        data-key="air-quality-cross-validation" 
+                        data-hash="md5-QOywMTIZhuE3VoMB6e6ZHA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Air Quality Cross Validation</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/influenza-like-illness-hospital-admissions-poisson-regression/">
+        
+        
+            <div class="article-image">
+                <img src="/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois.adeac14497a8897f4b237b23ea5b74d4_hu5459c0360c2b0cb7a147d2df0eb350ca_2464222_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Influenza Like Illness Hospital Admissions Poisson Regression"
+                        data-key="influenza-like-illness-hospital-admissions-poisson-regression" 
+                        data-hash="md5-rerBRJeoiX9LI3sj6lt01A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Influenza Like Illness Hospital Admissions Poisson Regression</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/accident-classification/">
+        
+        
+            <div class="article-image">
+                <img src="/p/accident-classification/images/bridge.cae6c745b0af551d50cd268c3acc9fb3_hu5459c0360c2b0cb7a147d2df0eb350ca_3648849_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post NYC Open Data Motor Vehicle Collision Injury Outcome Classification"
+                        data-key="accident-classification" 
+                        data-hash="md5-yubHRbCvVR1QzSaMOsyfsw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NYC Open Data Motor Vehicle Collision Injury Outcome Classification</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
