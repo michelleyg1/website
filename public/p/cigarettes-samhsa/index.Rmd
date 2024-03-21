@@ -1,0 +1,259 @@
+---
+title: SAMHSA National Survey on Drug Use and Health Analysis
+author: R package build
+date: '2024-03-21'
+slug: cigarettes-samhsa
+categories: ["R", "Public Health"]
+tags: ["Tobacco", "Health Behaviors", "Survey"]
+description: An analysis of SAMHSAs National Survey on Drug Use and Health to explore differences in lifetime cigarette use
+image: "images/purp.jpeg"
+math: ~
+license: Michelle Gulotta
+hidden: no
+comments: no
+---
+
+For this analysis I decided to try analyzing a different survey, the 2021 National Survey on Drug Use and Health conducted by the Substance Abuse and Mental Health Services Administration, also known as SAMHSA.
+
+## Load Libraries
+```{r}
+library(tidyverse)
+library(haven)
+library(survey)
+```
+
+## Import Data
+
+I came across this [useful guide](https://asdfree.com/national-survey-on-drug-use-and-health-nsduh.html) on how to import the data from the 2021 SAMHSA NSDUH survey, as I did not want to download all of the data locally since the files for these complex surveys tend to be very big, using the method below I was able to import it directly into R. 
+```{r}
+zip_tf <- tempfile()
+zip_url <- paste0(
+  "https://www.datafiles.samhsa.gov/sites/default/files/field-uploads-protected/",
+  "studies/NSDUH-2021/NSDUH-2021-datasets/NSDUH-2021-DS0001/",
+  "NSDUH-2021-DS0001-bundles-with-study-info/NSDUH-2021-DS0001-bndl-data-r_v3.zip")
+download.file(zip_url, zip_tf, mode = 'wb')
+nsduh_rdata <- unzip(zip_tf, exdir = tempdir())
+nsduh_rdata_contents <- load(nsduh_rdata)
+nsduh_df_name <- grep('PUF' , nsduh_rdata_contents , value = TRUE)
+nsduh_df <- get(nsduh_df_name)
+names( nsduh_df ) <- tolower(names(nsduh_df))
+nsduh_df[ , "one"] <- 1
+```
+
+## Select Variables of Interest
+
+After importing the data I realized that there were 2989 different variables that represented the various answers to all of the survey questions. As I was only interested in some demographic variables and two variables that represented questions about cigarette use, I used dplyr's select() to dramatically pare down this data. I also included the id, strata, and weight variables as these are very important aspects of analyzing survey data and will be used later in my survey design object.
+```{r}
+cig <- nsduh_df %>% 
+  dplyr::select(cigever, # Have you ever smoked a cigarette?
+                cigtry, # Age when first smoked a cigarette
+                catag6, # Age category (6 Levels)
+                sexident, # Sexual identity
+                speakengl, # How well do you speak English?
+                irsex, # Gender
+                eduhighcat, # Level of Education
+                newrace2, # Race/Hispanic Origin
+                wrkstatwk2, # What was your work situation in the past week?
+                irpinc3, # Income Level
+                govtprog, # Participated in Government Assistance
+                verep, # ID
+                vestr_c, # Strata
+                analwt_c) # Weights
+```
+
+Now to take a look at the variables of the new and smaller data set.
+```{r}
+str(cig)
+```
+
+## Data Cleaning
+
+I'm going to re-code some variables as I realized while reading through the documentation that binary variables were coded as 1 and 2 rather than 0 and 1, and missing values were coded in various numeric ways and would throw off my calculations if I were to not replace them with NAs. As I needed to do this across multiple columns, to avoid repetitive code I used the across() function.
+```{r}
+cig2 <- cig %>% 
+  mutate(
+    across(
+      .cols = c(cigtry,
+                sexident,
+                speakengl,
+                wrkstatwk2),
+      .fns = ~if_else(.x == 985 | 
+                      .x == 991 | 
+                      .x == 994 | 
+                      .x == 997 |
+                      .x == 85 |
+                      .x == 94 |
+                      .x == 97 |
+                      .x == 98 |
+                      .x == 99,
+                      NA,
+                      .x)
+    ),
+    across(
+      .cols = c(cigever, govtprog, irsex),
+      .fns = ~if_else(.x == 2, 0, 1)
+  )
+)
+```
+
+After re-coding the variables, I wanted to factor them and give them labels so that my graphics and model outputs would be more interpretable without having to keep going back to the NSDUH survey documentation.
+```{r}
+cig3 <- cig2 %>% 
+  mutate(
+    cigever = factor(cigever, 
+                     levels = c(0, 1), 
+                     labels = c("No", "Yes")),
+    catag6 = factor(catag6, 
+                    levels = c(1:6),
+                    labels = c("12-17 years old",
+                               "18-25 years old",
+                               "26-34 years old",
+                               "35-49 years old",
+                               "50-64 years old",
+                               "65+ years old")),
+    sexident = factor(sexident,
+                      levels = c(1:3),
+                      labels = c("Straight",
+                                 "Lesbian or Gay",
+                                 "Bisexual")),
+    speakengl = factor(speakengl,
+                       levels = c(1:4),
+                       labels = c("Very Well",
+                                  "Well",
+                                  "Not Well",
+                                  "Not at All")),
+    irsex = factor(irsex, 
+                   levels = c(0, 1),
+                   labels = c("Female", "Male")),
+    eduhighcat = factor(eduhighcat,
+                        levels = c(1:5),
+                        labels = c("Less than High School",
+                                   "High School Graduate",
+                                   "Some College / Associates Degree",
+                                   "College Graduate",
+                                   "12-17 Year Old")),
+    newrace2 = factor(newrace2,
+                      levels = c(1:7),
+                      labels = c("White",
+                                 "Black",
+                                 "Native American / Alaska Native",
+                                 "Native Hawaiian / Pacific Islander",
+                                 "Asian",
+                                 "More Than One Race",
+                                 "Hispanic")),
+    wrkstatwk2 = factor(wrkstatwk2,
+                        levels = c(1:9),
+                        labels = c("Full Time Job",
+                                   "Part Time Job",
+                                   "Has Job / Volunteer Work but Did Not Work Last Week",
+                                   "Unemployed / Laid Off Looking for Work",
+                                   "Disabled",
+                                   "Homemaker",
+                                   "In School / Training",
+                                   "Retired",
+                                   "Does Not Have a Job, Other Reason")),
+    irpinc3 = factor(irpinc3,
+                     levels = c(1:7),
+                     labels = c("Less than $10,000",
+                                "Between $10,000 and $19,000",
+                                "Between $20,000 and $29,000",
+                                "Between $30,000 and $39,000",
+                                "Between $40,000 and $49,000",
+                                "Between $50,000 and $74,000",
+                                "$75,000 or More")),
+    govtprog = factor(govtprog,
+                      levels = c(0, 1),
+                      labels = c("No", "Yes"))
+  )
+```
+
+
+## Survey Design Object
+
+Below, I create my survey design object using the id, strata, and weights provided by the NSDUH data set using the svydesign() function.
+```{r}
+cig.svy <- svydesign(
+  id = ~verep, 
+  strata = ~vestr_c, 
+  weights = ~analwt_c,
+  data = cig3,
+  nest = TRUE
+)
+```
+
+## Participation in Government Assistance Program(s) and Cigarette Use
+
+The first predictor variable I wanted to look at was participation in one or more government programs and differences in age when the participant first tried a cigarette, and if they ever tried a cigarette at all.
+
+### Mean Age First Tried a Cigarette and Government Assistance Program Participant
+
+Here, I used the svyby() function to check out the means for the two different groups.
+```{r}
+svyby(~cigtry, ~govtprog, cig.svy, svymean, na.rm = TRUE)
+```
+And to graph this data.
+```{r}
+svyboxplot(cigtry ~ govtprog, 
+           cig.svy,
+           ylim = c(0, 30),
+           xlab = "Participated in One or More Government Assistance Programs",
+           ylab = "Age",
+           col = c("#A6A9C8", "#554D74"))
+title(main = "Average Age Participant First Tried a Cigarette
+      by Participation in Government Assistance Programs",
+      adj = 0.5)
+```
+
+It seems like the mean age where a cigarette was first tried for participants who have used one or more government assistance programs is slightly lower on average, lets see if this difference is statistically significant.
+
+First, I'm going to look at how the weighted cigtry variable is distributed.
+```{r}
+svyhist(~cigtry, 
+        cig.svy, 
+        breaks = 30,
+        col = c("#A6A9C8"),
+        main = "Distribution of Age Participant First Tried a Cigarette")
+```
+
+It seems that there are some outliers who first tried a cigarette at an older age, but the distribution is mostly bell curve shaped. I'm going to run a weighted t-test using the svyttest() function.
+```{r}
+svyttest(cigtry ~ govtprog, cig.svy)
+```
+It looks like this difference between the two groups is statistically significant, and those who have utilized one or more government assistance programs tend to first try a cigarette at a younger age.
+
+### Has the Participant Ever Tried a Cigarette and Government Assistance Program Participation
+
+In order to assess this I'm going to use the svychisq() function to determine if there is a difference between the proportions within the two different binary variables. I'm going to set the Ntotal setting to true as the weighted aspect of the survey package results in very large numbers, making it a bit less readable from just glancing at it.
+```{r}
+svytable(~cigever + govtprog, cig.svy, Ntotal = TRUE)
+svychisq(~cigever + govtprog, cig.svy, statistic = "Chisq")
+```
+It looks participants who have utilized one or more government assistance programs more often have tried a cigarette in their lives.
+
+### Ever Smoked a Cigarette Logistic Regression
+
+Lastly, I am going to take several predictor variables of interest and fit a multivariable weighted logistic regression model. I would like to see which coefficients have a statistically significant impact on whether a participant has ever smoked a cigarette in their lives.
+
+```{r}
+cig.fit <- svyglm(cigever ~ sexident + 
+                     speakengl + 
+                     irsex + 
+                     eduhighcat + 
+                     newrace2 + 
+                     wrkstatwk2 + 
+                     irpinc3 + 
+                     govtprog,
+                   cig.svy,
+                   family = quasibinomial)
+summary(cig.fit)
+```
+
+From looking at this model, there are many variables that have an impact on whether the participant reports that they have tried a cigarette in their lives. Some of these have a negative coefficient meaning it makes them more likely to have not tried a cigarette, while others have a positive coefficient meaning the opposite.
+
+Some comparatively large significant negative coefficients that I noticed were that Asian race and in school/training. The positive coefficients were not as dramatic, but some to point out are work status being disabled and income in the range of $75,000 plus.
+
+## Conclusion
+
+It was interesting to analyze another complex survey besides NHANES, as I got to discover a new method of importing a large amount of data into R without having to save it locally. Publicly available survey data is a truly valuable resource, it enables me to learn data analysis skills for free and learn more about the health trends of the country I live in.
+
+I will definitely be coming back to this particular survey, and others that are provided in the guide to practice my skills, and find out more about health behaviors of the American public and the factors that influence them.

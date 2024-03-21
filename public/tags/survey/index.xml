@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Survey on Michelle Gulotta</title>
+        <link>https://michelleyg1.github.io/tags/survey/</link>
+        <description>Recent content in Survey on Michelle Gulotta</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <copyright>Michelle Gulotta</copyright>
+        <lastBuildDate>Thu, 21 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://michelleyg1.github.io/tags/survey/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>SAMHSA National Survey on Drug Use and Health Analysis</title>
+        <link>https://michelleyg1.github.io/p/cigarettes-samhsa/</link>
+        <pubDate>Thu, 21 Mar 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://michelleyg1.github.io/p/cigarettes-samhsa/</guid>
+        <description>&lt;img src="https://michelleyg1.github.io/p/cigarettes-samhsa/images/purp.jpeg" alt="Featured image of post SAMHSA National Survey on Drug Use and Health Analysis" /&gt;&lt;p&gt;For this analysis I decided to try analyzing a different survey, the 2021 National Survey on Drug Use and Health conducted by the Substance Abuse and Mental Health Services Administration, also known as SAMHSA.&lt;/p&gt;
+&lt;h2 id=&#34;load-libraries&#34;&gt;Load Libraries&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;library&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tidyverse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Attaching&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;core&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tidyverse&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;packages&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;────────────────────────&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tidyverse&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;2.0.0&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dplyr&lt;/span&gt;     &lt;span class=&#34;mf&#34;&gt;1.1.4&lt;/span&gt;     &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;readr&lt;/span&gt;     &lt;span class=&#34;mf&#34;&gt;2.1.4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;forcats&lt;/span&gt;   &lt;span class=&#34;mf&#34;&gt;1.0.0&lt;/span&gt;     &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;stringr&lt;/span&gt;   &lt;span class=&#34;mf&#34;&gt;1.5.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ggplot2&lt;/span&gt;   &lt;span class=&#34;mf&#34;&gt;3.5.0&lt;/span&gt;     &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tibble&lt;/span&gt;    &lt;span class=&#34;mf&#34;&gt;3.2.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;lubridate&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1.9.3&lt;/span&gt;     &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tidyr&lt;/span&gt;     &lt;span class=&#34;mf&#34;&gt;1.3.0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✔&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;purrr&lt;/span&gt;     &lt;span class=&#34;mf&#34;&gt;1.0.2&lt;/span&gt;     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Conflicts&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──────────────────────────────────────────&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;tidyverse_conflicts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;──&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✖&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dplyr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;filter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;masks&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;stats&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;filter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;✖&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dplyr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;lag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;    &lt;span class=&#34;nx&#34;&gt;masks&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;stats&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;lag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;##&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;ℹ&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Use&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;the&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;conflicted&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//conflicted.r-lib.org/&amp;gt;) to force all conflicts to become errors
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;library&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;haven&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;library&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;survey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Loading required package: grid
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Loading required package: Matrix
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Attaching package: &amp;#39;Matrix&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## The following objects are masked from &amp;#39;package:tidyr&amp;#39;:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     expand, pack, unpack
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Loading required package: survival
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Attaching package: &amp;#39;survey&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## The following object is masked from &amp;#39;package:graphics&amp;#39;:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     dotchart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;import-data&#34;&gt;Import Data&lt;/h2&gt;
+&lt;p&gt;I came across this &lt;a class=&#34;link&#34; href=&#34;https://asdfree.com/national-survey-on-drug-use-and-health-nsduh.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;useful guide&lt;/a&gt; on how to import the data from the 2021 SAMHSA NSDUH survey, as I did not want to download all of the data locally since the files for these complex surveys tend to be very big, using the method below I was able to import it directly into R.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;zip_tf&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;tempfile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;zip_url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;paste0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s&#34;&gt;&amp;#34;https://www.datafiles.samhsa.gov/sites/default/files/field-uploads-protected/&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s&#34;&gt;&amp;#34;studies/NSDUH-2021/NSDUH-2021-datasets/NSDUH-2021-DS0001/&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s&#34;&gt;&amp;#34;NSDUH-2021-DS0001-bundles-with-study-info/NSDUH-2021-DS0001-bndl-data-r_v3.zip&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;download.file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;zip_url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;zip_tf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mode&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;wb&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;nsduh_rdata&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;unzip&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;zip_tf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;exdir&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;tempdir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;nsduh_rdata_contents&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;load&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nsduh_rdata&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;nsduh_df_name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;grep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;PUF&amp;#39;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nsduh_rdata_contents&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;value&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;nsduh_df&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nsduh_df_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;names&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nsduh_df&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;tolower&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;names&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nsduh_df&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;nsduh_df[&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;one&amp;#34;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;select-variables-of-interest&#34;&gt;Select Variables of Interest&lt;/h2&gt;
+&lt;p&gt;After importing the data I realized that there were 2989 different variables that represented the various answers to all of the survey questions. As I was only interested in some demographic variables and two variables that represented questions about cigarette use, I used dplyr&amp;rsquo;s select() to dramatically pare down this data. I also included the id, strata, and weight variables as these are very important aspects of analyzing survey data and will be used later in my survey design object.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;cig&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nsduh_df&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&amp;gt;%&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;dplyr&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Have you ever smoked a cigarette?&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;cigtry&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Age when first smoked a cigarette&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;catag6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Age category (6 Levels)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;sexident&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Sexual identity&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;speakengl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# How well do you speak English?&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;irsex&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Gender&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;eduhighcat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Level of Education&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;newrace2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Race/Hispanic Origin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;wrkstatwk2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# What was your work situation in the past week?&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;irpinc3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Income Level&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Participated in Government Assistance&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;verep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# ID&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;vestr_c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Strata&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;analwt_c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Weights&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Now to take a look at the variables of the new and smaller data set.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## &amp;#39;data.frame&amp;#39;:	58034 obs. of  14 variables:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ cigever   : int  1 1 2 1 2 1 1 2 2 2 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ cigtry    : int  19 15 991 9 991 15 23 991 991 991 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ catag6    : int  3 6 2 4 2 5 2 4 1 2 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ sexident  : int  3 1 1 1 1 1 1 1 99 1 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ speakengl : int  1 1 1 1 2 3 1 1 1 1 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ irsex     : int  2 1 2 1 1 1 1 2 2 2 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ eduhighcat: int  3 4 4 1 2 1 4 4 5 2 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ newrace2  : int  1 1 1 1 7 7 5 1 2 7 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ wrkstatwk2: int  5 8 1 5 9 9 1 1 99 2 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ irpinc3   : int  2 7 1 1 1 1 3 5 1 1 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ govtprog  : int  1 2 2 2 2 2 2 2 1 2 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ verep     : int  1 2 2 2 1 2 2 1 2 2 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ vestr_c   : int  40047 40037 40037 40045 40006 40041 40021 40008 40007 40022 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  $ analwt_c  : num  675 12436 647 11275 351 ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  - attr(*, &amp;#34;var.labels&amp;#34;)= chr [1:2988] &amp;#34;RESPONDENT IDENTIFICATION&amp;#34; &amp;#34;CREATION DATE OF THE DATA FILE&amp;#34; &amp;#34;EVER SMOKED A CIGARETTE&amp;#34; &amp;#34;IF BEST FRIEND OFFERED, WOULD YOU SMOKE CIG&amp;#34; ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;data-cleaning&#34;&gt;Data Cleaning&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;m going to re-code some variables as I realized while reading through the documentation that binary variables were coded as 1 and 2 rather than 0 and 1, and missing values were coded in various numeric ways and would throw off my calculations if I were to not replace them with NAs. As I needed to do this across multiple columns, to avoid repetitive code I used the across() function.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;cig2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cig&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&amp;gt;%&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nf&#34;&gt;mutate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;across&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;.cols&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigtry&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;sexident&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;speakengl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;wrkstatwk2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;.fns&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;if_else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;985&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;991&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;994&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;997&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;85&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;94&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;97&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;98&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;99&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;kc&#34;&gt;NA&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;across&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;.cols&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;irsex&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;.fns&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;if_else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;.x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;After re-coding the variables, I wanted to factor them and give them labels so that my graphics and model outputs would be more interpretable without having to keep going back to the NSDUH survey documentation.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;61
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;62
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;63
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;64
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;65
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;66
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;67
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;cig3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cig2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&amp;gt;%&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nf&#34;&gt;mutate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;cigever&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;No&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Yes&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;catag6&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;catag6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;12-17 years old&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                               &lt;span class=&#34;s&#34;&gt;&amp;#34;18-25 years old&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                               &lt;span class=&#34;s&#34;&gt;&amp;#34;26-34 years old&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                               &lt;span class=&#34;s&#34;&gt;&amp;#34;35-49 years old&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                               &lt;span class=&#34;s&#34;&gt;&amp;#34;50-64 years old&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                               &lt;span class=&#34;s&#34;&gt;&amp;#34;65+ years old&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;sexident&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sexident&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Straight&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                 &lt;span class=&#34;s&#34;&gt;&amp;#34;Lesbian or Gay&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                 &lt;span class=&#34;s&#34;&gt;&amp;#34;Bisexual&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;speakengl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;speakengl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                       &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                       &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Very Well&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                  &lt;span class=&#34;s&#34;&gt;&amp;#34;Well&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                  &lt;span class=&#34;s&#34;&gt;&amp;#34;Not Well&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                  &lt;span class=&#34;s&#34;&gt;&amp;#34;Not at All&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;irsex&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;irsex&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                   &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                   &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Female&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Male&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;eduhighcat&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eduhighcat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Less than High School&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;High School Graduate&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;Some College / Associates Degree&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;College Graduate&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;12-17 Year Old&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;newrace2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;newrace2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;White&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                 &lt;span class=&#34;s&#34;&gt;&amp;#34;Black&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                 &lt;span class=&#34;s&#34;&gt;&amp;#34;Native American / Alaska Native&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                 &lt;span class=&#34;s&#34;&gt;&amp;#34;Native Hawaiian / Pacific Islander&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                 &lt;span class=&#34;s&#34;&gt;&amp;#34;Asian&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                 &lt;span class=&#34;s&#34;&gt;&amp;#34;More Than One Race&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                 &lt;span class=&#34;s&#34;&gt;&amp;#34;Hispanic&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;wrkstatwk2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;wrkstatwk2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;9&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Full Time Job&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;Part Time Job&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;Has Job / Volunteer Work but Did Not Work Last Week&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;Unemployed / Laid Off Looking for Work&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;Disabled&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;Homemaker&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;In School / Training&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;Retired&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                   &lt;span class=&#34;s&#34;&gt;&amp;#34;Does Not Have a Job, Other Reason&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;irpinc3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;irpinc3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Less than $10,000&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;s&#34;&gt;&amp;#34;Between $10,000 and $19,000&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;s&#34;&gt;&amp;#34;Between $20,000 and $29,000&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;s&#34;&gt;&amp;#34;Between $30,000 and $39,000&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;s&#34;&gt;&amp;#34;Between $40,000 and $49,000&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;s&#34;&gt;&amp;#34;Between $50,000 and $74,000&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;s&#34;&gt;&amp;#34;$75,000 or More&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;factor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;levels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                      &lt;span class=&#34;n&#34;&gt;labels&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;No&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Yes&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;survey-design-object&#34;&gt;Survey Design Object&lt;/h2&gt;
+&lt;p&gt;Below, I create my survey design object using the id, strata, and weights provided by the NSDUH data set using the svydesign() function.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;cig.svy&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;svydesign&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;verep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;strata&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vestr_c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;weights&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;analwt_c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cig3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;nest&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;participation-in-government-assistance-programs-and-cigarette-use&#34;&gt;Participation in Government Assistance Program(s) and Cigarette Use&lt;/h2&gt;
+&lt;p&gt;The first predictor variable I wanted to look at was participation in one or more government programs and differences in age when the participant first tried a cigarette, and if they ever tried a cigarette at all.&lt;/p&gt;
+&lt;h3 id=&#34;mean-age-first-tried-a-cigarette-and-government-assistance-program-participant&#34;&gt;Mean Age First Tried a Cigarette and Government Assistance Program Participant&lt;/h3&gt;
+&lt;p&gt;Here, I used the svyby() function to check out the means for the two different groups.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;svyby&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigtry&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cig.svy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;svymean&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;na.rm&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     govtprog   cigtry         se
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## No        No 16.35160 0.05977798
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Yes      Yes 15.79158 0.12337171
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;And to graph this data.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;svyboxplot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigtry&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;n&#34;&gt;cig.svy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;n&#34;&gt;xlab&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Participated in One or More Government Assistance Programs&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;n&#34;&gt;ylab&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Age&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;           &lt;span class=&#34;n&#34;&gt;col&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;#A6A9C8&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;#554D74&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;main&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Average Age Participant First Tried a Cigarette
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;      by Participation in Government Assistance Programs&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;adj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0.5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;img src=&#34;https://michelleyg1.github.io/p/cigarettes-samhsa/index_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;p&gt;It seems like the mean age where a cigarette was first tried for participants who have used one or more government assistance programs is slightly lower on average, lets see if this difference is statistically significant.&lt;/p&gt;
+&lt;p&gt;First, I&amp;rsquo;m going to look at how the weighted cigtry variable is distributed.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;svyhist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigtry&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;cig.svy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;breaks&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;col&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;#A6A9C8&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Distribution of Age Participant First Tried a Cigarette&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;img src=&#34;https://michelleyg1.github.io/p/cigarettes-samhsa/index_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;p&gt;It seems that there are some outliers who first tried a cigarette at an older age, but the distribution is mostly bell curve shaped. I&amp;rsquo;m going to run a weighted t-test using the svyttest() function.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;svyttest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigtry&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cig.svy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 	Design-based t-test
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## data:  cigtry ~ govtprog
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## t = -4.2839, df = 49, p-value = 8.546e-05
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## alternative hypothesis: true difference in mean is not equal to 0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 95 percent confidence interval:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##  -0.8227208 -0.2973152
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sample estimates:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## difference in mean 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##          -0.560018
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;It looks like this difference between the two groups is statistically significant, and those who have utilized one or more government assistance programs tend to first try a cigarette at a younger age.&lt;/p&gt;
+&lt;h3 id=&#34;has-the-participant-ever-tried-a-cigarette-and-government-assistance-program-participation&#34;&gt;Has the Participant Ever Tried a Cigarette and Government Assistance Program Participation&lt;/h3&gt;
+&lt;p&gt;In order to assess this I&amp;rsquo;m going to use the svychisq() function to determine if there is a difference between the proportions within the two different binary variables. I&amp;rsquo;m going to set the Ntotal setting to true as the weighted aspect of the survey package results in very large numbers, making it a bit less readable from just glancing at it.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;svytable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigever&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cig.svy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Ntotal&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##        govtprog
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## cigever         No        Yes
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     No  0.38847802 0.09974387
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     Yes 0.39291777 0.11886035
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;svychisq&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigever&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cig.svy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;statistic&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Chisq&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 	Pearson&amp;#39;s X^2: Rao &amp;amp; Scott adjustment
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## data:  svychisq(~cigever + govtprog, cig.svy, statistic = &amp;#34;Chisq&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## X-squared = 66.313, df = 1, p-value = 6.518e-06
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;It looks participants who have utilized one or more government assistance programs more often have tried a cigarette in their lives.&lt;/p&gt;
+&lt;h3 id=&#34;ever-smoked-a-cigarette-logistic-regression&#34;&gt;Ever Smoked a Cigarette Logistic Regression&lt;/h3&gt;
+&lt;p&gt;Lastly, I am going to take several predictor variables of interest and fit a multivariable weighted logistic regression model. I would like to see which coefficients have a statistically significant impact on whether a participant has ever smoked a cigarette in their lives.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;cig.fit&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;svyglm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cigever&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sexident&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;speakengl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;irsex&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;eduhighcat&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;newrace2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;wrkstatwk2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;irpinc3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;n&#34;&gt;govtprog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                   &lt;span class=&#34;n&#34;&gt;cig.svy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                   &lt;span class=&#34;n&#34;&gt;family&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;quasibinomial&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;summary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cig.fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;  1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;  2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;  3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;  4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;  5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;  6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;  7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;  8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;  9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 61
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 62
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 63
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 64
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 65
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 66
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 67
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 68
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 69
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 70
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 71
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 72
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 73
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 74
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 75
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 76
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 77
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 78
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 79
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 80
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 81
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 82
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 83
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 84
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 85
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 86
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 87
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 88
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 89
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 90
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 91
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 92
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 93
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 94
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 95
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 96
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 97
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 98
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 99
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;100
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;101
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;102
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;103
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;104
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;105
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;106
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;107
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;108
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;109
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;110
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;111
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;112
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;113
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;114
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;115
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;116
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;117
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;118
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;119
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;120
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;121
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;122
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;123
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;124
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;125
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;126
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;127
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;128
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;129
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;130
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;131
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;132
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;133
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;134
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;135
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;136
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;137
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;138
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;139
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;140
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;141
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;142
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;143
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;144
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;145
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Call:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## svyglm(formula = cigever ~ sexident + speakengl + irsex + eduhighcat + 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     newrace2 + wrkstatwk2 + irpinc3 + govtprog, design = cig.svy, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     family = quasibinomial)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Survey design:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## svydesign(id = ~verep, strata = ~vestr_c, weights = ~analwt_c, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##     data = cig3, nest = TRUE)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Coefficients:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##                                                               Estimate
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## (Intercept)                                                    0.10862
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sexidentLesbian or Gay                                         0.24135
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sexidentBisexual                                               0.31938
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglWell                                                 -0.31160
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglNot Well                                             -0.81491
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglNot at All                                           -0.88363
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irsexMale                                                      0.37537
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatHigh School Graduate                                -0.18217
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatSome College / Associates Degree                    -0.09616
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatCollege Graduate                                    -0.41272
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Black                                                 -0.94815
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Native American / Alaska Native                       -0.14689
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Native Hawaiian / Pacific Islander                    -0.86070
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Asian                                                 -1.04402
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2More Than One Race                                    -0.09915
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Hispanic                                              -0.64055
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Part Time Job                                       -0.15217
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Has Job / Volunteer Work but Did Not Work Last Week -0.04618
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Unemployed / Laid Off Looking for Work               0.25849
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Disabled                                             0.54665
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Homemaker                                            0.21088
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2In School / Training                                -1.07989
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Retired                                             -0.01107
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Does Not Have a Job, Other Reason                    0.11649
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $10,000 and $19,000                             0.36938
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $20,000 and $29,000                             0.48541
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $30,000 and $39,000                             0.48611
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $40,000 and $49,000                             0.53580
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $50,000 and $74,000                             0.52905
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3$75,000 or More                                         0.54041
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## govtprogYes                                                    0.44118
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##                                                               Std. Error
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## (Intercept)                                                      0.09094
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sexidentLesbian or Gay                                           0.11183
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sexidentBisexual                                                 0.06567
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglWell                                                    0.07126
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglNot Well                                                0.18639
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglNot at All                                              0.22132
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irsexMale                                                        0.03388
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatHigh School Graduate                                   0.07062
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatSome College / Associates Degree                       0.08069
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatCollege Graduate                                       0.08046
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Black                                                    0.05909
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Native American / Alaska Native                          0.22734
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Native Hawaiian / Pacific Islander                       0.27240
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Asian                                                    0.09878
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2More Than One Race                                       0.12547
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Hispanic                                                 0.05912
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Part Time Job                                          0.06677
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Has Job / Volunteer Work but Did Not Work Last Week    0.07789
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Unemployed / Laid Off Looking for Work                 0.09772
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Disabled                                               0.11551
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Homemaker                                              0.09539
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2In School / Training                                   0.12776
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Retired                                                0.06071
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Does Not Have a Job, Other Reason                      0.07895
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $10,000 and $19,000                               0.06627
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $20,000 and $29,000                               0.07007
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $30,000 and $39,000                               0.07732
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $40,000 and $49,000                               0.07806
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $50,000 and $74,000                               0.08146
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3$75,000 or More                                           0.07447
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## govtprogYes                                                      0.04725
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##                                                               t value Pr(&amp;gt;|t|)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## (Intercept)                                                     1.194 0.246323
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sexidentLesbian or Gay                                          2.158 0.043245
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sexidentBisexual                                                4.863 9.41e-05
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglWell                                                  -4.373 0.000294
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglNot Well                                              -4.372 0.000295
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglNot at All                                            -3.992 0.000716
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irsexMale                                                      11.078 5.51e-10
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatHigh School Graduate                                 -2.579 0.017907
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatSome College / Associates Degree                     -1.192 0.247336
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatCollege Graduate                                     -5.129 5.11e-05
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Black                                                 -16.047 6.89e-13
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Native American / Alaska Native                        -0.646 0.525550
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Native Hawaiian / Pacific Islander                     -3.160 0.004929
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Asian                                                 -10.569 1.24e-09
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2More Than One Race                                     -0.790 0.438653
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Hispanic                                              -10.835 8.08e-10
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Part Time Job                                        -2.279 0.033780
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Has Job / Volunteer Work but Did Not Work Last Week  -0.593 0.559934
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Unemployed / Laid Off Looking for Work                2.645 0.015528
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Disabled                                              4.732 0.000127
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Homemaker                                             2.211 0.038876
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2In School / Training                                 -8.453 4.93e-08
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Retired                                              -0.182 0.857172
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Does Not Have a Job, Other Reason                     1.475 0.155657
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $10,000 and $19,000                              5.574 1.86e-05
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $20,000 and $29,000                              6.927 9.99e-07
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $30,000 and $39,000                              6.287 3.88e-06
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $40,000 and $49,000                              6.864 1.14e-06
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $50,000 and $74,000                              6.495 2.48e-06
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3$75,000 or More                                          7.257 5.08e-07
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## govtprogYes                                                     9.337 9.90e-09
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;##                                                                  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## (Intercept)                                                      
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sexidentLesbian or Gay                                        *  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## sexidentBisexual                                              ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglWell                                                 ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglNot Well                                             ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## speakenglNot at All                                           ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irsexMale                                                     ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatHigh School Graduate                                *  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatSome College / Associates Degree                       
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## eduhighcatCollege Graduate                                    ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Black                                                 ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Native American / Alaska Native                          
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Native Hawaiian / Pacific Islander                    ** 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Asian                                                 ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2More Than One Race                                       
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## newrace2Hispanic                                              ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Part Time Job                                       *  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Has Job / Volunteer Work but Did Not Work Last Week    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Unemployed / Laid Off Looking for Work              *  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Disabled                                            ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Homemaker                                           *  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2In School / Training                                ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Retired                                                
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## wrkstatwk2Does Not Have a Job, Other Reason                      
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $10,000 and $19,000                            ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $20,000 and $29,000                            ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $30,000 and $39,000                            ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $40,000 and $49,000                            ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3Between $50,000 and $74,000                            ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## irpinc3$75,000 or More                                        ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## govtprogYes                                                   ***
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## ---
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## (Dispersion parameter for quasibinomial family taken to be 1.12446)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Number of Fisher Scoring iterations: 4
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;From looking at this model, there are many variables that have an impact on whether the participant reports that they have tried a cigarette in their lives. Some of these have a negative coefficient meaning it makes them more likely to have not tried a cigarette, while others have a positive coefficient meaning the opposite.&lt;/p&gt;
+&lt;p&gt;Some comparatively large significant negative coefficients that I noticed were that Asian race and in school/training. The positive coefficients were not as dramatic, but some to point out are work status being disabled and income in the range of $75,000 plus.&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;It was interesting to analyze another complex survey besides NHANES, as I got to discover a new method of importing a large amount of data into R without having to save it locally. Publicly available survey data is a truly valuable resource, it enables me to learn data analysis skills for free and learn more about the health trends of the country I live in.&lt;/p&gt;
+&lt;p&gt;I will definitely be coming back to this particular survey, and others that are provided in the guide to practice my skills, and find out more about health behaviors of the American public and the factors that influence them.&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

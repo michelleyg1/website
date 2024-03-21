@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='An analysis of SAMHSAs National Survey on Drug Use and Health to explore differences in lifetime cigarette use'>
+<title>SAMHSA National Survey on Drug Use and Health Analysis</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/cigarettes-samhsa/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='SAMHSA National Survey on Drug Use and Health Analysis'>
+<meta property='og:description' content='An analysis of SAMHSAs National Survey on Drug Use and Health to explore differences in lifetime cigarette use'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/cigarettes-samhsa/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Tobacco' /><meta property='article:tag' content='Health Behaviors' /><meta property='article:tag' content='Survey' /><meta property='article:published_time' content='2024-03-21T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-03-21T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/cigarettes-samhsa/images/purp.jpeg' />
+<meta name="twitter:title" content="SAMHSA National Survey on Drug Use and Health Analysis">
+<meta name="twitter:description" content="An analysis of SAMHSAs National Survey on Drug Use and Health to explore differences in lifetime cigarette use"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/cigarettes-samhsa/images/purp.jpeg' />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KWPFCQTTER"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-KWPFCQTTER', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-libraries">Load Libraries</a></li>
+    <li><a href="#import-data">Import Data</a></li>
+    <li><a href="#select-variables-of-interest">Select Variables of Interest</a></li>
+    <li><a href="#data-cleaning">Data Cleaning</a></li>
+    <li><a href="#survey-design-object">Survey Design Object</a></li>
+    <li><a href="#participation-in-government-assistance-programs-and-cigarette-use">Participation in Government Assistance Program(s) and Cigarette Use</a>
+      <ol>
+        <li><a href="#mean-age-first-tried-a-cigarette-and-government-assistance-program-participant">Mean Age First Tried a Cigarette and Government Assistance Program Participant</a></li>
+        <li><a href="#has-the-participant-ever-tried-a-cigarette-and-government-assistance-program-participation">Has the Participant Ever Tried a Cigarette and Government Assistance Program Participation</a></li>
+        <li><a href="#ever-smoked-a-cigarette-logistic-regression">Ever Smoked a Cigarette Logistic Regression</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/cigarettes-samhsa/">
+                <img src="/p/cigarettes-samhsa/images/purp_hu5459c0360c2b0cb7a147d2df0eb350ca_676910_800x0_resize_q75_box.jpeg"
+                        srcset="/p/cigarettes-samhsa/images/purp_hu5459c0360c2b0cb7a147d2df0eb350ca_676910_800x0_resize_q75_box.jpeg 800w, /p/cigarettes-samhsa/images/purp_hu5459c0360c2b0cb7a147d2df0eb350ca_676910_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="533" 
+                        loading="lazy"
+                        alt="Featured image of post SAMHSA National Survey on Drug Use and Health Analysis" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/cigarettes-samhsa/">SAMHSA National Survey on Drug Use and Health Analysis</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            An analysis of SAMHSAs National Survey on Drug Use and Health to explore differences in lifetime cigarette use
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 21, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>For this analysis I decided to try analyzing a different survey, the 2021 National Survey on Drug Use and Health conducted by the Substance Abuse and Mental Health Services Administration, also known as SAMHSA.</p>
+<h2 id="load-libraries">Load Libraries</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="err">##</span> <span class="err">──</span> <span class="nx">Attaching</span> <span class="nx">core</span> <span class="nx">tidyverse</span> <span class="nx">packages</span> <span class="err">────────────────────────</span> <span class="nx">tidyverse</span> <span class="mf">2.0.0</span> <span class="err">──</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">dplyr</span>     <span class="mf">1.1.4</span>     <span class="err">✔</span> <span class="nx">readr</span>     <span class="mf">2.1.4</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">forcats</span>   <span class="mf">1.0.0</span>     <span class="err">✔</span> <span class="nx">stringr</span>   <span class="mf">1.5.1</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">ggplot2</span>   <span class="mf">3.5.0</span>     <span class="err">✔</span> <span class="nx">tibble</span>    <span class="mf">3.2.1</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">lubridate</span> <span class="mf">1.9.3</span>     <span class="err">✔</span> <span class="nx">tidyr</span>     <span class="mf">1.3.0</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✔</span> <span class="nx">purrr</span>     <span class="mf">1.0.2</span>     
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">──</span> <span class="nx">Conflicts</span> <span class="err">──────────────────────────────────────────</span> <span class="nf">tidyverse_conflicts</span><span class="p">()</span> <span class="err">──</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✖</span> <span class="nx">dplyr</span><span class="p">::</span><span class="nf">filter</span><span class="p">()</span> <span class="nx">masks</span> <span class="nx">stats</span><span class="p">::</span><span class="nf">filter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">✖</span> <span class="nx">dplyr</span><span class="p">::</span><span class="nf">lag</span><span class="p">()</span>    <span class="nx">masks</span> <span class="nx">stats</span><span class="p">::</span><span class="nf">lag</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">ℹ</span> <span class="nx">Use</span> <span class="nx">the</span> <span class="nx">conflicted</span> <span class="kn">package</span> <span class="p">(&lt;</span><span class="nx">http</span><span class="p">:</span><span class="c1">//conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">haven</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">survey</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Loading required package: grid
+</span></span><span class="line"><span class="cl">## Loading required package: Matrix
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Attaching package: &#39;Matrix&#39;
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## The following objects are masked from &#39;package:tidyr&#39;:
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##     expand, pack, unpack
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Loading required package: survival
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Attaching package: &#39;survey&#39;
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## The following object is masked from &#39;package:graphics&#39;:
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">##     dotchart
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="import-data">Import Data</h2>
+<p>I came across this <a class="link" href="https://asdfree.com/national-survey-on-drug-use-and-health-nsduh.html"  target="_blank" rel="noopener"
+    >useful guide</a> on how to import the data from the 2021 SAMHSA NSDUH survey, as I did not want to download all of the data locally since the files for these complex surveys tend to be very big, using the method below I was able to import it directly into R.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">zip_tf</span> <span class="o">&lt;-</span> <span class="nf">tempfile</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">zip_url</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;https://www.datafiles.samhsa.gov/sites/default/files/field-uploads-protected/&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;studies/NSDUH-2021/NSDUH-2021-datasets/NSDUH-2021-DS0001/&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;NSDUH-2021-DS0001-bundles-with-study-info/NSDUH-2021-DS0001-bndl-data-r_v3.zip&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">download.file</span><span class="p">(</span><span class="n">zip_url</span><span class="p">,</span> <span class="n">zip_tf</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">nsduh_rdata</span> <span class="o">&lt;-</span> <span class="nf">unzip</span><span class="p">(</span><span class="n">zip_tf</span><span class="p">,</span> <span class="n">exdir</span> <span class="o">=</span> <span class="nf">tempdir</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">nsduh_rdata_contents</span> <span class="o">&lt;-</span> <span class="nf">load</span><span class="p">(</span><span class="n">nsduh_rdata</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">nsduh_df_name</span> <span class="o">&lt;-</span> <span class="nf">grep</span><span class="p">(</span><span class="s">&#39;PUF&#39;</span> <span class="p">,</span> <span class="n">nsduh_rdata_contents</span> <span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">nsduh_df</span> <span class="o">&lt;-</span> <span class="nf">get</span><span class="p">(</span><span class="n">nsduh_df_name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">names</span><span class="p">(</span> <span class="n">nsduh_df</span> <span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">tolower</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">nsduh_df</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">nsduh_df[</span> <span class="p">,</span> <span class="s">&#34;one&#34;</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="m">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="select-variables-of-interest">Select Variables of Interest</h2>
+<p>After importing the data I realized that there were 2989 different variables that represented the various answers to all of the survey questions. As I was only interested in some demographic variables and two variables that represented questions about cigarette use, I used dplyr&rsquo;s select() to dramatically pare down this data. I also included the id, strata, and weight variables as these are very important aspects of analyzing survey data and will be used later in my survey design object.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cig</span> <span class="o">&lt;-</span> <span class="n">nsduh_df</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">cigever</span><span class="p">,</span> <span class="c1"># Have you ever smoked a cigarette?</span>
+</span></span><span class="line"><span class="cl">                <span class="n">cigtry</span><span class="p">,</span> <span class="c1"># Age when first smoked a cigarette</span>
+</span></span><span class="line"><span class="cl">                <span class="n">catag6</span><span class="p">,</span> <span class="c1"># Age category (6 Levels)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">sexident</span><span class="p">,</span> <span class="c1"># Sexual identity</span>
+</span></span><span class="line"><span class="cl">                <span class="n">speakengl</span><span class="p">,</span> <span class="c1"># How well do you speak English?</span>
+</span></span><span class="line"><span class="cl">                <span class="n">irsex</span><span class="p">,</span> <span class="c1"># Gender</span>
+</span></span><span class="line"><span class="cl">                <span class="n">eduhighcat</span><span class="p">,</span> <span class="c1"># Level of Education</span>
+</span></span><span class="line"><span class="cl">                <span class="n">newrace2</span><span class="p">,</span> <span class="c1"># Race/Hispanic Origin</span>
+</span></span><span class="line"><span class="cl">                <span class="n">wrkstatwk2</span><span class="p">,</span> <span class="c1"># What was your work situation in the past week?</span>
+</span></span><span class="line"><span class="cl">                <span class="n">irpinc3</span><span class="p">,</span> <span class="c1"># Income Level</span>
+</span></span><span class="line"><span class="cl">                <span class="n">govtprog</span><span class="p">,</span> <span class="c1"># Participated in Government Assistance</span>
+</span></span><span class="line"><span class="cl">                <span class="n">verep</span><span class="p">,</span> <span class="c1"># ID</span>
+</span></span><span class="line"><span class="cl">                <span class="n">vestr_c</span><span class="p">,</span> <span class="c1"># Strata</span>
+</span></span><span class="line"><span class="cl">                <span class="n">analwt_c</span><span class="p">)</span> <span class="c1"># Weights</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now to take a look at the variables of the new and smaller data set.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">str</span><span class="p">(</span><span class="n">cig</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## &#39;data.frame&#39;:	58034 obs. of  14 variables:
+</span></span><span class="line"><span class="cl">##  $ cigever   : int  1 1 2 1 2 1 1 2 2 2 ...
+</span></span><span class="line"><span class="cl">##  $ cigtry    : int  19 15 991 9 991 15 23 991 991 991 ...
+</span></span><span class="line"><span class="cl">##  $ catag6    : int  3 6 2 4 2 5 2 4 1 2 ...
+</span></span><span class="line"><span class="cl">##  $ sexident  : int  3 1 1 1 1 1 1 1 99 1 ...
+</span></span><span class="line"><span class="cl">##  $ speakengl : int  1 1 1 1 2 3 1 1 1 1 ...
+</span></span><span class="line"><span class="cl">##  $ irsex     : int  2 1 2 1 1 1 1 2 2 2 ...
+</span></span><span class="line"><span class="cl">##  $ eduhighcat: int  3 4 4 1 2 1 4 4 5 2 ...
+</span></span><span class="line"><span class="cl">##  $ newrace2  : int  1 1 1 1 7 7 5 1 2 7 ...
+</span></span><span class="line"><span class="cl">##  $ wrkstatwk2: int  5 8 1 5 9 9 1 1 99 2 ...
+</span></span><span class="line"><span class="cl">##  $ irpinc3   : int  2 7 1 1 1 1 3 5 1 1 ...
+</span></span><span class="line"><span class="cl">##  $ govtprog  : int  1 2 2 2 2 2 2 2 1 2 ...
+</span></span><span class="line"><span class="cl">##  $ verep     : int  1 2 2 2 1 2 2 1 2 2 ...
+</span></span><span class="line"><span class="cl">##  $ vestr_c   : int  40047 40037 40037 40045 40006 40041 40021 40008 40007 40022 ...
+</span></span><span class="line"><span class="cl">##  $ analwt_c  : num  675 12436 647 11275 351 ...
+</span></span><span class="line"><span class="cl">##  - attr(*, &#34;var.labels&#34;)= chr [1:2988] &#34;RESPONDENT IDENTIFICATION&#34; &#34;CREATION DATE OF THE DATA FILE&#34; &#34;EVER SMOKED A CIGARETTE&#34; &#34;IF BEST FRIEND OFFERED, WOULD YOU SMOKE CIG&#34; ...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="data-cleaning">Data Cleaning</h2>
+<p>I&rsquo;m going to re-code some variables as I realized while reading through the documentation that binary variables were coded as 1 and 2 rather than 0 and 1, and missing values were coded in various numeric ways and would throw off my calculations if I were to not replace them with NAs. As I needed to do this across multiple columns, to avoid repetitive code I used the across() function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cig2</span> <span class="o">&lt;-</span> <span class="n">cig</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">across</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">.cols</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">cigtry</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">sexident</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">speakengl</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">wrkstatwk2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">.fns</span> <span class="o">=</span> <span class="o">~</span><span class="nf">if_else</span><span class="p">(</span><span class="n">.x</span> <span class="o">==</span> <span class="m">985</span> <span class="o">|</span> 
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span> <span class="o">==</span> <span class="m">991</span> <span class="o">|</span> 
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span> <span class="o">==</span> <span class="m">994</span> <span class="o">|</span> 
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span> <span class="o">==</span> <span class="m">997</span> <span class="o">|</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span> <span class="o">==</span> <span class="m">85</span> <span class="o">|</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span> <span class="o">==</span> <span class="m">94</span> <span class="o">|</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span> <span class="o">==</span> <span class="m">97</span> <span class="o">|</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span> <span class="o">==</span> <span class="m">98</span> <span class="o">|</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span> <span class="o">==</span> <span class="m">99</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="kc">NA</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">.x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">across</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">.cols</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">cigever</span><span class="p">,</span> <span class="n">govtprog</span><span class="p">,</span> <span class="n">irsex</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">.fns</span> <span class="o">=</span> <span class="o">~</span><span class="nf">if_else</span><span class="p">(</span><span class="n">.x</span> <span class="o">==</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>After re-coding the variables, I wanted to factor them and give them labels so that my graphics and model outputs would be more interpretable without having to keep going back to the NSDUH survey documentation.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cig3</span> <span class="o">&lt;-</span> <span class="n">cig2</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cigever</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">cigever</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;No&#34;</span><span class="p">,</span> <span class="s">&#34;Yes&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">catag6</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">catag6</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                    <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;12-17 years old&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                               <span class="s">&#34;18-25 years old&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                               <span class="s">&#34;26-34 years old&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                               <span class="s">&#34;35-49 years old&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                               <span class="s">&#34;50-64 years old&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                               <span class="s">&#34;65+ years old&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sexident</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">sexident</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Straight&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s">&#34;Lesbian or Gay&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s">&#34;Bisexual&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">speakengl</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">speakengl</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Very Well&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                  <span class="s">&#34;Well&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                  <span class="s">&#34;Not Well&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                  <span class="s">&#34;Not at All&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">irsex</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">irsex</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                   <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Female&#34;</span><span class="p">,</span> <span class="s">&#34;Male&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">eduhighcat</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">eduhighcat</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Less than High School&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;High School Graduate&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;Some College / Associates Degree&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;College Graduate&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;12-17 Year Old&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">newrace2</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">newrace2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;White&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s">&#34;Black&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s">&#34;Native American / Alaska Native&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s">&#34;Native Hawaiian / Pacific Islander&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s">&#34;Asian&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s">&#34;More Than One Race&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s">&#34;Hispanic&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wrkstatwk2</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">wrkstatwk2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">9</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Full Time Job&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;Part Time Job&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;Has Job / Volunteer Work but Did Not Work Last Week&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;Unemployed / Laid Off Looking for Work&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;Disabled&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;Homemaker&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;In School / Training&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;Retired&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="s">&#34;Does Not Have a Job, Other Reason&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">irpinc3</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">irpinc3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Less than $10,000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="s">&#34;Between $10,000 and $19,000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="s">&#34;Between $20,000 and $29,000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="s">&#34;Between $30,000 and $39,000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="s">&#34;Between $40,000 and $49,000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="s">&#34;Between $50,000 and $74,000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="s">&#34;$75,000 or More&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">govtprog</span> <span class="o">=</span> <span class="nf">factor</span><span class="p">(</span><span class="n">govtprog</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;No&#34;</span><span class="p">,</span> <span class="s">&#34;Yes&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="survey-design-object">Survey Design Object</h2>
+<p>Below, I create my survey design object using the id, strata, and weights provided by the NSDUH data set using the svydesign() function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cig.svy</span> <span class="o">&lt;-</span> <span class="nf">svydesign</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">id</span> <span class="o">=</span> <span class="o">~</span><span class="n">verep</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">strata</span> <span class="o">=</span> <span class="o">~</span><span class="n">vestr_c</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">weights</span> <span class="o">=</span> <span class="o">~</span><span class="n">analwt_c</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">data</span> <span class="o">=</span> <span class="n">cig3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">nest</span> <span class="o">=</span> <span class="kc">TRUE</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="participation-in-government-assistance-programs-and-cigarette-use">Participation in Government Assistance Program(s) and Cigarette Use</h2>
+<p>The first predictor variable I wanted to look at was participation in one or more government programs and differences in age when the participant first tried a cigarette, and if they ever tried a cigarette at all.</p>
+<h3 id="mean-age-first-tried-a-cigarette-and-government-assistance-program-participant">Mean Age First Tried a Cigarette and Government Assistance Program Participant</h3>
+<p>Here, I used the svyby() function to check out the means for the two different groups.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyby</span><span class="p">(</span><span class="o">~</span><span class="n">cigtry</span><span class="p">,</span> <span class="o">~</span><span class="n">govtprog</span><span class="p">,</span> <span class="n">cig.svy</span><span class="p">,</span> <span class="n">svymean</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##     govtprog   cigtry         se
+</span></span><span class="line"><span class="cl">## No        No 16.35160 0.05977798
+</span></span><span class="line"><span class="cl">## Yes      Yes 15.79158 0.12337171
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And to graph this data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyboxplot</span><span class="p">(</span><span class="n">cigtry</span> <span class="o">~</span> <span class="n">govtprog</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">cig.svy</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylim</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">30</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">           <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;Participated in One or More Government Assistance Programs&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;Age&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#A6A9C8&#34;</span><span class="p">,</span> <span class="s">&#34;#554D74&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">title</span><span class="p">(</span><span class="n">main</span> <span class="o">=</span> <span class="s">&#34;Average Age Participant First Tried a Cigarette
+</span></span></span><span class="line"><span class="cl"><span class="s">      by Participation in Government Assistance Programs&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">adj</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/cigarettes-samhsa/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<p>It seems like the mean age where a cigarette was first tried for participants who have used one or more government assistance programs is slightly lower on average, lets see if this difference is statistically significant.</p>
+<p>First, I&rsquo;m going to look at how the weighted cigtry variable is distributed.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyhist</span><span class="p">(</span><span class="o">~</span><span class="n">cigtry</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">cig.svy</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">breaks</span> <span class="o">=</span> <span class="m">30</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#A6A9C8&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">main</span> <span class="o">=</span> <span class="s">&#34;Distribution of Age Participant First Tried a Cigarette&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/cigarettes-samhsa/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+<p>It seems that there are some outliers who first tried a cigarette at an older age, but the distribution is mostly bell curve shaped. I&rsquo;m going to run a weighted t-test using the svyttest() function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyttest</span><span class="p">(</span><span class="n">cigtry</span> <span class="o">~</span> <span class="n">govtprog</span><span class="p">,</span> <span class="n">cig.svy</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Design-based t-test
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  cigtry ~ govtprog
+</span></span><span class="line"><span class="cl">## t = -4.2839, df = 49, p-value = 8.546e-05
+</span></span><span class="line"><span class="cl">## alternative hypothesis: true difference in mean is not equal to 0
+</span></span><span class="line"><span class="cl">## 95 percent confidence interval:
+</span></span><span class="line"><span class="cl">##  -0.8227208 -0.2973152
+</span></span><span class="line"><span class="cl">## sample estimates:
+</span></span><span class="line"><span class="cl">## difference in mean 
+</span></span><span class="line"><span class="cl">##          -0.560018
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It looks like this difference between the two groups is statistically significant, and those who have utilized one or more government assistance programs tend to first try a cigarette at a younger age.</p>
+<h3 id="has-the-participant-ever-tried-a-cigarette-and-government-assistance-program-participation">Has the Participant Ever Tried a Cigarette and Government Assistance Program Participation</h3>
+<p>In order to assess this I&rsquo;m going to use the svychisq() function to determine if there is a difference between the proportions within the two different binary variables. I&rsquo;m going to set the Ntotal setting to true as the weighted aspect of the survey package results in very large numbers, making it a bit less readable from just glancing at it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svytable</span><span class="p">(</span><span class="o">~</span><span class="n">cigever</span> <span class="o">+</span> <span class="n">govtprog</span><span class="p">,</span> <span class="n">cig.svy</span><span class="p">,</span> <span class="n">Ntotal</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##        govtprog
+</span></span><span class="line"><span class="cl">## cigever         No        Yes
+</span></span><span class="line"><span class="cl">##     No  0.38847802 0.09974387
+</span></span><span class="line"><span class="cl">##     Yes 0.39291777 0.11886035
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svychisq</span><span class="p">(</span><span class="o">~</span><span class="n">cigever</span> <span class="o">+</span> <span class="n">govtprog</span><span class="p">,</span> <span class="n">cig.svy</span><span class="p">,</span> <span class="n">statistic</span> <span class="o">=</span> <span class="s">&#34;Chisq&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Pearson&#39;s X^2: Rao &amp; Scott adjustment
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  svychisq(~cigever + govtprog, cig.svy, statistic = &#34;Chisq&#34;)
+</span></span><span class="line"><span class="cl">## X-squared = 66.313, df = 1, p-value = 6.518e-06
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It looks participants who have utilized one or more government assistance programs more often have tried a cigarette in their lives.</p>
+<h3 id="ever-smoked-a-cigarette-logistic-regression">Ever Smoked a Cigarette Logistic Regression</h3>
+<p>Lastly, I am going to take several predictor variables of interest and fit a multivariable weighted logistic regression model. I would like to see which coefficients have a statistically significant impact on whether a participant has ever smoked a cigarette in their lives.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">cig.fit</span> <span class="o">&lt;-</span> <span class="nf">svyglm</span><span class="p">(</span><span class="n">cigever</span> <span class="o">~</span> <span class="n">sexident</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">speakengl</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">irsex</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">eduhighcat</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">newrace2</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">wrkstatwk2</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">irpinc3</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">govtprog</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">cig.svy</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">family</span> <span class="o">=</span> <span class="n">quasibinomial</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">cig.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## svyglm(formula = cigever ~ sexident + speakengl + irsex + eduhighcat + 
+</span></span><span class="line"><span class="cl">##     newrace2 + wrkstatwk2 + irpinc3 + govtprog, design = cig.svy, 
+</span></span><span class="line"><span class="cl">##     family = quasibinomial)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Survey design:
+</span></span><span class="line"><span class="cl">## svydesign(id = ~verep, strata = ~vestr_c, weights = ~analwt_c, 
+</span></span><span class="line"><span class="cl">##     data = cig3, nest = TRUE)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##                                                               Estimate
+</span></span><span class="line"><span class="cl">## (Intercept)                                                    0.10862
+</span></span><span class="line"><span class="cl">## sexidentLesbian or Gay                                         0.24135
+</span></span><span class="line"><span class="cl">## sexidentBisexual                                               0.31938
+</span></span><span class="line"><span class="cl">## speakenglWell                                                 -0.31160
+</span></span><span class="line"><span class="cl">## speakenglNot Well                                             -0.81491
+</span></span><span class="line"><span class="cl">## speakenglNot at All                                           -0.88363
+</span></span><span class="line"><span class="cl">## irsexMale                                                      0.37537
+</span></span><span class="line"><span class="cl">## eduhighcatHigh School Graduate                                -0.18217
+</span></span><span class="line"><span class="cl">## eduhighcatSome College / Associates Degree                    -0.09616
+</span></span><span class="line"><span class="cl">## eduhighcatCollege Graduate                                    -0.41272
+</span></span><span class="line"><span class="cl">## newrace2Black                                                 -0.94815
+</span></span><span class="line"><span class="cl">## newrace2Native American / Alaska Native                       -0.14689
+</span></span><span class="line"><span class="cl">## newrace2Native Hawaiian / Pacific Islander                    -0.86070
+</span></span><span class="line"><span class="cl">## newrace2Asian                                                 -1.04402
+</span></span><span class="line"><span class="cl">## newrace2More Than One Race                                    -0.09915
+</span></span><span class="line"><span class="cl">## newrace2Hispanic                                              -0.64055
+</span></span><span class="line"><span class="cl">## wrkstatwk2Part Time Job                                       -0.15217
+</span></span><span class="line"><span class="cl">## wrkstatwk2Has Job / Volunteer Work but Did Not Work Last Week -0.04618
+</span></span><span class="line"><span class="cl">## wrkstatwk2Unemployed / Laid Off Looking for Work               0.25849
+</span></span><span class="line"><span class="cl">## wrkstatwk2Disabled                                             0.54665
+</span></span><span class="line"><span class="cl">## wrkstatwk2Homemaker                                            0.21088
+</span></span><span class="line"><span class="cl">## wrkstatwk2In School / Training                                -1.07989
+</span></span><span class="line"><span class="cl">## wrkstatwk2Retired                                             -0.01107
+</span></span><span class="line"><span class="cl">## wrkstatwk2Does Not Have a Job, Other Reason                    0.11649
+</span></span><span class="line"><span class="cl">## irpinc3Between $10,000 and $19,000                             0.36938
+</span></span><span class="line"><span class="cl">## irpinc3Between $20,000 and $29,000                             0.48541
+</span></span><span class="line"><span class="cl">## irpinc3Between $30,000 and $39,000                             0.48611
+</span></span><span class="line"><span class="cl">## irpinc3Between $40,000 and $49,000                             0.53580
+</span></span><span class="line"><span class="cl">## irpinc3Between $50,000 and $74,000                             0.52905
+</span></span><span class="line"><span class="cl">## irpinc3$75,000 or More                                         0.54041
+</span></span><span class="line"><span class="cl">## govtprogYes                                                    0.44118
+</span></span><span class="line"><span class="cl">##                                                               Std. Error
+</span></span><span class="line"><span class="cl">## (Intercept)                                                      0.09094
+</span></span><span class="line"><span class="cl">## sexidentLesbian or Gay                                           0.11183
+</span></span><span class="line"><span class="cl">## sexidentBisexual                                                 0.06567
+</span></span><span class="line"><span class="cl">## speakenglWell                                                    0.07126
+</span></span><span class="line"><span class="cl">## speakenglNot Well                                                0.18639
+</span></span><span class="line"><span class="cl">## speakenglNot at All                                              0.22132
+</span></span><span class="line"><span class="cl">## irsexMale                                                        0.03388
+</span></span><span class="line"><span class="cl">## eduhighcatHigh School Graduate                                   0.07062
+</span></span><span class="line"><span class="cl">## eduhighcatSome College / Associates Degree                       0.08069
+</span></span><span class="line"><span class="cl">## eduhighcatCollege Graduate                                       0.08046
+</span></span><span class="line"><span class="cl">## newrace2Black                                                    0.05909
+</span></span><span class="line"><span class="cl">## newrace2Native American / Alaska Native                          0.22734
+</span></span><span class="line"><span class="cl">## newrace2Native Hawaiian / Pacific Islander                       0.27240
+</span></span><span class="line"><span class="cl">## newrace2Asian                                                    0.09878
+</span></span><span class="line"><span class="cl">## newrace2More Than One Race                                       0.12547
+</span></span><span class="line"><span class="cl">## newrace2Hispanic                                                 0.05912
+</span></span><span class="line"><span class="cl">## wrkstatwk2Part Time Job                                          0.06677
+</span></span><span class="line"><span class="cl">## wrkstatwk2Has Job / Volunteer Work but Did Not Work Last Week    0.07789
+</span></span><span class="line"><span class="cl">## wrkstatwk2Unemployed / Laid Off Looking for Work                 0.09772
+</span></span><span class="line"><span class="cl">## wrkstatwk2Disabled                                               0.11551
+</span></span><span class="line"><span class="cl">## wrkstatwk2Homemaker                                              0.09539
+</span></span><span class="line"><span class="cl">## wrkstatwk2In School / Training                                   0.12776
+</span></span><span class="line"><span class="cl">## wrkstatwk2Retired                                                0.06071
+</span></span><span class="line"><span class="cl">## wrkstatwk2Does Not Have a Job, Other Reason                      0.07895
+</span></span><span class="line"><span class="cl">## irpinc3Between $10,000 and $19,000                               0.06627
+</span></span><span class="line"><span class="cl">## irpinc3Between $20,000 and $29,000                               0.07007
+</span></span><span class="line"><span class="cl">## irpinc3Between $30,000 and $39,000                               0.07732
+</span></span><span class="line"><span class="cl">## irpinc3Between $40,000 and $49,000                               0.07806
+</span></span><span class="line"><span class="cl">## irpinc3Between $50,000 and $74,000                               0.08146
+</span></span><span class="line"><span class="cl">## irpinc3$75,000 or More                                           0.07447
+</span></span><span class="line"><span class="cl">## govtprogYes                                                      0.04725
+</span></span><span class="line"><span class="cl">##                                                               t value Pr(&gt;|t|)
+</span></span><span class="line"><span class="cl">## (Intercept)                                                     1.194 0.246323
+</span></span><span class="line"><span class="cl">## sexidentLesbian or Gay                                          2.158 0.043245
+</span></span><span class="line"><span class="cl">## sexidentBisexual                                                4.863 9.41e-05
+</span></span><span class="line"><span class="cl">## speakenglWell                                                  -4.373 0.000294
+</span></span><span class="line"><span class="cl">## speakenglNot Well                                              -4.372 0.000295
+</span></span><span class="line"><span class="cl">## speakenglNot at All                                            -3.992 0.000716
+</span></span><span class="line"><span class="cl">## irsexMale                                                      11.078 5.51e-10
+</span></span><span class="line"><span class="cl">## eduhighcatHigh School Graduate                                 -2.579 0.017907
+</span></span><span class="line"><span class="cl">## eduhighcatSome College / Associates Degree                     -1.192 0.247336
+</span></span><span class="line"><span class="cl">## eduhighcatCollege Graduate                                     -5.129 5.11e-05
+</span></span><span class="line"><span class="cl">## newrace2Black                                                 -16.047 6.89e-13
+</span></span><span class="line"><span class="cl">## newrace2Native American / Alaska Native                        -0.646 0.525550
+</span></span><span class="line"><span class="cl">## newrace2Native Hawaiian / Pacific Islander                     -3.160 0.004929
+</span></span><span class="line"><span class="cl">## newrace2Asian                                                 -10.569 1.24e-09
+</span></span><span class="line"><span class="cl">## newrace2More Than One Race                                     -0.790 0.438653
+</span></span><span class="line"><span class="cl">## newrace2Hispanic                                              -10.835 8.08e-10
+</span></span><span class="line"><span class="cl">## wrkstatwk2Part Time Job                                        -2.279 0.033780
+</span></span><span class="line"><span class="cl">## wrkstatwk2Has Job / Volunteer Work but Did Not Work Last Week  -0.593 0.559934
+</span></span><span class="line"><span class="cl">## wrkstatwk2Unemployed / Laid Off Looking for Work                2.645 0.015528
+</span></span><span class="line"><span class="cl">## wrkstatwk2Disabled                                              4.732 0.000127
+</span></span><span class="line"><span class="cl">## wrkstatwk2Homemaker                                             2.211 0.038876
+</span></span><span class="line"><span class="cl">## wrkstatwk2In School / Training                                 -8.453 4.93e-08
+</span></span><span class="line"><span class="cl">## wrkstatwk2Retired                                              -0.182 0.857172
+</span></span><span class="line"><span class="cl">## wrkstatwk2Does Not Have a Job, Other Reason                     1.475 0.155657
+</span></span><span class="line"><span class="cl">## irpinc3Between $10,000 and $19,000                              5.574 1.86e-05
+</span></span><span class="line"><span class="cl">## irpinc3Between $20,000 and $29,000                              6.927 9.99e-07
+</span></span><span class="line"><span class="cl">## irpinc3Between $30,000 and $39,000                              6.287 3.88e-06
+</span></span><span class="line"><span class="cl">## irpinc3Between $40,000 and $49,000                              6.864 1.14e-06
+</span></span><span class="line"><span class="cl">## irpinc3Between $50,000 and $74,000                              6.495 2.48e-06
+</span></span><span class="line"><span class="cl">## irpinc3$75,000 or More                                          7.257 5.08e-07
+</span></span><span class="line"><span class="cl">## govtprogYes                                                     9.337 9.90e-09
+</span></span><span class="line"><span class="cl">##                                                                  
+</span></span><span class="line"><span class="cl">## (Intercept)                                                      
+</span></span><span class="line"><span class="cl">## sexidentLesbian or Gay                                        *  
+</span></span><span class="line"><span class="cl">## sexidentBisexual                                              ***
+</span></span><span class="line"><span class="cl">## speakenglWell                                                 ***
+</span></span><span class="line"><span class="cl">## speakenglNot Well                                             ***
+</span></span><span class="line"><span class="cl">## speakenglNot at All                                           ***
+</span></span><span class="line"><span class="cl">## irsexMale                                                     ***
+</span></span><span class="line"><span class="cl">## eduhighcatHigh School Graduate                                *  
+</span></span><span class="line"><span class="cl">## eduhighcatSome College / Associates Degree                       
+</span></span><span class="line"><span class="cl">## eduhighcatCollege Graduate                                    ***
+</span></span><span class="line"><span class="cl">## newrace2Black                                                 ***
+</span></span><span class="line"><span class="cl">## newrace2Native American / Alaska Native                          
+</span></span><span class="line"><span class="cl">## newrace2Native Hawaiian / Pacific Islander                    ** 
+</span></span><span class="line"><span class="cl">## newrace2Asian                                                 ***
+</span></span><span class="line"><span class="cl">## newrace2More Than One Race                                       
+</span></span><span class="line"><span class="cl">## newrace2Hispanic                                              ***
+</span></span><span class="line"><span class="cl">## wrkstatwk2Part Time Job                                       *  
+</span></span><span class="line"><span class="cl">## wrkstatwk2Has Job / Volunteer Work but Did Not Work Last Week    
+</span></span><span class="line"><span class="cl">## wrkstatwk2Unemployed / Laid Off Looking for Work              *  
+</span></span><span class="line"><span class="cl">## wrkstatwk2Disabled                                            ***
+</span></span><span class="line"><span class="cl">## wrkstatwk2Homemaker                                           *  
+</span></span><span class="line"><span class="cl">## wrkstatwk2In School / Training                                ***
+</span></span><span class="line"><span class="cl">## wrkstatwk2Retired                                                
+</span></span><span class="line"><span class="cl">## wrkstatwk2Does Not Have a Job, Other Reason                      
+</span></span><span class="line"><span class="cl">## irpinc3Between $10,000 and $19,000                            ***
+</span></span><span class="line"><span class="cl">## irpinc3Between $20,000 and $29,000                            ***
+</span></span><span class="line"><span class="cl">## irpinc3Between $30,000 and $39,000                            ***
+</span></span><span class="line"><span class="cl">## irpinc3Between $40,000 and $49,000                            ***
+</span></span><span class="line"><span class="cl">## irpinc3Between $50,000 and $74,000                            ***
+</span></span><span class="line"><span class="cl">## irpinc3$75,000 or More                                        ***
+</span></span><span class="line"><span class="cl">## govtprogYes                                                   ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## (Dispersion parameter for quasibinomial family taken to be 1.12446)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Number of Fisher Scoring iterations: 4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>From looking at this model, there are many variables that have an impact on whether the participant reports that they have tried a cigarette in their lives. Some of these have a negative coefficient meaning it makes them more likely to have not tried a cigarette, while others have a positive coefficient meaning the opposite.</p>
+<p>Some comparatively large significant negative coefficients that I noticed were that Asian race and in school/training. The positive coefficients were not as dramatic, but some to point out are work status being disabled and income in the range of $75,000 plus.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>It was interesting to analyze another complex survey besides NHANES, as I got to discover a new method of importing a large amount of data into R without having to save it locally. Publicly available survey data is a truly valuable resource, it enables me to learn data analysis skills for free and learn more about the health trends of the country I live in.</p>
+<p>I will definitely be coming back to this particular survey, and others that are provided in the guide to practice my skills, and find out more about health behaviors of the American public and the factors that influence them.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/tobacco/">Tobacco</a>
+        
+            <a href="/tags/health-behaviors/">Health Behaviors</a>
+        
+            <a href="/tags/survey/">Survey</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/liver-condition-trends/">
+        
+        
+            <div class="article-image">
+                <img src="/p/liver-condition-trends/images/liver.6c73309e7147a5d9801e9714176e1ec2_hu5459c0360c2b0cb7a147d2df0eb350ca_229405_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Liver Condition Trends"
+                        data-key="liver-condition-trends" 
+                        data-hash="md5-bHMwnnFHpdmAHpcUF24ewg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Liver Condition Trends</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alcohol-bone-health/">
+        
+        
+            <div class="article-image">
+                <img src="/p/alcohol-bone-health/images/bone.c95160ffdb3a1135fa1507418dd5b160_hu5459c0360c2b0cb7a147d2df0eb350ca_7068840_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Alcohol Consumption and Bone Health"
+                        data-key="alcohol-bone-health" 
+                        data-hash="md5-yVFg/9s6ETX6FQdBjdWxYA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alcohol Consumption and Bone Health</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/decision-tree-medicaid/">
+        
+        
+            <div class="article-image">
+                <img src="/p/decision-tree-medicaid/images/tree.d015cf78241a3722204b9b702286b408_hu5459c0360c2b0cb7a147d2df0eb350ca_2079033_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Doctor Visits Decision Trees"
+                        data-key="decision-tree-medicaid" 
+                        data-hash="md5-0BXPeCQaNyIgS5twIoa0CA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Doctor Visits Decision Trees</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/air-quality-cross-validation/">
+        
+        
+            <div class="article-image">
+                <img src="/p/air-quality-cross-validation/images/cross.40ecb031321986e137568301e9ee991c_hu5459c0360c2b0cb7a147d2df0eb350ca_471906_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Air Quality Cross Validation"
+                        data-key="air-quality-cross-validation" 
+                        data-hash="md5-QOywMTIZhuE3VoMB6e6ZHA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Air Quality Cross Validation</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/influenza-like-illness-hospital-admissions-poisson-regression/">
+        
+        
+            <div class="article-image">
+                <img src="/p/influenza-like-illness-hospital-admissions-poisson-regression/images/pois.adeac14497a8897f4b237b23ea5b74d4_hu5459c0360c2b0cb7a147d2df0eb350ca_2464222_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Influenza Like Illness Hospital Admissions Poisson Regression"
+                        data-key="influenza-like-illness-hospital-admissions-poisson-regression" 
+                        data-hash="md5-rerBRJeoiX9LI3sj6lt01A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Influenza Like Illness Hospital Admissions Poisson Regression</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
