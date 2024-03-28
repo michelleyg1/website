@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='An analysis of 2017 to pre pandemic 2020 NHANES data to explore data related to demographics and blood concentration of heavy metals in blood'>
+<title>Concentration of Heavy Metals in Blood</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/heavy-metal/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Concentration of Heavy Metals in Blood'>
+<meta property='og:description' content='An analysis of 2017 to pre pandemic 2020 NHANES data to explore data related to demographics and blood concentration of heavy metals in blood'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/heavy-metal/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Survey' /><meta property='article:tag' content='Heavy Metals' /><meta property='article:published_time' content='2024-03-28T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-03-28T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/heavy-metal/images/metal.jpeg' />
+<meta name="twitter:title" content="Concentration of Heavy Metals in Blood">
+<meta name="twitter:description" content="An analysis of 2017 to pre pandemic 2020 NHANES data to explore data related to demographics and blood concentration of heavy metals in blood"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/heavy-metal/images/metal.jpeg' />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KWPFCQTTER"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-KWPFCQTTER', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-packages">Load Packages</a></li>
+    <li><a href="#import-data">Import Data</a></li>
+    <li><a href="#merge-data">Merge Data</a></li>
+    <li><a href="#investigate-and-clean-data">Investigate and Clean Data</a></li>
+    <li><a href="#survey-design">Survey Design</a></li>
+    <li><a href="#proportions">Proportions</a></li>
+    <li><a href="#fit-multivariate-regressions">Fit Multivariate Regressions</a>
+      <ol>
+        <li><a href="#diagnostics">Diagnostics</a></li>
+        <li><a href="#signifigant-coefficients">Signifigant Coefficients</a></li>
+      </ol>
+    </li>
+    <li><a href="#gender-and-heavy-metal-concentration-in-blood">Gender and Heavy Metal Concentration in Blood</a>
+      <ol>
+        <li><a href="#wilcoxon-signed-rank-test">Wilcoxon Signed Rank Test</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/heavy-metal/">
+                <img src="/p/heavy-metal/images/metal_hu5459c0360c2b0cb7a147d2df0eb350ca_3458104_800x0_resize_q75_box.jpeg"
+                        srcset="/p/heavy-metal/images/metal_hu5459c0360c2b0cb7a147d2df0eb350ca_3458104_800x0_resize_q75_box.jpeg 800w, /p/heavy-metal/images/metal_hu5459c0360c2b0cb7a147d2df0eb350ca_3458104_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="533" 
+                        loading="lazy"
+                        alt="Featured image of post Concentration of Heavy Metals in Blood" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/public-health/" >
+                Public Health
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/heavy-metal/">Concentration of Heavy Metals in Blood</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            An analysis of 2017 to pre pandemic 2020 NHANES data to explore data related to demographics and blood concentration of heavy metals in blood
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 28, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>I revisited the NHANES 2017 to pre pandemic 2020 data, as there are so many variables to analyse. For this post, I wanted to analyze the labs that were performed on participants of the Mobile Examination Center portion of the exam, particularly the heavy metal labs. According to the article <a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4144270/"  target="_blank" rel="noopener"
+    >Heavy Metals Toxicity and the Environment</a>, &ldquo;Because of their high degree of toxicity, arsenic, cadmium, chromium, lead, and mercury rank among the priority metals that are of public health significance. These metallic elements are considered systemic toxicants that are known to induce multiple organ damage, even at lower levels of exposure.&rdquo;</p>
+<p>I wanted to take a look at not only the proportion of people who are at or above the detection limit, but if there are certain demographic variables that are correlated with higher amounts of heavy metals detected in the blood of participants.</p>
+<h2 id="load-packages">Load Packages</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">nhanesA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">survey</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">tableone</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="import-data">Import Data</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">demo</span> <span class="o">&lt;-</span> <span class="nf">nhanes</span><span class="p">(</span><span class="s">&#34;P_DEMO&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">SEQN</span><span class="p">,</span> <span class="n">RIAGENDR</span><span class="p">,</span> <span class="n">RIDAGEYR</span><span class="p">,</span> <span class="n">RIDEXPRG</span><span class="p">,</span> <span class="n">RIDRETH3</span><span class="p">,</span> <span class="n">SDMVPSU</span><span class="p">,</span> <span class="n">SDMVSTRA</span><span class="p">,</span> <span class="n">WTMECPRP</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">lab</span> <span class="o">&lt;-</span> <span class="nf">nhanes</span><span class="p">(</span><span class="s">&#34;P_PBCD&#34;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">SEQN</span><span class="p">,</span> <span class="n">LBXBPB</span><span class="p">,</span> <span class="n">LBDBPBLC</span><span class="p">,</span> <span class="n">LBXBCD</span><span class="p">,</span> <span class="n">LBDBCDLC</span><span class="p">,</span> <span class="n">LBXTHG</span><span class="p">,</span> <span class="n">LBDTHGLC</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="merge-data">Merge Data</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">lab</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;SEQN&#34;</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">all.y</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">$</span><span class="n">SEQN</span> <span class="o">&lt;-</span> <span class="kc">NULL</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="investigate-and-clean-data">Investigate and Clean Data</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">init.table</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">includeNA</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">print</span><span class="p">(</span><span class="n">init.table</span><span class="p">,</span> <span class="n">showAllLevels</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                       
+</span></span><span class="line"><span class="cl">##                        level                                                             
+</span></span><span class="line"><span class="cl">##   n                                                                                      
+</span></span><span class="line"><span class="cl">##   RIAGENDR (%)         Male                                                              
+</span></span><span class="line"><span class="cl">##                        Female                                                            
+</span></span><span class="line"><span class="cl">##   RIDAGEYR (mean (SD))                                                                   
+</span></span><span class="line"><span class="cl">##   RIDEXPRG (%)         Yes, positive lab pregnancy test or self-reported pregnant at exam
+</span></span><span class="line"><span class="cl">##                        The participant was not pregnant at exam                          
+</span></span><span class="line"><span class="cl">##                        Cannot ascertain if the participant is pregnant at exam           
+</span></span><span class="line"><span class="cl">##                        &lt;NA&gt;                                                              
+</span></span><span class="line"><span class="cl">##   RIDRETH3 (%)         Mexican American                                                  
+</span></span><span class="line"><span class="cl">##                        Other Hispanic                                                    
+</span></span><span class="line"><span class="cl">##                        Non-Hispanic White                                                
+</span></span><span class="line"><span class="cl">##                        Non-Hispanic Black                                                
+</span></span><span class="line"><span class="cl">##                        Non-Hispanic Asian                                                
+</span></span><span class="line"><span class="cl">##                        Other Race - Including Multi-Racial                               
+</span></span><span class="line"><span class="cl">##   SDMVPSU (mean (SD))                                                                    
+</span></span><span class="line"><span class="cl">##   SDMVSTRA (mean (SD))                                                                   
+</span></span><span class="line"><span class="cl">##   WTMECPRP (mean (SD))                                                                   
+</span></span><span class="line"><span class="cl">##   LBXBPB (mean (SD))                                                                     
+</span></span><span class="line"><span class="cl">##   LBDBPBLC (%)         At or above the detection limit                                   
+</span></span><span class="line"><span class="cl">##                        Below lower detection limit                                       
+</span></span><span class="line"><span class="cl">##                        &lt;NA&gt;                                                              
+</span></span><span class="line"><span class="cl">##   LBXBCD (mean (SD))                                                                     
+</span></span><span class="line"><span class="cl">##   LBDBCDLC (%)         At or above the detection limit                                   
+</span></span><span class="line"><span class="cl">##                        Below lower detection limit                                       
+</span></span><span class="line"><span class="cl">##                        &lt;NA&gt;                                                              
+</span></span><span class="line"><span class="cl">##   LBXTHG (mean (SD))                                                                     
+</span></span><span class="line"><span class="cl">##   LBDTHGLC (%)         At or above the detection limit                                   
+</span></span><span class="line"><span class="cl">##                        Below lower detection limit                                       
+</span></span><span class="line"><span class="cl">##                        &lt;NA&gt;                                                              
+</span></span><span class="line"><span class="cl">##                       
+</span></span><span class="line"><span class="cl">##                        Overall            
+</span></span><span class="line"><span class="cl">##   n                       13772           
+</span></span><span class="line"><span class="cl">##   RIAGENDR (%)             6818 (49.5)    
+</span></span><span class="line"><span class="cl">##                            6954 (50.5)    
+</span></span><span class="line"><span class="cl">##   RIDAGEYR (mean (SD))    35.16 (24.73)   
+</span></span><span class="line"><span class="cl">##   RIDEXPRG (%)               87 ( 0.6)    
+</span></span><span class="line"><span class="cl">##                            1604 (11.6)    
+</span></span><span class="line"><span class="cl">##                              59 ( 0.4)    
+</span></span><span class="line"><span class="cl">##                           12022 (87.3)    
+</span></span><span class="line"><span class="cl">##   RIDRETH3 (%)             1763 (12.8)    
+</span></span><span class="line"><span class="cl">##                            1373 (10.0)    
+</span></span><span class="line"><span class="cl">##                            4565 (33.1)    
+</span></span><span class="line"><span class="cl">##                            3688 (26.8)    
+</span></span><span class="line"><span class="cl">##                            1483 (10.8)    
+</span></span><span class="line"><span class="cl">##                             900 ( 6.5)    
+</span></span><span class="line"><span class="cl">##   SDMVPSU (mean (SD))      1.54 (0.54)    
+</span></span><span class="line"><span class="cl">##   SDMVSTRA (mean (SD))   160.36 (6.95)    
+</span></span><span class="line"><span class="cl">##   WTMECPRP (mean (SD)) 23148.77 (27878.70)
+</span></span><span class="line"><span class="cl">##   LBXBPB (mean (SD))       1.03 (1.16)    
+</span></span><span class="line"><span class="cl">##   LBDBPBLC (%)            11103 (80.6)    
+</span></span><span class="line"><span class="cl">##                               4 ( 0.0)    
+</span></span><span class="line"><span class="cl">##                            2665 (19.4)    
+</span></span><span class="line"><span class="cl">##   LBXBCD (mean (SD))       0.36 (0.48)    
+</span></span><span class="line"><span class="cl">##   LBDBCDLC (%)             9720 (70.6)    
+</span></span><span class="line"><span class="cl">##                            2382 (17.3)    
+</span></span><span class="line"><span class="cl">##                            1670 (12.1)    
+</span></span><span class="line"><span class="cl">##   LBXTHG (mean (SD))       1.07 (2.06)    
+</span></span><span class="line"><span class="cl">##   LBDTHGLC (%)             8296 (60.2)    
+</span></span><span class="line"><span class="cl">##                            3806 (27.6)    
+</span></span><span class="line"><span class="cl">##                            1670 (12.1)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here, I&rsquo;m going to rename some variables to make the names more intuitive, as well as make the names of the categories more simple so that it is more readable when the output of the multivariate regression is printed.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">dff</span> <span class="o">&lt;-</span> <span class="n">df</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">         <span class="n">preg</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDEXPRG</span> <span class="o">==</span> <span class="s">&#34;Yes, positive lab pregnancy test or self-reported pregnant at exam&#34;</span> <span class="o">~</span> <span class="s">&#34;Yes&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDEXPRG</span> <span class="o">==</span> <span class="s">&#34;The participant was not pregnant at exam&#34;</span> <span class="o">~</span> <span class="s">&#34;No&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="kc">TRUE</span> <span class="o">~</span> <span class="kc">NA</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">race</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Mexican American&#34;</span> <span class="o">|</span> <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Other Hispanic&#34;</span> <span class="o">~</span> <span class="s">&#34;Hispanic&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic White&#34;</span> <span class="o">~</span> <span class="s">&#34;White&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic Black&#34;</span> <span class="o">~</span><span class="s">&#34;Black&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Non-Hispanic Asian&#34;</span> <span class="o">~</span> <span class="s">&#34;Asian&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">RIDRETH3</span> <span class="o">==</span> <span class="s">&#34;Other Race - Including Multi-Racial&#34;</span> <span class="o">~</span> <span class="s">&#34;Other&#34;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">         <span class="n">gender</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">RIAGENDR</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">rename</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">age</span> <span class="o">=</span> <span class="n">RIDAGEYR</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">psu</span> <span class="o">=</span> <span class="n">SDMVPSU</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">strata</span> <span class="o">=</span> <span class="n">SDMVSTRA</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">weight</span> <span class="o">=</span> <span class="n">WTMECPRP</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lead</span> <span class="o">=</span> <span class="n">LBXBPB</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lead_lim</span> <span class="o">=</span>  <span class="n">LBDBPBLC</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cadmium</span> <span class="o">=</span> <span class="n">LBXBCD</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cadmium_lim</span> <span class="o">=</span> <span class="n">LBDBCDLC</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">mercury</span> <span class="o">=</span> <span class="n">LBXTHG</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mercury_lim</span> <span class="o">=</span> <span class="n">LBDTHGLC</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">RIDEXPRG</span><span class="p">,</span> <span class="o">-</span><span class="n">RIDRETH3</span><span class="p">,</span> <span class="o">-</span><span class="n">RIAGENDR</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Checking again, making sure that I didn&rsquo;t miss anything.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">clean.table</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">dff</span><span class="p">,</span> <span class="n">includeNA</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">print</span><span class="p">(</span><span class="n">clean.table</span><span class="p">,</span> <span class="n">showAllLevels</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                      
+</span></span><span class="line"><span class="cl">##                       level                           Overall            
+</span></span><span class="line"><span class="cl">##   n                                                      13772           
+</span></span><span class="line"><span class="cl">##   age (mean (SD))                                        35.16 (24.73)   
+</span></span><span class="line"><span class="cl">##   psu (mean (SD))                                         1.54 (0.54)    
+</span></span><span class="line"><span class="cl">##   strata (mean (SD))                                    160.36 (6.95)    
+</span></span><span class="line"><span class="cl">##   weight (mean (SD))                                  23148.77 (27878.70)
+</span></span><span class="line"><span class="cl">##   lead (mean (SD))                                        1.03 (1.16)    
+</span></span><span class="line"><span class="cl">##   lead_lim (%)        At or above the detection limit    11103 (80.6)    
+</span></span><span class="line"><span class="cl">##                       Below lower detection limit            4 ( 0.0)    
+</span></span><span class="line"><span class="cl">##                       &lt;NA&gt;                                2665 (19.4)    
+</span></span><span class="line"><span class="cl">##   cadmium (mean (SD))                                     0.36 (0.48)    
+</span></span><span class="line"><span class="cl">##   cadmium_lim (%)     At or above the detection limit     9720 (70.6)    
+</span></span><span class="line"><span class="cl">##                       Below lower detection limit         2382 (17.3)    
+</span></span><span class="line"><span class="cl">##                       &lt;NA&gt;                                1670 (12.1)    
+</span></span><span class="line"><span class="cl">##   mercury (mean (SD))                                     1.07 (2.06)    
+</span></span><span class="line"><span class="cl">##   mercury_lim (%)     At or above the detection limit     8296 (60.2)    
+</span></span><span class="line"><span class="cl">##                       Below lower detection limit         3806 (27.6)    
+</span></span><span class="line"><span class="cl">##                       &lt;NA&gt;                                1670 (12.1)    
+</span></span><span class="line"><span class="cl">##   preg (%)            No                                  1604 (11.6)    
+</span></span><span class="line"><span class="cl">##                       Yes                                   87 ( 0.6)    
+</span></span><span class="line"><span class="cl">##                       &lt;NA&gt;                               12081 (87.7)    
+</span></span><span class="line"><span class="cl">##   race (%)            Asian                               1483 (10.8)    
+</span></span><span class="line"><span class="cl">##                       Black                               3688 (26.8)    
+</span></span><span class="line"><span class="cl">##                       Hispanic                            3136 (22.8)    
+</span></span><span class="line"><span class="cl">##                       Other                                900 ( 6.5)    
+</span></span><span class="line"><span class="cl">##                       White                               4565 (33.1)    
+</span></span><span class="line"><span class="cl">##   gender (%)          Male                                6818 (49.5)    
+</span></span><span class="line"><span class="cl">##                       Female                              6954 (50.5)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="survey-design">Survey Design</h2>
+<p>Creating the survey design object here.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">metal.svy</span> <span class="o">&lt;-</span> <span class="nf">svydesign</span><span class="p">(</span><span class="n">id</span> <span class="o">=</span> <span class="o">~</span><span class="n">psu</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">strata</span> <span class="o">=</span> <span class="o">~</span><span class="n">strata</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">weights</span> <span class="o">=</span> <span class="o">~</span><span class="n">weight</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">nest</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">survey.lonely.psu</span> <span class="o">=</span> <span class="s">&#34;adjust&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">data</span> <span class="o">=</span> <span class="n">dff</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="proportions">Proportions</h2>
+<p>I want to use the variables that show if the participant was at or above the detection limit to take a look at the weighted proportions of the survey participants blood heavy metal concentrations, which reflects the population as a whole.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svymean</span><span class="p">(</span><span class="o">~</span><span class="n">lead_lim</span><span class="p">,</span> <span class="n">metal.svy</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                                               mean    SE
+</span></span><span class="line"><span class="cl">## lead_limAt or above the detection limit 0.99970726 2e-04
+</span></span><span class="line"><span class="cl">## lead_limBelow lower detection limit     0.00029274 2e-04
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svymean</span><span class="p">(</span><span class="o">~</span><span class="n">mercury_lim</span><span class="p">,</span> <span class="n">metal.svy</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                                               mean    SE
+</span></span><span class="line"><span class="cl">## mercury_limAt or above the detection limit 0.72948 0.014
+</span></span><span class="line"><span class="cl">## mercury_limBelow lower detection limit     0.27052 0.014
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svymean</span><span class="p">(</span><span class="o">~</span><span class="n">cadmium_lim</span><span class="p">,</span> <span class="n">metal.svy</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##                                              mean     SE
+</span></span><span class="line"><span class="cl">## cadmium_limAt or above the detection limit 0.8448 0.0071
+</span></span><span class="line"><span class="cl">## cadmium_limBelow lower detection limit     0.1552 0.0071
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Wow, almost everyone is at or above the detection limit for lead, and a large majority for the other heavy metals.</p>
+<h2 id="fit-multivariate-regressions">Fit Multivariate Regressions</h2>
+<p>First I want to take a subset of the survey design object to remove missing values for lab values for any of the heavy metals.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">metal.subset</span> <span class="o">&lt;-</span> <span class="nf">subset</span><span class="p">(</span><span class="n">metal.svy</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">lead</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                       <span class="o">&amp;</span> <span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">cadmium</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                       <span class="o">&amp;</span> <span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">mercury</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then, to fit the model using svyglm() with the subset of the survey design object.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">lead.fit</span> <span class="o">&lt;-</span> <span class="nf">svyglm</span><span class="p">(</span><span class="n">lead</span> <span class="o">~</span> <span class="n">gender</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">race</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">metal.subset</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">mercury.fit</span> <span class="o">&lt;-</span> <span class="nf">svyglm</span><span class="p">(</span><span class="n">mercury</span> <span class="o">~</span> <span class="n">gender</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">race</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                      <span class="n">metal.subset</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">cadmium.fit</span> <span class="o">&lt;-</span> <span class="nf">svyglm</span><span class="p">(</span><span class="n">cadmium</span> <span class="o">~</span> <span class="n">gender</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">race</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">metal.subset</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="diagnostics">Diagnostics</h3>
+<p>I&rsquo;m going to take a quick look at the diagnostic plots for each model, to make sure that there is a linear relationship. I&rsquo;m going to start with the lead model.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">lead.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/heavy-metal/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<p>And then mercury.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">mercury.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/heavy-metal/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<p>And lastly, cadmium.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">cadmium.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/heavy-metal/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<p>Most of the plots look good, there are departures from the normal distribution, but overall the relationship is linear.
+Now to take a look at the coefficients of the models.</p>
+<h3 id="signifigant-coefficients">Signifigant Coefficients</h3>
+<p>For lead,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">lead.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## svyglm(formula = lead ~ gender + age + race, design = metal.subset)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Survey design:
+</span></span><span class="line"><span class="cl">## subset(metal.svy, !is.na(lead) &amp; !is.na(cadmium) &amp; !is.na(mercury))
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##               Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class="line"><span class="cl">## (Intercept)   0.750177   0.058333  12.860 7.98e-11 ***
+</span></span><span class="line"><span class="cl">## genderFemale -0.268034   0.025504 -10.509 2.35e-09 ***
+</span></span><span class="line"><span class="cl">## age           0.016640   0.000466  35.705  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## raceBlack    -0.242977   0.054023  -4.498 0.000246 ***
+</span></span><span class="line"><span class="cl">## raceHispanic -0.308710   0.067818  -4.552 0.000218 ***
+</span></span><span class="line"><span class="cl">## raceOther    -0.327197   0.062801  -5.210 4.98e-05 ***
+</span></span><span class="line"><span class="cl">## raceWhite    -0.395893   0.058607  -6.755 1.88e-06 ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## (Dispersion parameter for gaussian family taken to be 0.9845273)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Number of Fisher Scoring iterations: 2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>All significant statistically, some that stand out to me are that Non-Hispanic white is associated with the largest decrease when compared to the intercept which is Asian. Another is that the only positive coefficient is age although it is quite small.
+Female is also lower than male, which is interesting as you would think they would be the same from household exposures as men and women live together, perhaps there is another place that men were more frequently exposed to lead.</p>
+<p>And mercury,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">mercury.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## svyglm(formula = mercury ~ gender + age + race, design = metal.subset)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Survey design:
+</span></span><span class="line"><span class="cl">## subset(metal.svy, !is.na(lead) &amp; !is.na(cadmium) &amp; !is.na(mercury))
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##               Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class="line"><span class="cl">## (Intercept)   2.127359   0.300128   7.088 9.63e-07 ***
+</span></span><span class="line"><span class="cl">## genderFemale -0.172979   0.047452  -3.645  0.00172 ** 
+</span></span><span class="line"><span class="cl">## age           0.015134   0.001399  10.819 1.46e-09 ***
+</span></span><span class="line"><span class="cl">## raceBlack    -1.532638   0.298384  -5.136 5.87e-05 ***
+</span></span><span class="line"><span class="cl">## raceHispanic -1.582814   0.293034  -5.401 3.27e-05 ***
+</span></span><span class="line"><span class="cl">## raceOther    -1.639871   0.297172  -5.518 2.53e-05 ***
+</span></span><span class="line"><span class="cl">## raceWhite    -1.597285   0.287334  -5.559 2.32e-05 ***
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## (Dispersion parameter for gaussian family taken to be 3.284387)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Number of Fisher Scoring iterations: 2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>it seems to follow the same patterns as lead.</p>
+<p>And cadmium,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">cadmium.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## svyglm(formula = cadmium ~ gender + age + race, design = metal.subset)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Survey design:
+</span></span><span class="line"><span class="cl">## subset(metal.svy, !is.na(lead) &amp; !is.na(cadmium) &amp; !is.na(mercury))
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##                Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class="line"><span class="cl">## (Intercept)   0.2393745  0.0270553   8.848 3.64e-08 ***
+</span></span><span class="line"><span class="cl">## genderFemale  0.0748863  0.0116488   6.429 3.66e-06 ***
+</span></span><span class="line"><span class="cl">## age           0.0044088  0.0003573  12.338 1.62e-10 ***
+</span></span><span class="line"><span class="cl">## raceBlack    -0.0203956  0.0282558  -0.722  0.47920    
+</span></span><span class="line"><span class="cl">## raceHispanic -0.1487407  0.0241972  -6.147 6.58e-06 ***
+</span></span><span class="line"><span class="cl">## raceOther     0.0074420  0.0360248   0.207  0.83854    
+</span></span><span class="line"><span class="cl">## raceWhite    -0.0868630  0.0281021  -3.091  0.00601 ** 
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## (Dispersion parameter for gaussian family taken to be 0.2304773)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Number of Fisher Scoring iterations: 2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>it definitely deviates from the pattern seen in the other two model&rsquo;s coefficients: Black and Other Race are not statistically significant coefficients, and surprisingly in this model Female has a positive coefficient instead of negative. I want to dig deeper into these gender differences.</p>
+<h2 id="gender-and-heavy-metal-concentration-in-blood">Gender and Heavy Metal Concentration in Blood</h2>
+<p>First I want to visualize the mean concentration for each type of heavy metal, in the two different gender groups.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xpd</span> <span class="o">=</span> <span class="kc">NA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">svyboxplot</span><span class="p">(</span><span class="n">lead</span> <span class="o">~</span> <span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">metal.subset</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylim</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">           <span class="n">xaxt</span> <span class="o">=</span> <span class="s">&#34;n&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;Blood Lead (ug/dL)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#235347&#34;</span><span class="p">,</span> <span class="s">&#34;#8EB69B&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">svyboxplot</span><span class="p">(</span><span class="n">mercury</span> <span class="o">~</span> <span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">metal.subset</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylim</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">4</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">           <span class="n">xaxt</span> <span class="o">=</span> <span class="s">&#34;n&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;Blood Mercury (ug/L)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#235347&#34;</span><span class="p">,</span> <span class="s">&#34;#8EB69B&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">svyboxplot</span><span class="p">(</span><span class="n">cadmium</span> <span class="o">~</span> <span class="n">gender</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">metal.subset</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylim</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">           <span class="n">xaxt</span> <span class="o">=</span> <span class="s">&#34;n&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;Blood Cadmium (ug/L)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">col</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#235347&#34;</span><span class="p">,</span> <span class="s">&#34;#8EB69B&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">           <span class="n">bty</span> <span class="o">=</span> <span class="s">&#34;L&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">legend</span><span class="p">(</span><span class="s">&#34;bottomleft&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">legend</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;Male&#34;</span><span class="p">,</span> <span class="s">&#34;Female&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">       <span class="n">fill</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#235347&#34;</span><span class="p">,</span> <span class="s">&#34;#8EB69B&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">       <span class="n">horiz</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">inset</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">-1.5</span><span class="p">,</span> <span class="m">-0.15</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">       <span class="n">cex</span> <span class="o">=</span> <span class="m">1.2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mtext</span><span class="p">(</span><span class="s">&#34;Heavy Metal Concentration in Blood by Gender&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">side</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">line</span> <span class="o">=</span> <span class="m">-2.5</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">outer</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/heavy-metal/index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<p>So there are some visible differences in the lead and cadmium group, and not as much within the mercury group. However, statistical significance can&rsquo;t be determined just by looking at the graph.</p>
+<h3 id="wilcoxon-signed-rank-test">Wilcoxon Signed Rank Test</h3>
+<p>I&rsquo;m going to use the Wilcoxon Signed Rank test rather than the parametric t-test as the data showed a deviation from the normal distribution in the q-q plot.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyranktest</span><span class="p">(</span><span class="n">lead</span> <span class="o">~</span> <span class="n">gender</span><span class="p">,</span> <span class="n">metal.subset</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;wilcoxon&#34;</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Design-based KruskalWallis test
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  lead ~ gender
+</span></span><span class="line"><span class="cl">## t = -10.78, df = 24, p-value = 1.111e-10
+</span></span><span class="line"><span class="cl">## alternative hypothesis: true difference in mean rank score is not equal to 0
+</span></span><span class="line"><span class="cl">## sample estimates:
+</span></span><span class="line"><span class="cl">## difference in mean rank score 
+</span></span><span class="line"><span class="cl">##                   -0.08826645
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyranktest</span><span class="p">(</span><span class="n">cadmium</span> <span class="o">~</span> <span class="n">gender</span><span class="p">,</span> <span class="n">metal.subset</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;wilcoxon&#34;</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Design-based KruskalWallis test
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  cadmium ~ gender
+</span></span><span class="line"><span class="cl">## t = 12.499, df = 24, p-value = 5.349e-12
+</span></span><span class="line"><span class="cl">## alternative hypothesis: true difference in mean rank score is not equal to 0
+</span></span><span class="line"><span class="cl">## sample estimates:
+</span></span><span class="line"><span class="cl">## difference in mean rank score 
+</span></span><span class="line"><span class="cl">##                     0.1000802
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">svyranktest</span><span class="p">(</span><span class="n">mercury</span> <span class="o">~</span> <span class="n">gender</span><span class="p">,</span> <span class="n">metal.subset</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;wilcoxon&#34;</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Design-based KruskalWallis test
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  mercury ~ gender
+</span></span><span class="line"><span class="cl">## t = -0.91282, df = 24, p-value = 0.3704
+</span></span><span class="line"><span class="cl">## alternative hypothesis: true difference in mean rank score is not equal to 0
+</span></span><span class="line"><span class="cl">## sample estimates:
+</span></span><span class="line"><span class="cl">## difference in mean rank score 
+</span></span><span class="line"><span class="cl">##                  -0.006822827
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This test confirms my suspicions from the graph, that lead and cadmium do have statistically significant differences in the means between men and women.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Looking into this aspect of the NHANES survey was an interesting exploratory analysis that raised some questions for me regarding gender disparities in heavy metal exposure.</p>
+<p>Exposure to these heavy metals can be linked to adverse health outcomes and it is concerning that such a large marjority of the population has detectable exposure in their blood.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/survey/">Survey</a>
+        
+            <a href="/tags/heavy-metals/">Heavy Metals</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/cigarettes-samhsa/">
+        
+        
+            <div class="article-image">
+                <img src="/p/cigarettes-samhsa/images/purp.745380d801816e05b1ea89cf2c4ec5fb_hu5459c0360c2b0cb7a147d2df0eb350ca_676910_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post SAMHSA National Survey on Drug Use and Health Analysis"
+                        data-key="cigarettes-samhsa" 
+                        data-hash="md5-dFOA2AGBbgWx6onPLE7F&#43;w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">SAMHSA National Survey on Drug Use and Health Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/liver-condition-trends/">
+        
+        
+            <div class="article-image">
+                <img src="/p/liver-condition-trends/images/liver.6c73309e7147a5d9801e9714176e1ec2_hu5459c0360c2b0cb7a147d2df0eb350ca_229405_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Liver Condition Trends"
+                        data-key="liver-condition-trends" 
+                        data-hash="md5-bHMwnnFHpdmAHpcUF24ewg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Liver Condition Trends</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alcohol-bone-health/">
+        
+        
+            <div class="article-image">
+                <img src="/p/alcohol-bone-health/images/bone.c95160ffdb3a1135fa1507418dd5b160_hu5459c0360c2b0cb7a147d2df0eb350ca_7068840_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Alcohol Consumption and Bone Health"
+                        data-key="alcohol-bone-health" 
+                        data-hash="md5-yVFg/9s6ETX6FQdBjdWxYA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alcohol Consumption and Bone Health</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/decision-tree-medicaid/">
+        
+        
+            <div class="article-image">
+                <img src="/p/decision-tree-medicaid/images/tree.d015cf78241a3722204b9b702286b408_hu5459c0360c2b0cb7a147d2df0eb350ca_2079033_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Doctor Visits Decision Trees"
+                        data-key="decision-tree-medicaid" 
+                        data-hash="md5-0BXPeCQaNyIgS5twIoa0CA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Doctor Visits Decision Trees</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/air-quality-cross-validation/">
+        
+        
+            <div class="article-image">
+                <img src="/p/air-quality-cross-validation/images/cross.40ecb031321986e137568301e9ee991c_hu5459c0360c2b0cb7a147d2df0eb350ca_471906_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Air Quality Cross Validation"
+                        data-key="air-quality-cross-validation" 
+                        data-hash="md5-QOywMTIZhuE3VoMB6e6ZHA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Air Quality Cross Validation</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
