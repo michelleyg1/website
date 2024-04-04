@@ -1,0 +1,163 @@
+---
+title: NJ Transit Bus Performance
+author: R package build
+date: '2024-04-04'
+slug: late-busses
+categories: ["R", "Transit"]
+tags: ["Busses", "NJ Transit", "Public Transit"]
+description: An exploratory analysis of the percent of NJ Transit busses that have arrived late from January 2009 to January 2024.
+image: "images/bus.jpeg"
+math: ~
+license: Michelle Gulotta
+hidden: no
+comments: no
+---
+
+I finally decided to search for data outside of the public health and biostatistics realm and looked into the type of data that NJ Transit (the main public transit system in New Jersey) collected and published online to be viewed and analyzed by the public. I chose to analyze the system wide [bus system performance data](https://www.njtransit.com/performance-data-download).
+
+First to load some libraries.
+
+## Load Libraries
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(lubridate)
+  library(FSA)
+  library(rcompanion)
+})
+```
+
+## Import Data
+
+I'm just going to do a simple import from my desktop.
+```{r}
+bus <- read_csv("/Users/michellegulotta/Desktop/BUS_OTP_DATA.csv")
+```
+
+## Clean Data
+
+Data found in the wild, collected by government agencies (in my experience) is generally pretty ugly and needs some cleaning up, this one wasn't really that bad though, just some changing the data types and removing the first row as it just was a line that seperated the variable names from the data on the csv file.
+
+I also created some variables. The date variable which uses the lubridate package function make_date(), the season variable using the months of the year, pct_late which reflects the percent of busses in that particular year and month combination that were recorded to have arrived late to the bus stop.
+```{r}
+bus <- bus[-1, ]
+names(bus) <- tolower(names(bus))
+bus <- bus %>% 
+  mutate(
+    across(
+    .cols = c(1:5),
+    .fns = ~as.numeric(.x)
+    ),
+    across(
+      .cols = c(1, 2),
+      .fns = ~as.factor(.x),
+      .names = "{col}_f"
+    ),
+    pct_late = (total_lates / total_trips) * 100,
+    date = make_date(otp_year, otp_month),
+    season = as.factor(case_when(
+      otp_month < 4 ~ "Winter",
+      otp_month < 7 ~ "Spring",
+      otp_month < 10 ~ "Summer",
+      otp_month >= 10 ~ "Fall"
+    ))
+  )
+```
+
+## Percent of Busses Arriving Late from 2009 to 2024
+
+I'm going to use ggplot to look at how the pct_late variable has changed over the years that this data has been recorded.
+```{r}
+ggplot(data = bus, mapping = aes(x = date, y = pct_late)) +
+  geom_smooth(fill = "#F4823C", color = "#04529C", alpha = 0.2) +
+  scale_x_date(breaks = "year", date_labels = "%Y") +
+  labs(title = "Percent of NJ Transit Busses that Arrived Late from 2009 to 2024",
+       x = "Year",
+       y = "Percent",
+       caption = "Source: NJ Transit Performance Data") +
+  theme_linedraw() +
+  theme(plot.title = element_text(hjust=0.5))
+```
+
+These differences look pretty drastic, but ggplot did scale down the y axis quite a bit, so we are looking at a tiny fraction of the variable (under 10%).
+
+### Linear Regression
+
+I'm going to use the factored year variable to treat the year as a category, and see if there were any years associated with increased or decreased percent of busses arriving late. Looking at the graph above there are certainly ups and downs when the y axis is scaled down.
+```{r}
+bus.fit <- lm(pct_late ~ otp_year_f, bus)
+summary(bus.fit)
+```
+
+The coefficient that stood out the most to me was the one associated with the year 2020, with a very large decrease in pct_late it is interesting to see how the pandemic affected these metrics.
+Another interesting observation was that during the years that Chris Christie was governor of New Jersey, there were statistically significant increases from the 2009 intercept, and the year that he left office there was still an increase but only about half the size of the other years.
+
+### Diagnostics
+```{r}
+par(mfrow = c(2, 2))
+plot(bus.fit)
+```
+Besides the normality of the data, it looks okay. 
+
+## Season Associated with Late Busses
+
+Next, I wanted to see if there were any differences between the four seasons and percent of busses arriving late, I created the season variable when cleaning the data, and it does not capture it totally accurately as it was only based off of the month number, and there is some overlap in every month there is a season change, but the day to day data is not something that NJ transit collects.
+
+### Box Plot
+
+I'm going to use ggplot again to make a box plot of the data which shows average percent of NJ Transit busses arriving late by season. 
+```{r}
+ggplot(data = bus, mapping = aes(x = season, y = pct_late)) +
+  geom_boxplot(fill = c("#F4823C", "#BC228C", "#04529C", "#F4F2F4")) +
+  labs(title = "Average Percent of NJ Transit Busses that Arrived Late 
+       from 2009 to 2024 by Season",
+       x = "Season",
+       y = "Average Percent of Busses Arriving Late",
+       caption = "Source: NJ Transit Performance Data") +
+  theme_linedraw() +
+  theme(plot.title = element_text(hjust=0.5))
+```
+
+### Kruskal Wallace Test
+
+Next, since the data is relatively non normal I'm going to use a non-parametric alternative to compare means. 
+```{r}
+kruskal.test(pct_late ~ season, bus)
+```
+So there are statistically significant differences between the means at a very low p value. 
+
+### Post Hoc Comparisons
+
+Something else that I learned when researching for this post was that there is a non-parametric post hoc comparison that can be done to see within which groups the differences lie, called the Dunn test.
+
+Here, I utilize the functions in the FSA and rcompanion package to display the results of this test.
+```{r}
+bus.dunn <- dunnTest(pct_late ~ season, bus, method = "bh")
+bus.dunn.res <- bus.dunn$res
+cldList(comparison = bus.dunn.res$Comparison,
+        p.value = bus.dunn.res$P.adj,
+        threshold = 0.05)
+```
+
+As I thought from looking at the graph, the differences lie in the fall and winter average percentage. 
+
+### Average Total Rides by Season
+
+Lastly, I wanted to take a quick look at the mean total trips as this may reflect a pattern in why busses tend to be later in the fall than in the winter, perhaps since there are less busses to be late in the winter?
+```{r}
+bus_mean <- bus %>% 
+  group_by(season) %>% 
+  summarise_at(vars(total_trips),
+               list(mean_trips = mean))
+print(bus_mean)
+```
+
+The season with the most rides is summer, and between winter there are almost the same amount of trips, so it is interesting that in the Fall they tend to be late more often than in the winter.
+
+Perhaps since all of December was counted in the Fall category, and it is influenced by the holidays. There is really not enough information in this dataset to be able to draw conclusions, so just speculating why this is the case.
+
+## Conclusion
+
+It was nice to take a step back from health related statistics for this analysis, especially away from survey data as I have been using that very often. This also allowed me to practice more with ggplot as I have been using base R plot syntax with the survey package for a lot of my posts recently.
+
+I'm interested to see how NJ transit collects this data and what is considered late for a bus, as this is an important issue as many New Jerseyans rely on public transit to get to work, appointments, and other important places. It will be interesting to repeat this analysis in a few years now that we are (for the most part) in a post pandemic, work from home world.

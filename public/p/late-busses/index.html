@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='An exploratory analysis of the percent of NJ Transit busses that have arrived late from January 2009 to January 2024.'>
+<title>NJ Transit Bus Performance</title>
+
+<link rel='canonical' href='https://michelleyg1.github.io/p/late-busses/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='NJ Transit Bus Performance'>
+<meta property='og:description' content='An exploratory analysis of the percent of NJ Transit busses that have arrived late from January 2009 to January 2024.'>
+<meta property='og:url' content='https://michelleyg1.github.io/p/late-busses/'>
+<meta property='og:site_name' content='Michelle Gulotta'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Busses' /><meta property='article:tag' content='NJ Transit' /><meta property='article:tag' content='Public Transit' /><meta property='article:published_time' content='2024-04-04T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-04-04T00:00:00&#43;00:00'/><meta property='og:image' content='https://michelleyg1.github.io/p/late-busses/images/bus.jpeg' />
+<meta name="twitter:title" content="NJ Transit Bus Performance">
+<meta name="twitter:description" content="An exploratory analysis of the percent of NJ Transit busses that have arrived late from January 2009 to January 2024."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://michelleyg1.github.io/p/late-busses/images/bus.jpeg' />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KWPFCQTTER"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-KWPFCQTTER', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "light");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu74eb8abd789e844c3de68cd029e12227_5737_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Michelle Gulotta</a></h1>
+            <h2 class="site-description">Hi, I&#39;m Michelle and welcome to my website!</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#load-libraries">Load Libraries</a></li>
+    <li><a href="#import-data">Import Data</a></li>
+    <li><a href="#clean-data">Clean Data</a></li>
+    <li><a href="#percent-of-busses-arriving-late-from-2009-to-2024">Percent of Busses Arriving Late from 2009 to 2024</a>
+      <ol>
+        <li><a href="#linear-regression">Linear Regression</a></li>
+        <li><a href="#diagnostics">Diagnostics</a></li>
+      </ol>
+    </li>
+    <li><a href="#season-associated-with-late-busses">Season Associated with Late Busses</a>
+      <ol>
+        <li><a href="#box-plot">Box Plot</a></li>
+        <li><a href="#kruskal-wallace-test">Kruskal Wallace Test</a></li>
+        <li><a href="#post-hoc-comparisons">Post Hoc Comparisons</a></li>
+        <li><a href="#average-total-rides-by-season">Average Total Rides by Season</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/late-busses/">
+                <img src="/p/late-busses/images/bus_hu5459c0360c2b0cb7a147d2df0eb350ca_889232_800x0_resize_q75_box.jpeg"
+                        srcset="/p/late-busses/images/bus_hu5459c0360c2b0cb7a147d2df0eb350ca_889232_800x0_resize_q75_box.jpeg 800w, /p/late-busses/images/bus_hu5459c0360c2b0cb7a147d2df0eb350ca_889232_1600x0_resize_q75_box.jpeg 1600w"
+                        width="800" 
+                        height="800" 
+                        loading="lazy"
+                        alt="Featured image of post NJ Transit Bus Performance" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/transit/" >
+                Transit
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/late-busses/">NJ Transit Bus Performance</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            An exploratory analysis of the percent of NJ Transit busses that have arrived late from January 2009 to January 2024.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 04, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>I finally decided to search for data outside of the public health and biostatistics realm and looked into the type of data that NJ Transit (the main public transit system in New Jersey) collected and published online to be viewed and analyzed by the public. I chose to analyze the system wide <a class="link" href="https://www.njtransit.com/performance-data-download"  target="_blank" rel="noopener"
+    >bus system performance data</a>.</p>
+<p>First to load some libraries.</p>
+<h2 id="load-libraries">Load Libraries</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">FSA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">library</span><span class="p">(</span><span class="n">rcompanion</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="import-data">Import Data</h2>
+<p>I&rsquo;m just going to do a simple import from my desktop.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">bus</span> <span class="o">&lt;-</span> <span class="nf">read_csv</span><span class="p">(</span><span class="s">&#34;/Users/michellegulotta/Desktop/BUS_OTP_DATA.csv&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Rows: 182 Columns: 5
+</span></span><span class="line"><span class="cl">## ── Column specification ────────────────────────────────────────────────────────
+</span></span><span class="line"><span class="cl">## Delimiter: &#34;,&#34;
+</span></span><span class="line"><span class="cl">## chr (5): OTP_YEAR, OTP_MONTH, OTP, TOTAL_TRIPS, TOTAL_LATES
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## ℹ Use `spec()` to retrieve the full column specification for this data.
+</span></span><span class="line"><span class="cl">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="clean-data">Clean Data</h2>
+<p>Data found in the wild, collected by government agencies (in my experience) is generally pretty ugly and needs some cleaning up, this one wasn&rsquo;t really that bad though, just some changing the data types and removing the first row as it just was a line that seperated the variable names from the data on the csv file.</p>
+<p>I also created some variables. The date variable which uses the lubridate package function make_date(), the season variable using the months of the year, pct_late which reflects the percent of busses in that particular year and month combination that were recorded to have arrived late to the bus stop.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">bus</span> <span class="o">&lt;-</span> <span class="n">bus[</span><span class="m">-1</span><span class="p">,</span> <span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="nf">names</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">tolower</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">bus</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">bus</span> <span class="o">&lt;-</span> <span class="n">bus</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">mutate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">across</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">.cols</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">.fns</span> <span class="o">=</span> <span class="o">~</span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">.x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">across</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">.cols</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">.fns</span> <span class="o">=</span> <span class="o">~</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">.x</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">.names</span> <span class="o">=</span> <span class="s">&#34;{col}_f&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pct_late</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_lates</span> <span class="o">/</span> <span class="n">total_trips</span><span class="p">)</span> <span class="o">*</span> <span class="m">100</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">date</span> <span class="o">=</span> <span class="nf">make_date</span><span class="p">(</span><span class="n">otp_year</span><span class="p">,</span> <span class="n">otp_month</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">season</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">case_when</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">otp_month</span> <span class="o">&lt;</span> <span class="m">4</span> <span class="o">~</span> <span class="s">&#34;Winter&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">otp_month</span> <span class="o">&lt;</span> <span class="m">7</span> <span class="o">~</span> <span class="s">&#34;Spring&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">otp_month</span> <span class="o">&lt;</span> <span class="m">10</span> <span class="o">~</span> <span class="s">&#34;Summer&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">otp_month</span> <span class="o">&gt;=</span> <span class="m">10</span> <span class="o">~</span> <span class="s">&#34;Fall&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="percent-of-busses-arriving-late-from-2009-to-2024">Percent of Busses Arriving Late from 2009 to 2024</h2>
+<p>I&rsquo;m going to use ggplot to look at how the pct_late variable has changed over the years that this data has been recorded.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">bus</span><span class="p">,</span> <span class="n">mapping</span> <span class="o">=</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">date</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pct_late</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_smooth</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span> <span class="s">&#34;#F4823C&#34;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&#34;#04529C&#34;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="m">0.2</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">scale_x_date</span><span class="p">(</span><span class="n">breaks</span> <span class="o">=</span> <span class="s">&#34;year&#34;</span><span class="p">,</span> <span class="n">date_labels</span> <span class="o">=</span> <span class="s">&#34;%Y&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Percent of NJ Transit Busses that Arrived Late from 2009 to 2024&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Year&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Percent&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: NJ Transit Performance Data&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_linedraw</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/late-busses/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<p>These differences look pretty drastic, but ggplot did scale down the y axis quite a bit, so we are looking at a tiny fraction of the variable (under 10%).</p>
+<h3 id="linear-regression">Linear Regression</h3>
+<p>I&rsquo;m going to use the factored year variable to treat the year as a category, and see if there were any years associated with increased or decreased percent of busses arriving late. Looking at the graph above there are certainly ups and downs when the y axis is scaled down.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">bus.fit</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">pct_late</span> <span class="o">~</span> <span class="n">otp_year_f</span><span class="p">,</span> <span class="n">bus</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">summary</span><span class="p">(</span><span class="n">bus.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Call:
+</span></span><span class="line"><span class="cl">## lm(formula = pct_late ~ otp_year_f, data = bus)
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residuals:
+</span></span><span class="line"><span class="cl">##     Min      1Q  Median      3Q     Max 
+</span></span><span class="line"><span class="cl">## -3.0887 -0.8516 -0.0588  0.8064  5.3810 
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Coefficients:
+</span></span><span class="line"><span class="cl">##                Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class="line"><span class="cl">## (Intercept)     6.50673    0.44010  14.785  &lt; 2e-16 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2010 -0.02779    0.62240  -0.045 0.964444    
+</span></span><span class="line"><span class="cl">## otp_year_f2011  1.46707    0.62240   2.357 0.019591 *  
+</span></span><span class="line"><span class="cl">## otp_year_f2012  2.93640    0.62240   4.718 5.05e-06 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2013  2.46509    0.62240   3.961 0.000111 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2014  2.65628    0.62240   4.268 3.32e-05 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2015  2.67063    0.62240   4.291 3.02e-05 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2016  2.60015    0.62240   4.178 4.76e-05 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2017  3.14401    0.62240   5.051 1.15e-06 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2018  2.83756    0.62240   4.559 9.97e-06 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2019  1.16573    0.62240   1.873 0.062844 .  
+</span></span><span class="line"><span class="cl">## otp_year_f2020 -4.06767    0.62240  -6.535 7.56e-10 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2021 -2.45210    0.62240  -3.940 0.000120 ***
+</span></span><span class="line"><span class="cl">## otp_year_f2022 -1.29334    0.62240  -2.078 0.039259 *  
+</span></span><span class="line"><span class="cl">## otp_year_f2023  1.15551    0.62240   1.857 0.065160 .  
+</span></span><span class="line"><span class="cl">## otp_year_f2024  0.02389    1.58682   0.015 0.988008    
+</span></span><span class="line"><span class="cl">## ---
+</span></span><span class="line"><span class="cl">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Residual standard error: 1.525 on 165 degrees of freedom
+</span></span><span class="line"><span class="cl">## Multiple R-squared:  0.6778,	Adjusted R-squared:  0.6485 
+</span></span><span class="line"><span class="cl">## F-statistic: 23.14 on 15 and 165 DF,  p-value: &lt; 2.2e-16
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The coefficient that stood out the most to me was the one associated with the year 2020, with a very large decrease in pct_late it is interesting to see how the pandemic affected these metrics.
+Another interesting observation was that during the years that Chris Christie was governor of New Jersey, there were statistically significant increases from the 2009 intercept, and the year that he left office there was still an increase but only about half the size of the other years.</p>
+<h3 id="diagnostics">Diagnostics</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">bus.fit</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Warning: not plotting observations with leverage one:
+</span></span><span class="line"><span class="cl">##   181
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/late-busses/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+Besides the normality of the data, it looks okay. 
+<h2 id="season-associated-with-late-busses">Season Associated with Late Busses</h2>
+<p>Next, I wanted to see if there were any differences between the four seasons and percent of busses arriving late, I created the season variable when cleaning the data, and it does not capture it totally accurately as it was only based off of the month number, and there is some overlap in every month there is a season change, but the day to day data is not something that NJ transit collects.</p>
+<h3 id="box-plot">Box Plot</h3>
+<p>I&rsquo;m going to use ggplot again to make a box plot of the data which shows average percent of NJ Transit busses arriving late by season.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">bus</span><span class="p">,</span> <span class="n">mapping</span> <span class="o">=</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">season</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pct_late</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_boxplot</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;#F4823C&#34;</span><span class="p">,</span> <span class="s">&#34;#BC228C&#34;</span><span class="p">,</span> <span class="s">&#34;#04529C&#34;</span><span class="p">,</span> <span class="s">&#34;#F4F2F4&#34;</span><span class="p">))</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;Average Percent of NJ Transit Busses that Arrived Late 
+</span></span></span><span class="line"><span class="cl"><span class="s">       from 2009 to 2024 by Season&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">x</span> <span class="o">=</span> <span class="s">&#34;Season&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">y</span> <span class="o">=</span> <span class="s">&#34;Average Percent of Busses Arriving Late&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="n">caption</span> <span class="o">=</span> <span class="s">&#34;Source: NJ Transit Performance Data&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme_linedraw</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="https://michelleyg1.github.io/p/late-busses/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<h3 id="kruskal-wallace-test">Kruskal Wallace Test</h3>
+<p>Next, since the data is relatively non normal I&rsquo;m going to use a non-parametric alternative to compare means.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">kruskal.test</span><span class="p">(</span><span class="n">pct_late</span> <span class="o">~</span> <span class="n">season</span><span class="p">,</span> <span class="n">bus</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## 	Kruskal-Wallis rank sum test
+</span></span><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## data:  pct_late by season
+</span></span><span class="line"><span class="cl">## Kruskal-Wallis chi-squared = 18.292, df = 3, p-value = 0.0003828
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So there are statistically significant differences between the means at a very low p value.</p>
+<h3 id="post-hoc-comparisons">Post Hoc Comparisons</h3>
+<p>Something else that I learned when researching for this post was that there is a non-parametric post hoc comparison that can be done to see within which groups the differences lie, called the Dunn test.</p>
+<p>Here, I utilize the functions in the FSA and rcompanion package to display the results of this test.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">bus.dunn</span> <span class="o">&lt;-</span> <span class="nf">dunnTest</span><span class="p">(</span><span class="n">pct_late</span> <span class="o">~</span> <span class="n">season</span><span class="p">,</span> <span class="n">bus</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&#34;bh&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bus.dunn.res</span> <span class="o">&lt;-</span> <span class="n">bus.dunn</span><span class="o">$</span><span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="nf">cldList</span><span class="p">(</span><span class="n">comparison</span> <span class="o">=</span> <span class="n">bus.dunn.res</span><span class="o">$</span><span class="n">Comparison</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">p.value</span> <span class="o">=</span> <span class="n">bus.dunn.res</span><span class="o">$</span><span class="n">P.adj</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">threshold</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##    Group Letter MonoLetter
+</span></span><span class="line"><span class="cl">## 1   Fall      a         a 
+</span></span><span class="line"><span class="cl">## 2 Spring     ab         ab
+</span></span><span class="line"><span class="cl">## 3 Summer     ab         ab
+</span></span><span class="line"><span class="cl">## 4 Winter      b          b
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As I thought from looking at the graph, the differences lie in the fall and winter average percentage.</p>
+<h3 id="average-total-rides-by-season">Average Total Rides by Season</h3>
+<p>Lastly, I wanted to take a quick look at the mean total trips as this may reflect a pattern in why busses tend to be later in the fall than in the winter, perhaps since there are less busses to be late in the winter?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">bus_mean</span> <span class="o">&lt;-</span> <span class="n">bus</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">group_by</span><span class="p">(</span><span class="n">season</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">summarise_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="n">total_trips</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">               <span class="nf">list</span><span class="p">(</span><span class="n">mean_trips</span> <span class="o">=</span> <span class="n">mean</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">print</span><span class="p">(</span><span class="n">bus_mean</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 4 × 2
+</span></span><span class="line"><span class="cl">##   season mean_trips
+</span></span><span class="line"><span class="cl">##   &lt;fct&gt;       &lt;dbl&gt;
+</span></span><span class="line"><span class="cl">## 1 Fall       41623.
+</span></span><span class="line"><span class="cl">## 2 Spring     41963.
+</span></span><span class="line"><span class="cl">## 3 Summer     44010.
+</span></span><span class="line"><span class="cl">## 4 Winter     41564.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The season with the most rides is summer, and between winter there are almost the same amount of trips, so it is interesting that in the Fall they tend to be late more often than in the winter.</p>
+<p>Perhaps since all of December was counted in the Fall category, and it is influenced by the holidays. There is really not enough information in this dataset to be able to draw conclusions, so just speculating why this is the case.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>It was nice to take a step back from health related statistics for this analysis, especially away from survey data as I have been using that very often. This also allowed me to practice more with ggplot as I have been using base R plot syntax with the survey package for a lot of my posts recently.</p>
+<p>I&rsquo;m interested to see how NJ transit collects this data and what is considered late for a bus, as this is an important issue as many New Jerseyans rely on public transit to get to work, appointments, and other important places. It will be interesting to repeat this analysis in a few years now that we are (for the most part) in a post pandemic, work from home world.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/busses/">Busses</a>
+        
+            <a href="/tags/nj-transit/">NJ Transit</a>
+        
+            <a href="/tags/public-transit/">Public Transit</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Michelle Gulotta</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/heavy-metal/">
+        
+        
+            <div class="article-image">
+                <img src="/p/heavy-metal/images/metal.320734de3231f20538a34641c95abc8d_hu5459c0360c2b0cb7a147d2df0eb350ca_3458104_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Concentration of Heavy Metals in Blood"
+                        data-key="heavy-metal" 
+                        data-hash="md5-Mgc03jIx8gU4o0ZByVq8jQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Concentration of Heavy Metals in Blood</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/cigarettes-samhsa/">
+        
+        
+            <div class="article-image">
+                <img src="/p/cigarettes-samhsa/images/purp.745380d801816e05b1ea89cf2c4ec5fb_hu5459c0360c2b0cb7a147d2df0eb350ca_676910_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post SAMHSA National Survey on Drug Use and Health Analysis"
+                        data-key="cigarettes-samhsa" 
+                        data-hash="md5-dFOA2AGBbgWx6onPLE7F&#43;w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">SAMHSA National Survey on Drug Use and Health Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/liver-condition-trends/">
+        
+        
+            <div class="article-image">
+                <img src="/p/liver-condition-trends/images/liver.6c73309e7147a5d9801e9714176e1ec2_hu5459c0360c2b0cb7a147d2df0eb350ca_229405_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Liver Condition Trends"
+                        data-key="liver-condition-trends" 
+                        data-hash="md5-bHMwnnFHpdmAHpcUF24ewg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Liver Condition Trends</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alcohol-bone-health/">
+        
+        
+            <div class="article-image">
+                <img src="/p/alcohol-bone-health/images/bone.c95160ffdb3a1135fa1507418dd5b160_hu5459c0360c2b0cb7a147d2df0eb350ca_7068840_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Alcohol Consumption and Bone Health"
+                        data-key="alcohol-bone-health" 
+                        data-hash="md5-yVFg/9s6ETX6FQdBjdWxYA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alcohol Consumption and Bone Health</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/decision-tree-medicaid/">
+        
+        
+            <div class="article-image">
+                <img src="/p/decision-tree-medicaid/images/tree.d015cf78241a3722204b9b702286b408_hu5459c0360c2b0cb7a147d2df0eb350ca_2079033_250x150_fill_q75_box_smart1.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Doctor Visits Decision Trees"
+                        data-key="decision-tree-medicaid" 
+                        data-hash="md5-0BXPeCQaNyIgS5twIoa0CA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Doctor Visits Decision Trees</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Michelle Gulotta
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
